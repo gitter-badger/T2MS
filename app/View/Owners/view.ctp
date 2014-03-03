@@ -21,6 +21,11 @@
 			<?php echo h($owner['Owner']['contact']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Password'); ?></dt>
+		<dd>
+			<?php echo h($owner['Owner']['password']); ?>
+			&nbsp;
+		</dd>
 	</dl>
 </div>
 <div class="actions">

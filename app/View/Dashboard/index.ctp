@@ -1,4 +1,4 @@
-<?php echo "Hi"; ?>
+
 
 <div class="actions">
 	<h3><?php echo __('Dashboard'); ?></h3>

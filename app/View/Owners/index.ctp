@@ -6,6 +6,7 @@
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('address'); ?></th>
 			<th><?php echo $this->Paginator->sort('contact'); ?></th>
+			<th><?php echo $this->Paginator->sort('password'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($owners as $owner): ?>
@@ -14,6 +15,7 @@
 		<td><?php echo h($owner['Owner']['name']); ?>&nbsp;</td>
 		<td><?php echo h($owner['Owner']['address']); ?>&nbsp;</td>
 		<td><?php echo h($owner['Owner']['contact']); ?>&nbsp;</td>
+		<td><?php echo h($owner['Owner']['password']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $owner['Owner']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $owner['Owner']['id'])); ?>
