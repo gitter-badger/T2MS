@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2014 at 10:04 AM
+-- Generation Time: Mar 03, 2014 at 11:11 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -34,16 +34,16 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `phone` int(11) NOT NULL,
   `blacklisted` tinyint(1) NOT NULL DEFAULT '0',
   `maxFare` int(11) NOT NULL DEFAULT '100',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone` (`phone`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `customer`
 --
 
 INSERT INTO `customer` (`id`, `name`, `phone`, `blacklisted`, `maxFare`) VALUES
-(1, 'Madawa Soysa', 123123123, 0, 40),
-(2, 'Kasun', 2147483647, 1, 1500);
+(1, 'Madawa Soysa', 123123123, 0, 40);
 
 -- --------------------------------------------------------
 
@@ -75,15 +75,17 @@ CREATE TABLE IF NOT EXISTS `owners` (
   `name` text NOT NULL,
   `address` text NOT NULL,
   `contact` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `password` text NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `contact` (`contact`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `owners`
 --
 
-INSERT INTO `owners` (`id`, `name`, `address`, `contact`) VALUES
-(1, 'Isuru Fernando', 'Katubedda,Moratuwa', 715465178);
+INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`) VALUES
+(1, 'Isuru Fernando', 'Katubedda,Moratuwa', 715465178, '');
 
 -- --------------------------------------------------------
 
