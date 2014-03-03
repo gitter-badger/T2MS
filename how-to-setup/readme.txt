@@ -15,3 +15,8 @@ git update-index --assume-unchanged app\tmp\cache\persistent\myapp_cake_core_met
 Run these commands
 Add the SQL
 Give username and password in app\Config\database.php
+
+Add cake to environment variable path
+....\T2MS\app\Console
+
+Bake All and Eat ALL
