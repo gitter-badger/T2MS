@@ -11,6 +11,8 @@ git update-index --assume-unchanged app\tmp\cache\persistent\myapp_cake_core_deb
 git update-index --assume-unchanged app\tmp\cache\persistent\myapp_cake_core_default_en-us
 git update-index --assume-unchanged app\tmp\cache\persistent\myapp_cake_core_file_map
 git update-index --assume-unchanged app\tmp\cache\persistent\myapp_cake_core_method_cache
+git update-index --assume-unchanged app\tmp\logs\error.log
+git update-index --assume-unchanged app\Config\database.php
 
 Run these commands
 Add the SQL
