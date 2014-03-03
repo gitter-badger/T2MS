@@ -48,11 +48,8 @@ $t2msDescription = __d('cake_dev', 'T2MS : Tuk Tuk Management System');
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('fiontar.icon.png', array('alt' => $t2msDescription, 'border' => '0','align' => 'left')),
-					'',
-					array('target' => '_blank', 'escape' => false)
-				);
+			<?php echo
+					$this->Html->image('fiontar.icon.png', array('alt' => $t2msDescription, 'border' => '0','align' => 'left'));
 			?>
 		</div>
 	</div>
