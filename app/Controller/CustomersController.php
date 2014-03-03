@@ -47,7 +47,6 @@ class CustomersController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
-			
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
 				$this->Session->setFlash(__('The customer has been saved.'));

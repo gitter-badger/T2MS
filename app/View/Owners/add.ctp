@@ -6,6 +6,7 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('address');
 		echo $this->Form->input('contact');
+		echo $this->Form->input('password');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
