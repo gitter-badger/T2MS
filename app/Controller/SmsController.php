@@ -22,7 +22,7 @@ class SmsController extends AppController{
             } else {
                 $this->Session->setFlash(__( 'The SMS could not be processed. Please, try again.'));
             }*/
-            echo(json_encode($this->request->query));
+            //echo(json_encode($this->request->query));
 
             $phone = $this->request->query['phone'];
             $message = $this->request->query['text'];
@@ -86,13 +86,17 @@ class SmsController extends AppController{
     }
 
     /**
-     *
+     * Decode trip details from the message and create a new record for the database
      * @param $tripMessage
      * @param $maxFair
      * @param $phone
      */
     private function tripHandler($tripMessage, $maxFair, $phone){
+        $tripMessage = explode('TO',$tripMessage,2);
+        $startLocation = $tripMessage[0];
+        $endLocation = $tripMessage[1];
 
+        //create a trip record. Database Table should be updated
     }
 }
 
