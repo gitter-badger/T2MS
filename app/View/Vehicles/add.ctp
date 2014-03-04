@@ -6,8 +6,8 @@
 		echo $this->Form->input('driverName',array('rows'=>1));
 		echo $this->Form->input('driverContact');
 		echo $this->Form->input('vehicleNum',array('rows'=>1));
-		echo $this->Form->input('fare',array('options'=>$owners));
-		echo $this->Form->input('ownerID');
+		echo $this->Form->input('fare');
+		echo $this->Form->input('ownerID',array('options'=>$owners));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
