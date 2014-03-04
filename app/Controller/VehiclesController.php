@@ -24,8 +24,8 @@ class VehiclesController extends AppController {
 		$conditions=array();
 		$title='Vehicles';
 		
-		if ($this->request->is('post')) {
-			$conditions=$this->searchConditions($this->request->data['Vehicle']);
+		if ($this->request->is('get')&&$this->request->query!=null) {
+			$conditions=$this->searchConditions($this->request->query);
 			$title='Vehicle Search Results';
 		}
 

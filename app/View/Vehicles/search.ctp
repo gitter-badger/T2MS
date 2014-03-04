@@ -1,5 +1,5 @@
 <div class="vehicles form">
-<?php echo $this->Form->create('Vehicle',array('action'=>'index')); ?>
+<?php echo $this->Form->create('Vehicle',array('action'=>'index','type'=>'get')); ?>
 	<fieldset>
 		<legend><?php echo __('Add Vehicle'); ?></legend>
 	<?php
