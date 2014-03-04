@@ -42,6 +42,7 @@ class SmsController extends AppController{
         $maxFair = null;
         $tripMessage = null;
         $regMessage = null;
+        $tokenized[0] = $message;
 
         if(strpos($message,'FARE') !== false){
             $tokenized = explode('FARE',$message,2);
@@ -54,15 +55,44 @@ class SmsController extends AppController{
         if(strpos($message,'REG') !== false)
             $regMessage = $tokenized[0];
 
-        echo($maxFair.'<br>'.$tripMessage.'<br>'.$regMessage);
+        if($regMessage != null)
+            $this->createCustomer($regMessage,$phone);
+        if($tripMessage != null)
+            $this->tripHandler($tripMessage,$maxFair,$phone);
     }
 
+    /**
+     * Creates a new customer from the sms message and saves in the database
+     * @param $regMessage
+     * @param $phone
+     */
     private function createCustomer($regMessage, $phone){
+        $this->loadModel('Customer');
 
+        if($this->Customer->hasAny(array("phone" => $phone))){
+            return;
+        }else{
+            $name = trim(substr($regMessage,strpos($regMessage,'REG')+3));
+            $this->Customer->create();
+            $customerData = array("Customer"=>array("phone" => $phone, "name" => $name));
+
+            if($this->Customer->save($customerData))
+                $this->Session->setFlash(__('The SMS has been processed.'));
+            else
+                $this->Session->setFlash(__( 'The SMS could not be processed. Please, try again.'));
+        }
+
+        return;
     }
 
+    /**
+     *
+     * @param $tripMessage
+     * @param $maxFair
+     * @param $phone
+     */
     private function tripHandler($tripMessage, $maxFair, $phone){
-        
+
     }
 }
 
