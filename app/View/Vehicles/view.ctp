@@ -26,9 +26,22 @@
 			<?php echo h($vehicle['Vehicle']['fare']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('OwnerID'); ?></dt>
+		<dt>&nbsp;
+		</dt>
+		<dt><?php echo $this->Html->link('OwnerDetails','/owners/view/'.$vehicle['Vehicle']['ownerID']); ?></dt>
+		<dt><?php echo __('OwnerName'); ?></dt>
+		<dd>
+			<?php echo h($vehicle['Vehicle']['ownerName']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('OwnerId'); ?></dt>
 		<dd>
 			<?php echo h($vehicle['Vehicle']['ownerID']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('OwnerContact'); ?></dt>
+		<dd>
+			<?php echo h($vehicle['Vehicle']['ownerContact']); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -39,6 +52,7 @@
 		<li><?php echo $this->Html->link(__('Edit Vehicle'), array('action' => 'edit', $vehicle['Vehicle']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Vehicle'), array('action' => 'delete', $vehicle['Vehicle']['id']), null, __('Are you sure you want to delete # %s?', $vehicle['Vehicle']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?> </li>		
+		<li><?php echo $this->Html->link(__('Search Vehicles'), array('action' => 'search')); ?></li>
 	</ul>
 </div>

@@ -53,4 +53,13 @@ class Owner extends AppModel {
 			),
 		),
 	);
+	
+	public function getOwnerList(){
+		$owners=$this->find('all');
+		$own=array();
+		foreach($owners as $owner){
+			$own[$owner['Owner']['id']]=$owner['Owner']['id']."-".$owner['Owner']['contact']."-".$owner['Owner']['name'];
+		}
+		return $own;
+	}
 }
