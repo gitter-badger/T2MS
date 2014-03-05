@@ -19,7 +19,17 @@ class Trip extends AppModel {
         ),
         'Vehicle' => array(
             'className' => 'Vehicle',
-            'foreignKey' => 'vehicleID' )   
+            'foreignKey' => 'vehicleID'
+            ),
+       'StartLocality' => array(
+            'className' => 'Locality',
+            'foreignKey' => 'startLocation',
+            )   
+            ,
+       'EndLocality' => array(
+            'className' => 'Locality',
+            'foreignKey' => 'endLocation',
+            )  
     );
           
 	public $validate = array(
