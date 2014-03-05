@@ -36,11 +36,28 @@
 			<?php echo h($trip['Trip']['vehicleID']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('CustomerID'); ?></dt>
+		<dt>&nbsp;</dt><dd>&nbsp;</dd>
+		<dt><?php echo $this->Html->link('Customer Data','/customers/view/'.$trip['Trip']['customerID']); ?></dt>
 		<dd>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('ID: '); ?></dt><dd>
 			<?php echo h($trip['Trip']['customerID']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Name: '); ?></dt><dd>
+			<?php echo h($trip['Customer']['name']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Phone: '); ?></dt><dd>
+			<?php echo h($trip['Customer']['phone']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Max Fare: '); ?></dt><dd>
+			<?php echo h($trip['Customer']['maxFare']); ?>
+			&nbsp;
+		</dd>
+		
 	</dl>
 </div>
 <div class="actions">
