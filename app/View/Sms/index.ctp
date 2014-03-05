@@ -1,6 +1,6 @@
 
 <div class="sms form">
-<?php echo $this->Form->create('Sms'); ?>
+<?php echo $this->Form->create('Sms',array('type'=>'get')); ?>
 	<fieldset>
 		<legend><?php echo __('Edit SMS'); ?></legend>
 	<?php

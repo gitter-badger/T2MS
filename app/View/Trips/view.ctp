@@ -21,9 +21,14 @@
 			<?php echo h($trip['Trip']['status']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('LocalityID'); ?></dt>
+		<dt><?php echo __('StartLocation'); ?></dt>
 		<dd>
-			<?php echo h($trip['Trip']['localityID']); ?>
+			<?php echo h($trip['Trip']['startLocation']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('EndLocation'); ?></dt>
+		<dd>
+			<?php echo h($trip['Trip']['endLocation']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('VehicleID'); ?></dt>

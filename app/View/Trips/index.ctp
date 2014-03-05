@@ -6,9 +6,18 @@
 			<th><?php echo $this->Paginator->sort('time'); ?></th>
 			<th><?php echo $this->Paginator->sort('fare'); ?></th>
 			<th><?php echo $this->Paginator->sort('status'); ?></th>
-			<th><?php echo $this->Paginator->sort('localityID'); ?></th>
+			<th><?php echo $this->Paginator->sort('startLocation'); ?></th>
+			<th><?php echo $this->Paginator->sort('endLocation'); ?></th>
 			<th><?php echo $this->Paginator->sort('vehicleID'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Driver_name'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Driver_contact'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Vehicle_number'); ?></th>
+                        <th><?php echo $this->Paginator->sort('MinFare'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Vehicle_Owner'); ?></th>
 			<th><?php echo $this->Paginator->sort('customerID'); ?></th>
+                        <th><?php echo $this->Paginator->sort('customer_name'); ?></th>
+                        <th><?php echo $this->Paginator->sort('customer_phone'); ?></th>
+                        <th><?php echo $this->Paginator->sort('customer_MaxFare'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($trips as $trip): ?>
@@ -17,9 +26,18 @@
 		<td><?php echo h($trip['Trip']['time']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['fare']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['status']); ?>&nbsp;</td>
-		<td><?php echo h($trip['Trip']['localityID']); ?>&nbsp;</td>
+		<td><?php echo h($trip['Trip']['startLocation']); ?>&nbsp;</td>
+		<td><?php echo h($trip['Trip']['endLocation']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['vehicleID']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['driverName']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['driverContact']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['vehicleNum']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['fare']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['ownerID']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['customerID']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Customer']['name']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Customer']['phone']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Customer']['maxFare']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $trip['Trip']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $trip['Trip']['id'])); ?>

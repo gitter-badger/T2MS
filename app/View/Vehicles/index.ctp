@@ -1,5 +1,5 @@
 <div class="vehicles index">
-	<h2><?php echo __('Vehicles'); ?></h2>
+	<h2><?php echo __($title); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -7,7 +7,7 @@
 			<th><?php echo $this->Paginator->sort('driverContact'); ?></th>
 			<th><?php echo $this->Paginator->sort('vehicleNum'); ?></th>
 			<th><?php echo $this->Paginator->sort('fare'); ?></th>
-			<th><?php echo $this->Paginator->sort('ownerID'); ?></th>
+			<th><?php echo $this->Paginator->sort('ownerID','Owner ID-Number-Name'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($vehicles as $vehicle): ?>
@@ -17,7 +17,10 @@
 		<td><?php echo h($vehicle['Vehicle']['driverContact']); ?>&nbsp;</td>
 		<td><?php echo h($vehicle['Vehicle']['vehicleNum']); ?>&nbsp;</td>
 		<td><?php echo h($vehicle['Vehicle']['fare']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['ownerID']); ?>&nbsp;</td>
+		<td><?php 
+				  echo $this->Html->link(__(h($vehicle['Vehicle']['ownerDetails'])),'/owners/view/'.$vehicle['Vehicle']['ownerID']);
+
+		?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $vehicle['Vehicle']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $vehicle['Vehicle']['id'])); ?>
@@ -43,6 +46,8 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
+		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'index')); ?></li>
 		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Search Vehicles'), array('action' => 'search')); ?></li>
 	</ul>
 </div>

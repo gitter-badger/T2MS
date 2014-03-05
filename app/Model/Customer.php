@@ -11,6 +11,9 @@ class Customer extends AppModel {
  *
  * @var mixed False or table name
  */
+        var $name = 'Customer';
+        public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
+        
 	public $useTable = 'customer';
 
 /**
