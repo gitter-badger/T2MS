@@ -11,6 +11,14 @@ class Trip extends AppModel {
  *
  * @var array
  */
+    var $name = 'Trip';
+        public $belongsTo = array(
+        'Customer' => array(
+            'className' => 'Customer',
+            'foreignKey' => 'customerID'
+        )
+    );
+        
 	public $validate = array(
 		'fare' => array(
 			'numeric' => array(

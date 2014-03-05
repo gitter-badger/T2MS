@@ -13,6 +13,9 @@ class CustomersController extends AppController {
  *
  * @var array
  */
+    var $name = 'Customers';
+    var $scaffold;
+    
 	public $components = array('Paginator');
 
 /**
@@ -21,7 +24,7 @@ class CustomersController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Customer->recursive = 0;
+		$this->Customer->recursive = 1;
 		$this->set('customers', $this->Paginator->paginate());
 	}
 

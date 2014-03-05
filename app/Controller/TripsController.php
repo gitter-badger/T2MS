@@ -13,6 +13,9 @@ class TripsController extends AppController {
  *
  * @var array
  */
+    var $name = 'Trips';
+    var $scaffold;
+    
 	public $components = array('Paginator');
 
 /**
@@ -21,7 +24,7 @@ class TripsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Trip->recursive = 0;
+		$this->Trip->recursive = 1;
 		$this->set('trips', $this->Paginator->paginate());
 	}
 

@@ -10,6 +10,9 @@
 			<th><?php echo $this->Paginator->sort('endLocation'); ?></th>
 			<th><?php echo $this->Paginator->sort('vehicleID'); ?></th>
 			<th><?php echo $this->Paginator->sort('customerID'); ?></th>
+                        <th><?php echo $this->Paginator->sort('customer_name'); ?></th>
+                        <th><?php echo $this->Paginator->sort('customer_phone'); ?></th>
+                        <th><?php echo $this->Paginator->sort('customer_MaxFare'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($trips as $trip): ?>
@@ -22,6 +25,9 @@
 		<td><?php echo h($trip['Trip']['endLocation']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['vehicleID']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['customerID']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Customer']['name']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Customer']['phone']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Customer']['maxFare']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $trip['Trip']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $trip['Trip']['id'])); ?>
