@@ -13,6 +13,9 @@ class TripsController extends AppController {
  *
  * @var array
  */
+    var $name = 'Trips';
+    var $scaffold;
+    
 	public $components = array('Paginator');
 
 /**

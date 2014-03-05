@@ -13,6 +13,8 @@ class VehiclesController extends AppController {
  *
  * @var array
  */
+    var $name = 'Vehicles';
+    var $scaffold;
 	public $components = array('Paginator');
 
 /**

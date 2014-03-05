@@ -25,8 +25,15 @@ class SmsController extends AppController{
             //echo(json_encode($this->request->query));
 
             $phone = $this->request->query['phone'];
+<<<<<<< HEAD
             $message = $this->request->query['text'];
 
+=======
+            $message = trim($this->request->query['text']);
+
+            if(strchr($phone,'+') !== false)
+                $phone = substr($phone,1);
+>>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
             $this->decodeSms($message,$phone);
         }
 
@@ -35,6 +42,15 @@ class SmsController extends AppController{
 
     /**
      * Decoding the sms message from the pre-defined message format
+<<<<<<< HEAD
+=======
+     * Customer Registration: REG <name>
+     * Customer New Trip    : TRIP <start_location> TO <end_location> FARE <max_fare>
+     * Driver Location      : SET LOCATION <location>
+     * Driver Session Update: ON DUTY or OFF DUTY
+     *
+     * combined messages can be send
+>>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
      * @param $message
      * @param $phone
      */

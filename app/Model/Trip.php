@@ -11,6 +11,17 @@ class Trip extends AppModel {
  *
  * @var array
  */
+    var $name = 'Trip';
+        public $belongsTo = array(
+        'Customer' => array(
+            'className' => 'Customer',
+            'foreignKey' => 'customerID'
+        ),
+        'Vehicle' => array(
+            'className' => 'Vehicle',
+            'foreignKey' => 'vehicleID' )   
+    );
+          
 	public $validate = array(
 		'fare' => array(
 			'numeric' => array(
@@ -32,7 +43,17 @@ class Trip extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'localityID' => array(
+		'startLocation' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'endLocation' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',

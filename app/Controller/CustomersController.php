@@ -13,6 +13,9 @@ class CustomersController extends AppController {
  *
  * @var array
  */
+    var $name = 'Customers';
+    var $scaffold;
+    
 	public $components = array('Paginator');
 
 /**
