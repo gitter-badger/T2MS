@@ -6,7 +6,8 @@
 			<th><?php echo $this->Paginator->sort('time'); ?></th>
 			<th><?php echo $this->Paginator->sort('fare'); ?></th>
 			<th><?php echo $this->Paginator->sort('status'); ?></th>
-			<th><?php echo $this->Paginator->sort('localityID'); ?></th>
+			<th><?php echo $this->Paginator->sort('startLocation'); ?></th>
+			<th><?php echo $this->Paginator->sort('endLocation'); ?></th>
 			<th><?php echo $this->Paginator->sort('vehicleID'); ?></th>
 			<th><?php echo $this->Paginator->sort('customerID'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -17,7 +18,8 @@
 		<td><?php echo h($trip['Trip']['time']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['fare']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['status']); ?>&nbsp;</td>
-		<td><?php echo h($trip['Trip']['localityID']); ?>&nbsp;</td>
+		<td><?php echo h($trip['Trip']['startLocation']); ?>&nbsp;</td>
+		<td><?php echo h($trip['Trip']['endLocation']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['vehicleID']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['customerID']); ?>&nbsp;</td>
 		<td class="actions">
