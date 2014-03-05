@@ -28,20 +28,15 @@
 		</dd>
 		<dt>&nbsp;
 		</dt>
-		<dt><?php echo $this->Html->link('OwnerDetails','/owners/view/'.$vehicle['Vehicle']['ownerID']); ?></dt>
+		<dt><?php echo $this->Html->link('OwnerDetails','/owners/view/'.$vehicle['Owner']['id']); ?></dt>
 		<dt><?php echo __('OwnerName'); ?></dt>
 		<dd>
-			<?php echo h($vehicle['Vehicle']['ownerName']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('OwnerId'); ?></dt>
-		<dd>
-			<?php echo h($vehicle['Vehicle']['ownerID']); ?>
+			<?php echo h($vehicle['Owner']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('OwnerContact'); ?></dt>
 		<dd>
-			<?php echo h($vehicle['Vehicle']['ownerContact']); ?>
+			<?php echo h($vehicle['Owner']['contact']); ?>
 			&nbsp;
 		</dd>
 	</dl>

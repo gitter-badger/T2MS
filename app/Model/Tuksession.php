@@ -1,10 +1,10 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Session Model
+ * Tuksession Model
  *
  */
-class Session extends AppModel {
+class Tuksession extends AppModel {
 
 /**
  * Validation rules

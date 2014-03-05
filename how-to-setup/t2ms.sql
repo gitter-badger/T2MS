@@ -91,10 +91,10 @@ INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sessions`
+-- Table structure for table `tuksessions`
 --
 
-CREATE TABLE IF NOT EXISTS `sessions` (
+CREATE TABLE IF NOT EXISTS `tuksessions` (
   `vehicleID` int(11) NOT NULL,
   `localityID` int(11) NOT NULL,
   `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -173,11 +173,11 @@ INSERT INTO `vehicles` (`id`, `driverName`, `driverContact`, `vehicleNum`, `fare
 --
 
 --
--- Constraints for table `sessions`
+-- Constraints for table `tuksessions`
 --
-ALTER TABLE `sessions`
-  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`localityID`) REFERENCES `locality` (`id`),
-  ADD CONSTRAINT `sessions_ibfk_2` FOREIGN KEY (`vehicleID`) REFERENCES `vehicles` (`id`);
+ALTER TABLE `tuksessions`
+  ADD CONSTRAINT `tuksessions_ibfk_1` FOREIGN KEY (`localityID`) REFERENCES `locality` (`id`),
+  ADD CONSTRAINT `tuksessions_ibfk_2` FOREIGN KEY (`vehicleID`) REFERENCES `vehicles` (`id`);
 
 --
 -- Constraints for table `tags`

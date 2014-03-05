@@ -13,6 +13,9 @@ class OwnersController extends AppController {
  *
  * @var array
  */
+    var $name = 'Owners';
+    var $scaffold;
+    
 	public $components = array('Paginator');
 
     public function beforeFilter() {
@@ -24,6 +27,7 @@ class OwnersController extends AppController {
     public function login() {
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
+                $this->Session->setFlash(__('OK'));
                 return $this->redirect($this->Auth->redirect());
             }
             $this->Session->setFlash(__(json_encode($this->request->data)));
