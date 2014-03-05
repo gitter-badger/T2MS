@@ -1,13 +1,4 @@
 -- phpMyAdmin SQL Dump
-<<<<<<< HEAD
--- version 4.0.4.1
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Mar 03, 2014 at 11:11 AM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
-=======
 -- version 4.0.9
 -- http://www.phpmyadmin.net
 --
@@ -15,7 +6,6 @@
 -- Generation Time: Mar 05, 2014 at 07:09 AM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -26,20 +16,12 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-<<<<<<< HEAD
---
--- Database: `t2ms`
---
-CREATE DATABASE IF NOT EXISTS `t2ms` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `t2ms`;
-=======
 DROP DATABASE IF EXISTS `t2ms`;
 CREATE DATABASE IF NOT EXISTS `t2ms` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `t2ms`;
 --
 -- Database: `t2ms`
 --
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
 
 -- --------------------------------------------------------
 
@@ -144,16 +126,6 @@ CREATE TABLE IF NOT EXISTS `trips` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fare` int(11) NOT NULL,
   `status` varchar(10) NOT NULL,
-<<<<<<< HEAD
-  `localityID` int(11) NOT NULL,
-  `vehicleID` int(11) NOT NULL,
-  `customerID` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `localityID` (`localityID`),
-  KEY `vehicleID` (`vehicleID`),
-  KEY `customerID` (`customerID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-=======
   `startLocation` int(11) NOT NULL,
   `endLocation` int(11) NOT NULL,
   `vehicleID` int(11) NOT NULL,
@@ -164,20 +136,13 @@ CREATE TABLE IF NOT EXISTS `trips` (
   KEY `customerID` (`customerID`),
   KEY `endLocation` (`endLocation`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
 
 --
 -- Dumping data for table `trips`
 --
 
-<<<<<<< HEAD
-INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `localityID`, `vehicleID`, `customerID`) VALUES
-(1, '2014-01-09 18:10:16', 30, 'Finished', 1, 1, 1),
-(2, '2014-01-09 18:13:31', 35, 'On Going', 1, 1, 1);
-=======
 INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocation`, `vehicleID`, `customerID`) VALUES
 (3, '2014-03-05 01:38:00', 45, 'ongoing', 1, 1, 1, 1);
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
 
 -- --------------------------------------------------------
 
@@ -224,12 +189,8 @@ ALTER TABLE `tags`
 -- Constraints for table `trips`
 --
 ALTER TABLE `trips`
-<<<<<<< HEAD
-  ADD CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`localityID`) REFERENCES `locality` (`id`),
-=======
   ADD CONSTRAINT `trips_ibfk_4` FOREIGN KEY (`endLocation`) REFERENCES `locality` (`id`),
   ADD CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`startLocation`) REFERENCES `locality` (`id`),
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
   ADD CONSTRAINT `trips_ibfk_2` FOREIGN KEY (`vehicleID`) REFERENCES `vehicles` (`id`),
   ADD CONSTRAINT `trips_ibfk_3` FOREIGN KEY (`customerID`) REFERENCES `customer` (`id`);
 
