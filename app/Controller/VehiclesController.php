@@ -21,11 +21,19 @@ class VehiclesController extends AppController {
  * @return void
  */
 	public function index() {
+		$conditions=array();
+		$title='Vehicles';
+		
+		if ($this->request->is('get')&&$this->request->query!=null) {
+			$conditions=$this->searchConditions($this->request->query);
+			$title='Vehicle Search Results';
+		}
+
 		$this->loadModel('Owner');
 		$this->Vehicle->recursive = 0;
 		
 		//paginate
-		$this->paginate = array('limit' => 40);
+		$this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
 		$vehicles=$this->Paginator->paginate();
 		
 		//get owners and add ownerdetails to vehicle
@@ -35,6 +43,29 @@ class VehiclesController extends AppController {
 		}
 
 		$this->set('vehicles', $vehicles);
+		$this->set('title', $title);
+		
+	}
+	
+	private function searchConditions($vehicle){
+		$conditions=array();
+		if($vehicle['driverName']!=NULL)
+			$conditions['Vehicle.driverName LIKE '] = '%'.$vehicle['driverName'].'%';
+		if($vehicle['driverContact']!=NULL)
+			$conditions['Vehicle.driverContact = '] = $vehicle['driverContact'];
+		if($vehicle['vehicleNum']!=NULL)
+			$conditions['Vehicle.vehicleNum LIKE '] = '%'.$vehicle['vehicleNum'].'%';
+		if($vehicle['fare']!=NULL){
+			$op='=';
+			if($vehicle['fareSearch']=='>')
+				$op='>';
+			else if($vehicle['fareSearch']=='<')
+				$op='<';
+			$conditions['Vehicle.fare '.$op.' '] = $vehicle['fare'];
+		}		
+		if($vehicle['ownerID']!=NULL)
+			$conditions['Vehicle.ownerID LIKE '] = $vehicle['ownerID'];
+		return $conditions;
 	}
 
 /**
