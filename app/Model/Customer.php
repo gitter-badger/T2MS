@@ -63,4 +63,12 @@ class Customer extends AppModel {
 			),
 		),
 	);
+	public function getCustomerList(){
+		$customers=$this->find('all');
+		$customerList=array();
+		foreach($customers as $customer){
+			$customerList[$customer['customer']['id']]=$customer['customer']['id']."-".$customer['customer']['contact']."-".$customer['customer']['name'];
+		}
+		return $customerList;
+	}
 }
