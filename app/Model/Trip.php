@@ -16,9 +16,12 @@ class Trip extends AppModel {
         'Customer' => array(
             'className' => 'Customer',
             'foreignKey' => 'customerID'
-        )
+        ),
+        'Vehicle' => array(
+            'className' => 'Vehicle',
+            'foreignKey' => 'vehicleID' )   
     );
-        
+          
 	public $validate = array(
 		'fare' => array(
 			'numeric' => array(

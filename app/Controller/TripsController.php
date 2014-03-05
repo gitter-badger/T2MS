@@ -24,7 +24,7 @@ class TripsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Trip->recursive = 1;
+		$this->Trip->recursive = 0;
 		$this->set('trips', $this->Paginator->paginate());
 	}
 

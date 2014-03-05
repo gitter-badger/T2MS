@@ -11,6 +11,9 @@ class Vehicle extends AppModel {
  *
  * @var array
  */
+        var $name = 'Vehicle';
+        public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
+        
 	public $validate = array(
 		'driverName' => array(
 			'notEmpty' => array(

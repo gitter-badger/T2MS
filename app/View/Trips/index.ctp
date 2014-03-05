@@ -9,6 +9,11 @@
 			<th><?php echo $this->Paginator->sort('startLocation'); ?></th>
 			<th><?php echo $this->Paginator->sort('endLocation'); ?></th>
 			<th><?php echo $this->Paginator->sort('vehicleID'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Driver_name'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Driver_contact'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Vehicle_number'); ?></th>
+                        <th><?php echo $this->Paginator->sort('MinFare'); ?></th>
+                        <th><?php echo $this->Paginator->sort('Vehicle_Owner'); ?></th>
 			<th><?php echo $this->Paginator->sort('customerID'); ?></th>
                         <th><?php echo $this->Paginator->sort('customer_name'); ?></th>
                         <th><?php echo $this->Paginator->sort('customer_phone'); ?></th>
@@ -24,6 +29,11 @@
 		<td><?php echo h($trip['Trip']['startLocation']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['endLocation']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['vehicleID']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['driverName']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['driverContact']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['vehicleNum']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['fare']); ?>&nbsp;</td>
+                <td><?php echo h($trip['Vehicle']['ownerID']); ?>&nbsp;</td>
 		<td><?php echo h($trip['Trip']['customerID']); ?>&nbsp;</td>
                 <td><?php echo h($trip['Customer']['name']); ?>&nbsp;</td>
                 <td><?php echo h($trip['Customer']['phone']); ?>&nbsp;</td>
