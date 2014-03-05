@@ -11,6 +11,9 @@ class Owner extends AppModel {
  *
  * @var array
  */
+        var $name = 'Owner';
+        public $has = array( 'Vehicle' => array( 'className' => 'Vehicle' ) );
+        
 	public $validate = array(
 		'name' => array(
 			'notEmpty' => array(

@@ -1,9 +1,9 @@
 <?php
 /**
- * SessionFixture
+ * TuksessionFixture
  *
  */
-class SessionFixture extends CakeTestFixture {
+class TuksessionFixture extends CakeTestFixture {
 
 /**
  * Fields
@@ -33,8 +33,8 @@ class SessionFixture extends CakeTestFixture {
 		array(
 			'vehicleID' => 1,
 			'localityID' => 1,
-			'startTime' => 1394016627,
-			'endTime' => 1394016627,
+			'startTime' => 1394017888,
+			'endTime' => 1394017888,
 			'sessionID' => ''
 		),
 	);

@@ -31,20 +31,13 @@ class VehiclesController extends AppController {
 			$title='Vehicle Search Results';
 		}
 
-		$this->loadModel('Owner');
-		$this->Vehicle->recursive = 0;
+		$this->Vehicle->recursive = 1;
 		
-		//paginate
+		//paginate settings
 		$this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
-		$vehicles=$this->Paginator->paginate();
 		
-		//get owners and add ownerdetails to vehicle
-		$owners=$this->Owner->getOwnerList();
-		foreach($vehicles as $key => $vehicle){
-			$vehicles[$key]['Vehicle']['ownerDetails']=$owners[$vehicles[$key]['Vehicle']['ownerID']];
-		}
 
-		$this->set('vehicles', $vehicles);
+		$this->set('vehicles', $this->Paginator->paginate());
 		$this->set('title', $title);
 		
 	}

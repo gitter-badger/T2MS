@@ -13,6 +13,12 @@ class Vehicle extends AppModel {
  */
         var $name = 'Vehicle';
         public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
+        public $belongsTo = array(
+        'Owner' => array(
+            'className' => 'Owner',
+            'foreignKey' => 'ownerID'
+            )
+        );
         
 	public $validate = array(
 		'driverName' => array(

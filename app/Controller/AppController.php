@@ -54,11 +54,12 @@ public $components = array('DebugKit.Toolbar','Session',
         'controller' => 'pages',
         'action' => 'display',
         'home'
-    )
-)
+    ),
+    'authorize' => array('Actions' => array('actionPath' => 'controllers'),'Controller'))
 );
 
     public function beforeFilter() {
+        $this->loadModel('Owner');
         $this->Auth->allow();
     }
 }

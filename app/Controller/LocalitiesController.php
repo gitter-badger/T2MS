@@ -13,6 +13,8 @@ class LocalitiesController extends AppController {
  *
  * @var array
  */
+    var $name = 'Localities';
+    var $scaffold;
 	public $components = array('Paginator');
 
 /**
