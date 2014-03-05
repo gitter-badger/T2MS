@@ -13,6 +13,9 @@ class OwnersController extends AppController {
  *
  * @var array
  */
+    var $name = 'Owners';
+    var $scaffold;
+    
 	public $components = array('Paginator');
 
     public function beforeFilter() {
