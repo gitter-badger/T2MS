@@ -6,9 +6,9 @@ App::uses('AppController', 'Controller');
 class SmsController extends AppController{
 
 
-	public function index() {
-		$this->loadModel('Customer');
-		if($this->request->is('get')&&$this->request->query!=null){
+    public function index() {
+        $this->loadModel('Customer');
+        if($this->request->is('get')&&$this->request->query!=null){
             //$this->Customer->create();
             /*$data = array("Customer"=>array("phone" => $this->request->data['Sms']['phone'], "name" => $this->request->data['Sms']['text'],
             "blacklisted"=>0,"maxFare" => 60));*/
@@ -25,32 +25,27 @@ class SmsController extends AppController{
             //echo(json_encode($this->request->query));
 
             $phone = $this->request->query['phone'];
-<<<<<<< HEAD
-            $message = $this->request->query['text'];
-
-=======
             $message = trim($this->request->query['text']);
 
             if(strchr($phone,'+') !== false)
                 $phone = substr($phone,1);
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
             $this->decodeSms($message,$phone);
         }
 
 
-	}
+    }
 
     /**
      * Decoding the sms message from the pre-defined message format
-<<<<<<< HEAD
-=======
      * Customer Registration: REG <name>
      * Customer New Trip    : TRIP <start_location> TO <end_location> FARE <max_fare>
      * Driver Location      : SET LOCATION <location>
-     * Driver Session Update: ON DUTY or OFF DUTY
+     * Driver Fare per Km   : SET FARE <fare_per_km>
+     * Driver Session Update: OFF DUTY
      *
      * combined messages can be send
->>>>>>> 075c742a605e2f34065dd4a408cf04c0576fcb73
+     * e.g. REG <name> TRIP <start_location> TO <end_location> FARE <max_fare>
+     *      SET LOCATION <location> FARE <fare_per_km>
      * @param $message
      * @param $phone
      */
@@ -58,9 +53,12 @@ class SmsController extends AppController{
         $maxFair = null;
         $tripMessage = null;
         $regMessage = null;
+        $driverMessage = null;
         $tokenized[0] = $message;
 
-        if(strpos($message,'FARE') !== false){
+
+        //customer message decode
+        if(strpos($message,'FARE') !== false && strpos($message,'SET') === false){
             $tokenized = explode('FARE',$message,2);
             $maxFair = $tokenized[1];
         }
@@ -71,10 +69,23 @@ class SmsController extends AppController{
         if(strpos($message,'REG') !== false)
             $regMessage = $tokenized[0];
 
+        //driver message decode
+        if(strpos($message,'SET') !== false){
+            if(strpos($message,'FARE') !== false){
+                $driverMessage = explode('FARE',$message,2);
+                $this->updateDriver($driverMessage[1],null);
+            }
+            if(strpos($message,'LOCATION') !== false){
+                $driverMessage = explode('LOCATION',$driverMessage[0],2);
+                $this->updateDriver(null,$driverMessage[1]);
+            }
+        }elseif(strpos($message,'OFF DUTY') !== false)
+            $this->updateSession('OFF');
+
         if($regMessage != null)
             $this->createCustomer($regMessage,$phone);
         if($tripMessage != null)
-            $this->tripHandler($tripMessage,$maxFair,$phone);
+            $this->processTrip($tripMessage,$maxFair,$phone);
     }
 
     /**
@@ -107,12 +118,46 @@ class SmsController extends AppController{
      * @param $maxFair
      * @param $phone
      */
-    private function tripHandler($tripMessage, $maxFair, $phone){
+    private function processTrip($tripMessage, $maxFair, $phone){
         $tripMessage = explode('TO',$tripMessage,2);
         $startLocation = $tripMessage[0];
         $endLocation = $tripMessage[1];
 
-        //create a trip record. Database Table should be updated
+        //send data to process trip
+    }
+
+    /**
+     * Updates driver details
+     * @param $fare
+     * @param $location
+     * @param $phone
+     */
+    private function updateDriver($fare, $location, $phone){
+        $locationId = null;
+        $vehicle = null;
+
+        $this->loadModel('Vehicle');
+        $vehicles = $this->Vehicle->findByDriverContact($phone);
+
+        if($location != null){
+            $this->loadModel('Tag');
+            $tags = $this->Tag->findByTag($location);
+
+            if($tags != null){
+                $location = $tags[0]['locality_id'];
+            }
+        }
+        if($vehicles != null){
+            $vehicle = $vehicles[0];
+            if($fare != null)
+                $vehicle['fare'] = $fare;
+
+        }
+
+    }
+
+    private function updateSession($status){
+
     }
 }
 
