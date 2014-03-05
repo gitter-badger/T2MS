@@ -24,8 +24,37 @@ class CustomersController extends AppController {
  * @return void
  */
 	public function index() {
+		$conditions=array();
+		$title='Customers';
+		
+		if ($this->request->is('get')&&$this->request->query!=null) {
+			$conditions=$this->searchConditions($this->request->query);
+			$title='Customer Search Results';
+		}
 		$this->Customer->recursive = 0;
+		
+		//paginate settings
+		$this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
+		
+
 		$this->set('customers', $this->Paginator->paginate());
+		$this->set('title', $title);
+	}
+	
+	private function searchConditions($customer){
+		$conditions=array();
+		if($customer['name']!=NULL)
+			$conditions['customer.name LIKE '] = '%'.$customer['name'].'%';
+		if($customer['phone']!=NULL)
+			$conditions['customer.phone = '] = $customer['phone'];
+		if($customer['blacklisted'] == '1')
+			$conditions['customer.blacklisted = '] = $customer['blacklisted'];
+		if($customer['blacklisted'] == '0')
+			$conditions['customer.blacklisted = '] = $customer['blacklisted'];
+		if($customer['maxFare']!=NULL){
+			$conditions['customer.maxFare >= '] = $customer['maxFare'];
+		}
+		return $conditions;
 	}
 
 /**
@@ -103,4 +132,9 @@ class CustomersController extends AppController {
 			$this->Session->setFlash(__('The customer could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+	
+	public function search(){	
+	}
+	
+}
