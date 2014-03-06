@@ -4,6 +4,7 @@
 		<legend><?php echo __('Add Trip'); ?></legend>
 	<?php
         $localities=array(''=>'Select')+$localities;
+        
 		echo $this->Form->input('time');
 		echo $this->Form->input('fare');
 		echo $this->Form->input('status');

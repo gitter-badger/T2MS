@@ -72,4 +72,12 @@ class Vehicle extends AppModel {
 			),
 		),
 	);
+        public function getVehicleList(){
+		$vehicles=$this->find('all');
+		$vehi=array();
+		foreach($vehicles as $vehicle){
+			$vehi[$vehicle['Vehicle']['id']]=$vehicle['Vehicle']['id']."-".$vehicle['Vehicle']['driverName']."-".$vehicle['Vehicle']['vehicleNum']."-".$vehicle['Vehicle']['driverContact'];
+		}
+		return $vehi;
+	}
 }

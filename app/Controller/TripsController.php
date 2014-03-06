@@ -82,6 +82,9 @@ class TripsController extends AppController {
                 $this->loadModel('Locality');
 		$this->set('localities',$this->Locality->getLocalityList());
                 
+               // $this->loadModel('Customer');
+		//$this->set('customers',$this->Locality->getCustomerList());
+                
 		if ($this->request->is('post')) {
 			$this->Trip->create();
 			if ($this->Trip->save($this->request->data)) {
@@ -141,6 +144,11 @@ class TripsController extends AppController {
         public function search(){
 		$this->loadModel('Locality');
 		$this->set('localities',$this->Locality->getLocalityList());
-	
+                
+                $this->loadModel('Customer');
+		$this->set('customers',$this->Customer->getCustomerList());
+                
+                $this->loadModel('Vehicle');
+		$this->set('vehicles',$this->Vehicle->getVehicleList());
 	}
                 }

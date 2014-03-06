@@ -67,7 +67,7 @@ class Customer extends AppModel {
 		$customers=$this->find('all');
 		$customerList=array();
 		foreach($customers as $customer){
-			$customerList[$customer['customer']['id']]=$customer['customer']['id']."-".$customer['customer']['contact']."-".$customer['customer']['name'];
+			$customerList[$customer['Customer']['id']]=$customer['Customer']['id']."-".$customer['Customer']['phone']."-".$customer['Customer']['name'];
 		}
 		return $customerList;
 	}
