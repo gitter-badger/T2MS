@@ -51,9 +51,18 @@ class CustomersController extends AppController {
 			$conditions['customer.blacklisted = '] = $customer['blacklisted'];
 		if($customer['blacklisted'] == '0')
 			$conditions['customer.blacklisted = '] = $customer['blacklisted'];
+		//if($customer['maxFare']!=NULL){
+			//$conditions['customer.maxFare >= '] = $customer['maxFare'];
+		//}
+		
 		if($customer['maxFare']!=NULL){
-			$conditions['customer.maxFare >= '] = $customer['maxFare'];
-		}
+			$op='=';
+			if($customer['fareSearch']=='>')
+				$op='>';
+			else if($customer['fareSearch']=='<')
+				$op='<';
+			$conditions['customer.maxFare '.$op.' '] = $customer['maxFare'];
+		}		
 		return $conditions;
 	}
 

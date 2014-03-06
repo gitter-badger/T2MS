@@ -57,5 +57,14 @@ class Locality extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+        
+public function getLocalityList(){
+		$localities=$this->find('all');
+		$local=array();
+		foreach($localities as $locality){
+			$local[$locality['Locality']['id']]=$locality['Locality']['id']."-".$locality['Locality']['name'];
+		}
+		return $local;
+	}
+        
 }

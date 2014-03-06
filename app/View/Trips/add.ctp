@@ -3,11 +3,13 @@
 	<fieldset>
 		<legend><?php echo __('Add Trip'); ?></legend>
 	<?php
+        $localities=array(''=>'Select')+$localities;
+        
 		echo $this->Form->input('time');
 		echo $this->Form->input('fare');
 		echo $this->Form->input('status');
-		echo $this->Form->input('startLocation');
-		echo $this->Form->input('endLocation');
+		echo $this->Form->input('startLocation',array('options'=>$localities));
+		echo $this->Form->input('endLocation',array('options'=>$localities));
 		echo $this->Form->input('vehicleID');
 		echo $this->Form->input('customerID');
 	?>

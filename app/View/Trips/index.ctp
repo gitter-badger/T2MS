@@ -59,4 +59,7 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('New Trip'), array('action' => 'add')); ?></li>
 	</ul>
+        <ul>
+		<li><?php echo $this->Html->link(__('Search Trip'), array('action' => 'search')); ?></li>
+	</ul>
 </div>
