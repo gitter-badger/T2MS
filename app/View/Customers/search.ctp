@@ -4,10 +4,13 @@
 		<legend><?php echo __('Search Customer'); ?></legend>
 	<?php
 		$search=array(2=>'All',1=>'Only Blacklisted',0=>'Not Blacklisted');
+		$fare=array('='=>'Equal','>'=>'Greater than','<'=>'Less than');
+		
 		echo $this->Form->input('name', array('rows'=>1,'required'=>false));
 		echo $this->Form->input('phone', array('required'=>false));
 		echo $this->Form->input('blacklisted', array('options'=>$search, 'required'=>false));
 		echo $this->Form->input('maxFare', array('required'=>false));
+		echo $this->Form->input('fareSearch',array('options'=>$fare,'required'=>false));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
