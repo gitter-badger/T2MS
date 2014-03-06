@@ -40,13 +40,7 @@ class TripsController extends AppController {
                 $this->set('title', $title);
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+
         private function searchConditions($locality){
 		$conditions=array();
                 //time hasn't included for searching
@@ -64,8 +58,14 @@ class TripsController extends AppController {
 			$conditions['Locality.customerID LIKE '] = '%'.$locality['customerID'].'%';
 		return $conditions;
 	}
-        
-	public function view($id = null) {
+
+    /**
+     * view method
+     * @param null $id
+     * @throws NotFoundException
+     * @return void
+     */
+    public function view($id = null) {
 		if (!$this->Trip->exists($id)) {
 			throw new NotFoundException(__('Invalid trip'));
 		}

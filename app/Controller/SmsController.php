@@ -169,7 +169,7 @@ class SmsController extends AppController{
 
         if($status == 'OFF'){
             $tukSession['Tuksession']['endTime'] = date('Y-m-d H:i:s',time()+self::TIMEZONE_OFFSET);
-            $this->Tuksession->save($tukSession['Tuksession']);
+            $this->Tuksession->edit($tukSession['Tuksession']);
         }
 
     }
