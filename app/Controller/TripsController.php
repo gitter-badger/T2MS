@@ -24,8 +24,20 @@ class TripsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Trip->recursive = 0;
+            
+            $conditions=array();
+		$title='Localities';
+		
+		if ($this->request->is('get')&&$this->request->query!=null) {
+			$conditions=$this->searchConditions($this->request->query);
+			$title='Locality Search Results';
+		}
+                
+                $this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
+                
+		$this->Trip->recursive = 1;
 		$this->set('trips', $this->Paginator->paginate());
+                $this->set('title', $title);
 	}
 
 /**
@@ -35,6 +47,24 @@ class TripsController extends AppController {
  * @param string $id
  * @return void
  */
+        private function searchConditions($locality){
+		$conditions=array();
+                //time hasn't included for searching
+		if($locality['fare']!=NULL)
+			$conditions['Locality.fare LIKE '] = '%'.$locality['fare'].'%';
+		if($locality['status']!=NULL)
+			$conditions['Locality.status = '] = $locality['status'];
+		if($locality['startLocation']!=NULL)
+			$conditions['Locality.startLocation LIKE '] = '%'.$locality['startLocation'].'%';
+                if($locality['endLocation']!=NULL)
+			$conditions['Locality.endLocation LIKE '] = '%'.$locality['endLocation'].'%';
+		if($locality['vehicleID']!=NULL)
+			$conditions['Locality.vehicleID LIKE '] = '%'.$locality['vehicleID'].'%';
+                if($locality['customerID']!=NULL)
+			$conditions['Locality.customerID LIKE '] = '%'.$locality['customerID'].'%';
+		return $conditions;
+	}
+        
 	public function view($id = null) {
 		if (!$this->Trip->exists($id)) {
 			throw new NotFoundException(__('Invalid trip'));
@@ -49,6 +79,9 @@ class TripsController extends AppController {
  * @return void
  */
 	public function add() {
+                $this->loadModel('Locality');
+		$this->set('localities',$this->Locality->getLocalityList());
+                
 		if ($this->request->is('post')) {
 			$this->Trip->create();
 			if ($this->Trip->save($this->request->data)) {
@@ -103,4 +136,11 @@ class TripsController extends AppController {
 			$this->Session->setFlash(__('The trip could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+        
+        public function search(){
+		$this->loadModel('Locality');
+		$this->set('localities',$this->Locality->getLocalityList());
+	
+	}
+                }
