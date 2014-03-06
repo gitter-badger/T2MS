@@ -5,6 +5,7 @@ App::uses('AppController', 'Controller');
 
 class SmsController extends AppController{
 
+    const TIMEZONE_OFFSET = 19800;
 
     public function index() {
         $this->loadModel('Customer');
@@ -41,7 +42,7 @@ class SmsController extends AppController{
      * Customer New Trip    : TRIP <start_location> TO <end_location> FARE <max_fare>
      * Driver Location      : SET LOCATION <location>
      * Driver Fare per Km   : SET FARE <fare_per_km>
-     * Driver Session Update: OFF DUTY
+     * Driver Session Update: ON DUTY or OFF DUTY
      *
      * combined messages can be send
      * e.g. REG <name> TRIP <start_location> TO <end_location> FARE <max_fare>
@@ -53,7 +54,7 @@ class SmsController extends AppController{
         $maxFair = null;
         $tripMessage = null;
         $regMessage = null;
-        $driverMessage = null;
+        $driverMessage[0] = $message;
         $tokenized[0] = $message;
 
 
@@ -73,14 +74,17 @@ class SmsController extends AppController{
         if(strpos($message,'SET') !== false){
             if(strpos($message,'FARE') !== false){
                 $driverMessage = explode('FARE',$message,2);
-                $this->updateDriver($driverMessage[1],null);
+                $this->updateDriver($driverMessage[1],$phone);
             }
             if(strpos($message,'LOCATION') !== false){
                 $driverMessage = explode('LOCATION',$driverMessage[0],2);
-                $this->updateDriver(null,$driverMessage[1]);
+                $this->updateSession(null,$driverMessage[1],$phone);
             }
-        }elseif(strpos($message,'OFF DUTY') !== false)
-            $this->updateSession('OFF');
+        }elseif(strpos($message,'OFF DUTY') !== false){
+            $this->updateSession('OFF',null,$phone);
+        }elseif(strpos($message,'ON DUTY') !== false){
+            $this->updateSession('ON',null,$phone);
+        }
 
         if($regMessage != null)
             $this->createCustomer($regMessage,$phone);
@@ -96,7 +100,7 @@ class SmsController extends AppController{
     private function createCustomer($regMessage, $phone){
         $this->loadModel('Customer');
 
-        if($this->Customer->hasAny(array("phone" => $phone))){
+        if($this->Customer->findByPhone($phone) != null){
             return;
         }else{
             $name = trim(substr($regMessage,strpos($regMessage,'REG')+3));
@@ -129,34 +133,44 @@ class SmsController extends AppController{
     /**
      * Updates driver details
      * @param $fare
-     * @param $location
      * @param $phone
      */
-    private function updateDriver($fare, $location, $phone){
-        $locationId = null;
-        $vehicle = null;
-
+    private function updateDriver($fare, $phone){
         $this->loadModel('Vehicle');
         $vehicles = $this->Vehicle->findByDriverContact($phone);
 
-        if($location != null){
+        /*if($location != null){
             $this->loadModel('Tag');
             $tags = $this->Tag->findByTag($location);
 
             if($tags != null){
-                $location = $tags[0]['locality_id'];
+                $locationID = $tags[0]['locality_id'];
             }
-        }
+        }*/
         if($vehicles != null){
             $vehicle = $vehicles[0];
-            if($fare != null)
+            if($fare != null){
                 $vehicle['fare'] = $fare;
-
+                $this->Vehicle->save($vehicle);
+            }
         }
 
     }
 
-    private function updateSession($status){
+    /**
+     * Update session of the driver
+     * @param $status
+     * @param $location
+     * @param $phone
+     */
+    private function updateSession($status, $location, $phone){
+        $this->loadModel('Tuksession');
+        $tukSession = $this->Tuksession->find('first',array('conditions'=>array('Vehicle.driverContact'=>$phone)));
+
+        if($status == 'OFF'){
+            $tukSession['Tuksession']['endTime'] = date('Y-m-d H:i:s',time()+self::TIMEZONE_OFFSET);
+            $this->Tuksession->save($tukSession['Tuksession']);
+        }
 
     }
 }
