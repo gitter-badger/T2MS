@@ -6,6 +6,14 @@ App::uses('AppModel', 'Model');
  */
 class Tuksession extends AppModel {
 
+
+    var $name = 'Tuksession';
+    public $belongsTo = array(
+        'Vehicle' => array(
+            'className' => 'Vehicle',
+            'foreignKey' => 'vehicleID'
+        )
+    );
 /**
  * Validation rules
  *
