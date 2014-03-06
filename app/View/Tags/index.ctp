@@ -13,9 +13,8 @@
 		</td>
 		<td><?php echo h($tag['Tag']['tag']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $tag['Tag']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $tag['Tag']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $tag['Tag']['id']), null, __('Are you sure you want to delete # %s?', $tag['Tag']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $tag['Tag']['tag'],$tag['Tag']['locality_id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $tag['Tag']['tag'],$tag['Tag']['locality_id']),null, __('Are you sure you want to delete %s ?', $tag['Tag']['tag'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

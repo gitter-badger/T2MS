@@ -8,6 +8,8 @@
 		echo $this->Form->input('address');
 		echo $this->Form->input('contact');
 		echo $this->Form->input('password');
+
+        echo json_encode($this->request->data);
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

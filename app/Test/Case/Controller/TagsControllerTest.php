@@ -13,8 +13,7 @@ class TagsControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.tag',
-		'app.locality'
+		'app.tag'
 	);
 
 /**

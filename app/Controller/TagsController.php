@@ -32,12 +32,14 @@ class TagsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		if (!$this->Tag->exists($id)) {
+	public function view($tag=null,$localityid = null) {
+		$tagArr=$this->Tag->find('first', array(
+        'conditions' => array('Tag.locality_id' => $localityid,'Tag.tag' => $tag)));
+		echo(json_encode($tagArr));
+		if ($tagArr==null) {
 			throw new NotFoundException(__('Invalid tag'));
 		}
-		$options = array('conditions' => array('Tag.' . $this->Tag->primaryKey => $id));
-		$this->set('tag', $this->Tag->find('first', $options));
+		$this->set('tag', $tagArr);
 	}
 
 /**
@@ -47,6 +49,17 @@ class TagsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+
+
+            $tg=$this->Tag->find('first', array(
+                'conditions' => array('Tag.locality_id' => $this->request->data['Tag']['locality_id'],
+                                                'Tag.tag' =>  $this->request->data['Tag']['tag'])));
+            if($tg!=null){
+                $this->Session->setFlash(__('The tag exists.'));
+                return $this->redirect(array('action' => 'index'));
+            }
+
+
 			$this->Tag->create();
 			if ($this->Tag->save($this->request->data)) {
 				$this->Session->setFlash(__('The tag has been saved.'));
@@ -60,48 +73,25 @@ class TagsController extends AppController {
 	}
 
 /**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->Tag->exists($id)) {
-			throw new NotFoundException(__('Invalid tag'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Tag->save($this->request->data)) {
-				$this->Session->setFlash(__('The tag has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The tag could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('Tag.' . $this->Tag->primaryKey => $id));
-			$this->request->data = $this->Tag->find('first', $options);
-		}
-		$localities = $this->Tag->Locality->find('list');
-		$this->set(compact('localities'));
-	}
-
-/**
  * delete method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
-		$this->Tag->id = $id;
-		if (!$this->Tag->exists()) {
-			throw new NotFoundException(__('Invalid tag'));
-		}
+	public function delete($tag=null,$localityid = null) {
+        $tg=$this->Tag->find('first', array(
+            'conditions' => array('Tag.locality_id' => $localityid,'Tag.tag' => $tag)));
+        echo(json_encode($tg));
+        if ($tg==null) {
+            throw new NotFoundException(__('Invalid tag'));
+        }
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Tag->delete()) {
+
+        $this->Tag->deleteAll(array('Tag.locality_id' => $localityid,'Tag.tag' => $tag), false);
 			$this->Session->setFlash(__('The tag has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The tag could not be deleted. Please, try again.'));
-		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+
+
+}
