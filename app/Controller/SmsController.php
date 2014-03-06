@@ -100,7 +100,7 @@ class SmsController extends AppController{
     private function createCustomer($regMessage, $phone){
         $this->loadModel('Customer');
 
-        if($this->Customer->findByPhone($phone) != null){
+        if($this->Customer->hasAny(array("phone" => $phone))){
             return;
         }else{
             $name = trim(substr($regMessage,strpos($regMessage,'REG')+3));
@@ -137,21 +137,18 @@ class SmsController extends AppController{
      */
     private function updateDriver($fare, $phone){
         $this->loadModel('Vehicle');
-        $vehicles = $this->Vehicle->findByDriverContact($phone);
+        //getting result set without join
+        $resultSet = $this->Vehicle->find('first',array(
+                                          'fields'=>array('Vehicle.id','Vehicle.fare'),
+                                          'conditions'=>array('Vehicle.driverContact'=>$phone),
+                                          'recursive'=> -1)
+                                         );
 
-        /*if($location != null){
-            $this->loadModel('Tag');
-            $tags = $this->Tag->findByTag($location);
-
-            if($tags != null){
-                $locationID = $tags[0]['locality_id'];
-            }
-        }*/
-        if($vehicles != null){
-            $vehicle = $vehicles[0];
+        if($resultSet != null){
             if($fare != null){
-                $vehicle['fare'] = $fare;
-                $this->Vehicle->save($vehicle);
+                $resultSet['Vehicle']['fare'] = $fare;
+                $this->Vehicle->id = $resultSet['Vehicle']['id'];
+                $this->Vehicle->saveField('fare',$fare);
             }
         }
 

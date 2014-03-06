@@ -6,7 +6,6 @@
 		echo $this->Form->input('vehicleID');
 		echo $this->Form->input('localityID');
 		echo $this->Form->input('startTime');
-		echo $this->Form->input('endTime');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
