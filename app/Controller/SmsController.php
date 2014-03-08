@@ -78,7 +78,7 @@ class SmsController extends AppController{
             }
             if(strpos($message,'LOCATION') !== false){
                 $driverMessage = explode('LOCATION',$driverMessage[0],2);
-                $this->updateSession(null,$driverMessage[1],$phone);
+                $this->updateSession(null,trim($driverMessage[1]),$phone);
             }
         }elseif(strpos($message,'OFF DUTY') !== false){
             $this->updateSession('OFF',null,$phone);
@@ -166,7 +166,14 @@ class SmsController extends AppController{
     }
 
     /**
-     * Update session of the driver
+     * Updates status of the session
+     * status => OFF end current session, status => ON create a new session.
+     * If a current session exists, by default it will be ended.
+     *
+     * Updates location of the driver.
+     * When an location update is made, current session will be ended and a new
+     * session will be created. By default the status will be => ON
+     *
      * @param $status
      * @param $location
      * @param $phone
@@ -176,38 +183,59 @@ class SmsController extends AppController{
         $currentTime = date('Y-m-d H:i:s',time()+self::TIMEZONE_OFFSET);
 
         $resultSet  = $this->Tuksession->find('first',array(
-                'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.endTime'),
-                'conditions'=>array('Vehicle.driverContact'=>$phone, 'TukSession.endTime'=>null))
+                                              'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.endTime'),
+                                              'conditions'=>array('Vehicle.driverContact'=>$phone, 'TukSession.endTime'=>null))
         );
+        if($location == null){
+            //if not a location update
+            if($status == 'OFF'){
+               if($resultSet != null){
+                    $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
+                                                 array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                                                );
+               }else{
+                    //no active sessions
+               }
 
-        if($status == 'OFF'){
-           if($resultSet != null){
-                $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
-                                             array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
-                                            );
-           }else{
-                //no active sessions
-           }
+            }elseif($status == 'ON'){
+                if($resultSet != null){
+                    //if last session is not ended, end it
+                    $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
+                                                 array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                                                );
+                }else{
+                    //create a new session
+                    $resultSet = $this->Tuksession->find('first',array(
+                                                         'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
+                                                         'conditions'=>array('Vehicle.driverContact'=>$phone),
+                                                         'order'=>array('lastSession DESC'),
+                                                         'limit'=>1)
+                                                        );
+                    $resultSet['Tuksession']['startTime'] = $currentTime;
+                    $resultSet['Tuksession']['endTime'] = null;
 
-        }elseif($status == 'ON'){
+                    $this->Tuksession->save($resultSet);
+                }
+            }
+        }else{
+            //if a location update
+            $this->loadModel('Tag');
+            $localityID = $this->Tag->find('first',array('fields'=>array('Tag.locality_id'),'conditions'=>array('Tag.tag'=>$location),'recursive'=>-1));
+
             if($resultSet != null){
                 //if last session is not ended, end it
                 $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
                                              array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
                                             );
-            }else{
-                //create a new session
-                $resultSet = $this->Tuksession->find('first',array(
-                                                     'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
-                                                     'conditions'=>array('Vehicle.driverContact'=>$phone),
-                                                     'order'=>array('lastSession DESC'),
-                                                     'limit'=>1)
-                                                    );
-                $resultSet['Tuksession']['startTime'] = $currentTime;
-                $resultSet['Tuksession']['endTime'] = null;
-
-                $this->Tuksession->save($resultSet);
             }
+
+            $resultSet = $this->Tuksession->find('first',array('fields'=>array('Tuksession.vehicleID'),'conditions'=>array('Vehicle.driverContact'=>$phone)));
+            $newSession = array('Tuksession'=>array('vehicleID'=>$resultSet['Tuksession']['vehicleID'],
+                                                    'localityID'=>$localityID['Tag']['locality_id'],
+                                                    'startTime'=>$currentTime,
+                                                    'endTime'=>null)
+                                                   );
+            $this->Tuksession->save($newSession);
         }
 
     }
