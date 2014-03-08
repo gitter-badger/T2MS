@@ -5,7 +5,7 @@ App::uses('AppController', 'Controller');
 
 class SmsController extends AppController{
 
-    const TIMEZONE_OFFSET = 19800;
+    const TIMEZONE_OFFSET = 19800; //GMT+5.30
 
     public function index() {
         $this->loadModel('Customer');
@@ -123,9 +123,20 @@ class SmsController extends AppController{
      * @param $phone
      */
     private function processTrip($tripMessage, $maxFair, $phone){
+        $this->loadModel('Customer');
+        $resultSet = $this->Customer->find('first',array(
+                                           'fields'=>array('Customer.id','Customer.blacklisted'),
+                                           'conditions'=>array('Customer.phone'=>$phone),
+                                           'recursive'=> -1)
+                                          );
+        if($resultSet['Customer']['blacklisted'] == 1){
+            //customer is blacklisted. need to handle
+            echo('BLACKLISTED');
+            return;
+        }
         $tripMessage = explode('TO',$tripMessage,2);
-        $startLocation = $tripMessage[0];
-        $endLocation = $tripMessage[1];
+        $startLocation = trim($tripMessage[0]);
+        $endLocation = trim($tripMessage[1]);
 
         //send data to process trip
     }
@@ -162,11 +173,41 @@ class SmsController extends AppController{
      */
     private function updateSession($status, $location, $phone){
         $this->loadModel('Tuksession');
-        $tukSession = $this->Tuksession->find('first',array('conditions'=>array('Vehicle.driverContact'=>$phone)));
+        $currentTime = date('Y-m-d H:i:s',time()+self::TIMEZONE_OFFSET);
+
+        $resultSet  = $this->Tuksession->find('first',array(
+                'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.endTime'),
+                'conditions'=>array('Vehicle.driverContact'=>$phone, 'TukSession.endTime'=>null))
+        );
 
         if($status == 'OFF'){
-            $tukSession['Tuksession']['endTime'] = date('Y-m-d H:i:s',time()+self::TIMEZONE_OFFSET);
-            $this->Tuksession->edit($tukSession['Tuksession']);
+           if($resultSet != null){
+                $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
+                                             array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                                            );
+           }else{
+                //no active sessions
+           }
+
+        }elseif($status == 'ON'){
+            if($resultSet != null){
+                //if last session is not ended, end it
+                $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
+                                             array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                                            );
+            }else{
+                //create a new session
+                $resultSet = $this->Tuksession->find('first',array(
+                                                     'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
+                                                     'conditions'=>array('Vehicle.driverContact'=>$phone),
+                                                     'order'=>array('lastSession DESC'),
+                                                     'limit'=>1)
+                                                    );
+                $resultSet['Tuksession']['startTime'] = $currentTime;
+                $resultSet['Tuksession']['endTime'] = null;
+
+                $this->Tuksession->save($resultSet);
+            }
         }
 
     }
