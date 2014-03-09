@@ -67,8 +67,14 @@ class SmsController extends AppController{
             $tokenized = explode('TRIP',$tokenized[0],2);
             $tripMessage = $tokenized[1];
         }
-        if(strpos($message,'REG') !== false)
+        if(strpos($message,'REG') !== false){
             $regMessage = $tokenized[0];
+        }
+
+        if($regMessage != null)
+            $this->createCustomer($regMessage,$phone);
+        if($tripMessage != null)
+            $this->processTrip($tripMessage,$maxFair,$phone);
 
         //driver message decode
         if(strpos($message,'SET') !== false){
@@ -85,11 +91,6 @@ class SmsController extends AppController{
         }elseif(strpos($message,'ON DUTY') !== false){
             $this->updateSession('ON',null,$phone);
         }
-
-        if($regMessage != null)
-            $this->createCustomer($regMessage,$phone);
-        if($tripMessage != null)
-            $this->processTrip($tripMessage,$maxFair,$phone);
     }
 
     /**

@@ -11,6 +11,14 @@
 			<?php echo h($locality['Locality']['name']); ?>
 			&nbsp;
 		</dd>
+        <dt><?php echo __('Tags')?></dt>
+        <dd>
+            <?php
+                for($i = 0; $i < count($locality['Tag']); ++$i){
+                    echo __($locality['Tag'][$i]['tag'].'<br>');
+                }
+            ?>
+        </dd>
 	</dl>
 </div>
 <div class="actions">

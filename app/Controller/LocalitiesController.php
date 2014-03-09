@@ -44,7 +44,7 @@ class LocalitiesController extends AppController {
 
 /**
  * add method
- *
+ * adds a new locality and a new tag with the same name as locality
  * @return void
  */
 	public function add() {
@@ -52,11 +52,23 @@ class LocalitiesController extends AppController {
 			$this->Locality->create();
 			if ($this->Locality->save($this->request->data)) {
 				$this->Session->setFlash(__('The locality has been saved.'));
+
+                //adding a tag with locality name
+                $this->loadModel('Tag');
+                $localityName = $this->request->data['Locality']['name'];
+                $locality = $this->Locality->find('first',array('fields'=>array('Locality.id'),
+                    'conditions'=>array('Locality.name'=>$localityName)));
+
+                $newTag['Tag']['locality_id'] = $locality['Locality']['id'];
+                $newTag['Tag']['tag'] = $localityName;
+                $this->Tag->create();
+                $this->Tag->save($newTag);
+
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The locality could not be saved. Please, try again.'));
 			}
-		}
+        }
 	}
 
 /**
