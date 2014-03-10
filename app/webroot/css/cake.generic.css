@@ -46,7 +46,6 @@ h1, h2, h3, h4 {
 	margin-bottom:0.5em;
 }
 h1 {
-	background:#fff;
 	color: #003d4c;
 	font-size: 100%;
 }
@@ -77,11 +76,8 @@ p {
 	text-align: left;
 }
 
-#header{
-	padding: 10px 20px;
-}
 #header h1 {
-	line-height:20px;
+    line-height: 30px;
 	background: #003d4c url('../img/cake.icon.png') no-repeat left;
 	color: #fff;
 	padding: 0px 30px;
@@ -101,7 +97,6 @@ p {
 	background: #fff;
 	clear: both;
 	color: #333;
-	padding: 10px 20px 40px 20px;
 	overflow: auto;
 }
 #footer {
