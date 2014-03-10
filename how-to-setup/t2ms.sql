@@ -110,9 +110,21 @@ INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`) VALUES
 CREATE TABLE IF NOT EXISTS `tags` (
   `locality_id` int(11) NOT NULL,
   `tag` varchar(20) DEFAULT NULL,
-    PRIMARY KEY (`locality_id`,`tag`),
   KEY `locality_id` (`locality_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`locality_id`, `tag`) VALUES
+(1, 'mora'),
+(1, 'moratuwe'),
+(2, 'rathmalana'),
+(3, 'udhupila'),
+(4, 'Kalaniya'),
+(4, 'kelaniye'),
+(5, 'panadure');
 
 -- --------------------------------------------------------
 
@@ -134,14 +146,18 @@ CREATE TABLE IF NOT EXISTS `trips` (
   KEY `vehicleID` (`vehicleID`),
   KEY `customerID` (`customerID`),
   KEY `endLocation` (`endLocation`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `trips`
 --
 
 INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocation`, `vehicleID`, `customerID`) VALUES
-(3, '2014-03-05 01:38:00', 45, 'ongoing', 1, 1, 1, 1);
+(3, '2014-03-05 01:38:00', 45, 'ongoing', 1, 1, 1, 1),
+(5, '2014-03-10 05:42:00', 452, 'Finished', 2, 4, 2, 1),
+(6, '2014-03-10 05:44:00', 45, 'Finished', 5, 1, 4, 9),
+(7, '2014-03-09 23:55:00', 45, 'ongoing', 5, 1, 2, 11),
+(8, '2014-03-09 23:55:00', 45, 'ongoing', 5, 1, 4, 11);
 
 -- --------------------------------------------------------
 
@@ -152,9 +168,8 @@ INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocati
 CREATE TABLE IF NOT EXISTS `tuksessions` (
   `vehicleID` int(11) NOT NULL,
   `localityID` int(11) NOT NULL,
-  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `endTime` timestamp NULL DEFAULT NULL,
-    PRIMARY KEY (`vehicleID`,`startTime`),
+  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `endTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   KEY `session_ibfk_1` (`localityID`),
   KEY `session_ibfk_2` (`vehicleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -174,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `ownerID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ownerID` (`ownerID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `vehicles`
@@ -185,7 +200,8 @@ INSERT INTO `vehicles` (`id`, `driverName`, `driverContact`, `vehicleNum`, `fare
 (2, 'Shenal', 123456889, '1', 45, 1),
 (3, 'Sabra', 245698574, '1', 45879, 2),
 (4, 'Nazeer', 643784678, '2', 5, 4),
-(5, 'Rajith', 789456254, '2', 40, 3);
+(5, 'Rajith', 789456254, '2', 40, 3),
+(6, 'Malaka', 456987123, '45', 65, 3);
 
 --
 -- Constraints for dumped tables
