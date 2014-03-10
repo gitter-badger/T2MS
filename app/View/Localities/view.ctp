@@ -15,7 +15,10 @@
         <dd>
             <?php
                 for($i = 0; $i < count($locality['Tag']); ++$i){
-                    echo __($locality['Tag'][$i]['tag'].'<br>');
+                    if($i == 0)
+                        echo __($locality['Tag'][$i]['tag']);
+                    else
+                        echo __(',&nbsp'.$locality['Tag'][$i]['tag']);
                 }
             ?>
         </dd>

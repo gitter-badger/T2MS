@@ -72,13 +72,16 @@ class TagsController extends AppController {
 		$this->set(compact('localities'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * delete method
+     *
+     *
+     * @param null $tag
+     * @param null $localityid
+     * @throws NotFoundException
+     * @internal param string $id
+     * @return void
+     */
 	public function delete($tag=null,$localityid = null) {
         $tg=$this->Tag->find('first', array(
             'conditions' => array('Tag.locality_id' => $localityid,'Tag.tag' => $tag)));
