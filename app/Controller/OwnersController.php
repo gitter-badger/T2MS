@@ -18,36 +18,13 @@ class OwnersController extends AppController {
     
 	public $components = array('Paginator');
 
-    public function beforeFilter() {
-        parent::beforeFilter();
-        // Allow users to register and logout.
-        $this->Auth->allow('add', 'logout');
-    }
-
-    public function login() {
-        if ($this->request->is('post')) {
-
-            $user=$this->Owner->find('first', array(
-                'conditions' => array('Owner.contact' => $this->request->data['Owner']['contact'],'Owner.password'=>$this->request->data['Owner']['password'])));
-
-            if ($user!=null&&$this->Auth->login($this->request->data)) {
-                $this->Session->setFlash(__('Login successful'));
-                return $this->redirect($this->Auth->redirect());
-            }
-            $this->Session->setFlash(__('Invalid Login'));
-        }
-    }
-    public function logout() {
-        return $this->redirect($this->Auth->logout());
-    }
-
 
 /**
  * index method
  *
  * @return void
  */
-	public function index() {
+    public function index() {
 		$this->Owner->recursive = 0;
 		$this->set('owners', $this->Paginator->paginate());
 	}
@@ -129,10 +106,7 @@ class OwnersController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-    /**
-     * Owner Dashboard controller method
-     */
-    public function dashboard(){
 
-    }
+
+
 }

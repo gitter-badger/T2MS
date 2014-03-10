@@ -31,32 +31,16 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-public $components = array('DebugKit.Toolbar','Session',
-
-    'Auth' => array(
-    'authorize' => array('Controller'),
-    'loginAction' => array(
-    'controller' => 'owners',
-    'action' => 'login',
-    'plugin' => 'users'
-    ),
-    'loginRedirect' => array(
-        'controller' => 'dashboard',
-        'action' => 'index'
-    ),
-    'logoutRedirect' => array(
-        'controller' => 'pages',
-        'action' => 'display',
-        'home'
-    ),
-    )
-);
 
     public function beforeFilter() {
-        if(!$this->Session->check('username'))
-            $this->redirect('/login');
-    }
-    public function isAuthorized($user) {
-        return true;
+        if(!$this->Session->check('userid'))
+        {
+            $this->redirect('/users/login');
+            $this->Session->setFlash('You are not logged in');
+        }
+        else if($this->Session->read('userid')!='admin'){
+            $this->Session->setFlash('You are not logged in as an admin');
+            $this->redirect('/users/login');
+        }
     }
 }
