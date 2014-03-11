@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <?php
+        echo $this->Html->css('theme');
+        echo $this->Html->css('elements');
+        echo $this->Html->css('bootstrap');
+        echo $this->Html->css('bootstrap.min');
+        echo $this->Html->css('cake.generic');
+
+        echo $this->Html->script('jquery-1.7.2.min');
+    ?>
     <meta charset="utf-8">
     <title>Owner Dashboard</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -8,10 +17,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="stylesheet" type="text/css" href="app/webroot/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="app/webroot/css/theme.css">
-    <link rel="stylesheet" href="app/webroot/css/font-awesome.css">
-    <script src="app/webroot/js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <link rel="shortcut icon" href="app/webroot/img/cake.icon.png">
 </head>
 
@@ -47,9 +52,7 @@
 </div>
 </div>
 
-
-
-<script src="app/webroot/js/bootstrap.js"></script>
+<?php echo $this->Html->script('bootstrap'); ?>
 <script type="text/javascript">
     $("[rel=tooltip]").tooltip();
     $(function() {
