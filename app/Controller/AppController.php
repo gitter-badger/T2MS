@@ -34,6 +34,7 @@ class AppController extends Controller {
 public $components = array('DebugKit.Toolbar','Session',
 
     'Auth' => array(
+    'authorize' => array('Controller'),
     'loginAction' => array(
     'controller' => 'owners',
     'action' => 'login',
@@ -59,6 +60,14 @@ public $components = array('DebugKit.Toolbar','Session',
             'fields' => array('username'=> 'contact',
                 'password'=>'password')
         ));
-        $this->Auth->allow('login','view','add','index');
+        $this->Auth->mapActions(array(
+            'create' => array('register'),
+            'view' => array('show', 'display')
+        ));
+
+        //$this->Auth->allow('login','view','add','index');
+    }
+    public function isAuthorized($user) {
+        return true;
     }
 }
