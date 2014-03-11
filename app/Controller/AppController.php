@@ -53,19 +53,8 @@ public $components = array('DebugKit.Toolbar','Session',
 );
 
     public function beforeFilter() {
-        $this->loadModel('Owner');
-        $this->Auth->authorize = array('Actions' => array('actionPath' => 'controllers'),'Controller');
-        $this->Auth->authenticate = array('Form' => array(
-            'userModel' => 'Owner',
-            'fields' => array('username'=> 'contact',
-                'password'=>'password')
-        ));
-        $this->Auth->mapActions(array(
-            'create' => array('register'),
-            'view' => array('show', 'display')
-        ));
-
-        //$this->Auth->allow('login','view','add','index');
+        if(!$this->Session->check('username'))
+            $this->redirect('/login');
     }
     public function isAuthorized($user) {
         return true;

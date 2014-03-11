@@ -33,16 +33,26 @@ class UsersController extends AppController {
 
     public function login() {
         if ($this->request->is('post')) {
-            echo(json_encode($this->request->data));
-            if ($this->Auth->login($this->request->data)) {
-                $this->Session->setFlash(__('Login successful'));
-                return $this->redirect($this->Auth->redirect());
+            $password = $this->request->data['User']['password'];
+            $contact = $this->request->data['User']['contact'];
+
+            if($contact==123&&$password==465){
+                $this->Session->write('userid','admin');
+                $this->Session->write('userrole','admin');
+
             }
-            $this->Session->setFlash(__('Invalid Login'));
+            $user=$this->Owner->find('first', array(
+                'conditions' => array('Owner.contact' => $this->request->data['Owner']['contact'],'Owner.password'=>$this->request->data['Owner']['password'])));
+
+            if ($user!=null) {
+                $this->Session->write('userid',$user['User']['id']);
+                $this->Session->write('userrole','owner');
+            }
         }
     }
     public function logout() {
-        return $this->redirect($this->Auth->logout());
+        $this->Session->delete('username');
+        $this->redirect('/');
     }
 /**
  * view method
