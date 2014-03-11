@@ -109,10 +109,10 @@ INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tags` (
   `locality_id` int(11) NOT NULL,
-  `tag` varchar(20) DEFAULT NULL,
+  `tag` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`locality_id`,`tag`),
   KEY `locality_id` (`locality_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Dumping data for table `tags`
 --
@@ -168,8 +168,9 @@ INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocati
 CREATE TABLE IF NOT EXISTS `tuksessions` (
   `vehicleID` int(11) NOT NULL,
   `localityID` int(11) NOT NULL,
-  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `endTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `endTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`vehicleID`,`startTime`),
   KEY `session_ibfk_1` (`localityID`),
   KEY `session_ibfk_2` (`vehicleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

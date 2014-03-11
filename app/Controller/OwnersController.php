@@ -128,8 +128,11 @@ class OwnersController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
-	
-	
-	
-	
-	}
+
+    /**
+     * Owner Dashboard controller method
+     */
+    public function dashboard(){
+
+    }
+}
