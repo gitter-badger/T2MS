@@ -27,7 +27,10 @@ class OwnersController extends AppController {
     public function login() {
         if ($this->request->is('post')) {
 
-            if ($this->Auth->login($this->request->data)) {
+            $user=$this->Owner->find('first', array(
+                'conditions' => array('Owner.contact' => $this->request->data['Owner']['contact'],'Owner.password'=>$this->request->data['Owner']['password'])));
+
+            if ($user!=null&&$this->Auth->login($this->request->data)) {
                 $this->Session->setFlash(__('Login successful'));
                 return $this->redirect($this->Auth->redirect());
             }
