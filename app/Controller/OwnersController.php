@@ -26,11 +26,12 @@ class OwnersController extends AppController {
 
     public function login() {
         if ($this->request->is('post')) {
-            if ($this->Auth->login()) {
-                $this->Session->setFlash(__('OK'));
+
+            if ($this->Auth->login($this->request->data)) {
+                $this->Session->setFlash(__('Login successful'));
                 return $this->redirect($this->Auth->redirect());
             }
-            $this->Session->setFlash(__(json_encode($this->request->data)));
+            $this->Session->setFlash(__('Invalid Login'));
         }
     }
     public function logout() {
