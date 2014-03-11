@@ -34,17 +34,10 @@ class AppController extends Controller {
 public $components = array('DebugKit.Toolbar','Session',
 
     'Auth' => array(
-        'authenticate' => array(
-            'Form' => array(
-                'userModel' => 'Owner',
-                'fields' => array('username'=> 'contact',
-                'password'=>'password')
-            )
-        ),
     'loginAction' => array(
     'controller' => 'owners',
     'action' => 'login',
-    //'plugin' => 'users'
+    'plugin' => 'users'
     ),
     'loginRedirect' => array(
         'controller' => 'dashboard',
@@ -55,11 +48,17 @@ public $components = array('DebugKit.Toolbar','Session',
         'action' => 'display',
         'home'
     ),
-    'authorize' => array('Actions' => array('actionPath' => 'controllers'),'Controller'))
+    )
 );
 
     public function beforeFilter() {
         $this->loadModel('Owner');
-        $this->Auth->allow();
+        $this->Auth->authorize = array('Actions' => array('actionPath' => 'controllers'),'Controller');
+        $this->Auth->authenticate = array('Form' => array(
+            'userModel' => 'Owner',
+            'fields' => array('username'=> 'contact',
+                'password'=>'password')
+        ));
+        $this->Auth->allow('login','view','add','index');
     }
 }
