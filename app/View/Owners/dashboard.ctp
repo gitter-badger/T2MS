@@ -33,7 +33,7 @@
             <div class="block">
                 <a href="#page-stats" class="block-heading" data-toggle="collapse">Latest Stats</a>
                 <div id="page-stats" class="block-body collapse in">
-                    
+
 
                 </div>
             </div>
