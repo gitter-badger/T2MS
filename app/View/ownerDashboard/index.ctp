@@ -34,9 +34,24 @@
             <div class="block">
                 <a href="#page-stats" class="block-heading" data-toggle="collapse">Latest Stats</a>
                 <div id="page-stats" class="block-body collapse in">
-                    <?php echo $this->Html->script('dailyIncomeChart')?>
+                    <script type="text/javascript">
+                        google.load("visualization", "1", {packages:["corechart"]});
+                        google.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                                ['Date','Income'],
+                                ['Correct',7056],
+                                ['Not Correct',897]
+                            ]);
+
+                            var options = {'width':350};
+
+                            var chart = new google.visualization.PieChart(document.getElementById('daily-income-chart'));
+                            chart.draw(data, options);
+                        }
+                    </script>
                     <div id="daily-income-chart" style="min-height: 200px; min-width: 800px;"></div>
-                    <?php $this->requestAction('/OwnerDashboardController/incomeChart');?>
+                    <?php $this->requestAction('/OwnerDashboard/incomeChart');?>
 
                 </div>
             </div>
