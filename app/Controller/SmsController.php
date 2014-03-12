@@ -252,12 +252,12 @@ class SmsController extends AppController{
         $this->loadModel('Trip');
         $resultSet = $this->Trip->find('first',array(
                                        'fields'=>array('Trip.id','Trip.time','Trip.status'),
-                                       'conditions'=>array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ON GOING'))
+                                       'conditions'=>array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing'))
                                       );
 
         if($resultSet !== null){
-            $this->Trip->updateAll(array('status'=>'FINISHED','fare'=>$fare),
-                                   array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ON GOING')
+            $this->Trip->updateAll(array('status'=>'\'FINISHED\'','fare'=>$fare),
+                                   array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
                                   );
         }
     }
