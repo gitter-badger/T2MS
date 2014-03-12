@@ -85,7 +85,6 @@ class TagsController extends AppController {
 	public function delete($tag=null,$localityid = null) {
         $tg=$this->Tag->find('first', array(
             'conditions' => array('Tag.locality_id' => $localityid,'Tag.tag' => $tag)));
-        echo(json_encode($tg));
         if ($tg==null) {
             throw new NotFoundException(__('Invalid tag'));
         }

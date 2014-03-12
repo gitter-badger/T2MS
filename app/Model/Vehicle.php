@@ -76,7 +76,7 @@ class Vehicle extends AppModel {
 		$vehicles=$this->find('all');
 		$vehi=array();
 		foreach($vehicles as $vehicle){
-			$vehi[$vehicle['Vehicle']['id']]=$vehicle['Vehicle']['id']."-".$vehicle['Vehicle']['driverName']."-".$vehicle['Vehicle']['vehicleNum']."-".$vehicle['Vehicle']['driverContact'];
+			$vehi[$vehicle['Vehicle']['id']]=$vehicle['Vehicle']['id']."-".$vehicle['Vehicle']['vehicleNum']."-".$vehicle['Vehicle']['driverName']."-".$vehicle['Vehicle']['driverContact'];
 		}
 		return $vehi;
 	}
