@@ -75,23 +75,43 @@ class OwnerDashboardController extends AppController{
 	
 	public function edit($id = null) {
 		$this->loadModel('Vehicle');
-
+		$vehicle;
 		//$this->loadModel('Owner');
 		//$this->set('owners',$this->Owner->getOwnerList());
-		if (!$this->Vehicle->exists($id)) {
-			throw new NotFoundException(__('Invalid vehicle'));
-		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Vehicle->save($this->request->data)) {
 				$this->Session->setFlash(__('The vehicle has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'listVehicles'));
 			} else {
 				$this->Session->setFlash(__('The vehicle could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Vehicle.' . $this->Vehicle->primaryKey => $id, 'Vehicle.ownerID' => $this->getOwnerId()));
-			$this->request->data = $this->Vehicle->find('first', $options);
+			$vehicle= $this->request->data = $this->Vehicle->find('first', $options);
 		}
+		if ($vehicle == null) {
+			$this->Session->setFlash(__('You are not authorized to edit DAT vehicle.'));
+			return $this->redirect(array('action' => 'listVehicles'));
+		}
+	}
+	
+	public function delete($id = null) {
+		$this->loadModel('Vehicle');
+		//$this->loadModel('Owner');
+		$options = array('conditions' => array('Vehicle.' . $this->Vehicle->primaryKey => $id, 'Vehicle.ownerID' => $this->getOwnerId()));
+		$vehicle = $this->request->data = $this->Vehicle->find('first', $options);
+		//$this->set('owners',$this->Owner->getOwnerList());
+		if ($vehicle == null) {
+			$this->Session->setFlash(__('You are not authorized to delete DAT vehicle.'));
+			return $this->redirect(array('action' => 'listVehicles'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->$vehicle->delete()) {
+			$this->Session->setFlash(__('The vehicle has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('The vehicle could not be deleted. Please, try again.'));
+		}
+		return $this->redirect(array('action' => 'listVehicles'));
 	}
 	
 }
