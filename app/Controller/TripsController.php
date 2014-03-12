@@ -33,7 +33,7 @@ class TripsController extends AppController {
 			$title='Locality Search Results';
 		}
                 
-                $this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
+        $this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
                 
 		$this->Trip->recursive = 1;
 		$this->set('trips', $this->Paginator->paginate());
@@ -117,6 +117,8 @@ class TripsController extends AppController {
 		} else {
 			$options = array('conditions' => array('Trip.' . $this->Trip->primaryKey => $id));
 			$this->request->data = $this->Trip->find('first', $options);
+			$this->loadModel('Locality');
+			$this->set('localities',$this->Locality->getLocalityList());
 		}
 	}
 
