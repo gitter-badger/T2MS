@@ -8,6 +8,7 @@ class OwnerDashboardController extends AppController{
         if($this->getOwnerId()==null){
             return $this->redirect('/users/login');
         }
+        $this->set('incomeChartData',incomeChart());
     }
 
     private function getOwnerId(){
@@ -19,7 +20,10 @@ class OwnerDashboardController extends AppController{
         return null;
     }
 
-
+    /**
+     * Income Chart
+     * @return array
+     */
     public function incomeChart(){
         $this->loadModel('Trip');
 
@@ -34,7 +38,7 @@ class OwnerDashboardController extends AppController{
             $row = array($result[0]['date'],$result[0]['income']);
             $incomeChartData[] = json_encode($row);
         }
-        pr($incomeChartData);
+        return $incomeChartData;
     }
 
 	
