@@ -18,6 +18,7 @@
     <meta name="author" content="">
 
     <link rel="shortcut icon" href="app/webroot/img/cake.icon.png">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </head>
 
 <div class="content">
@@ -33,7 +34,9 @@
             <div class="block">
                 <a href="#page-stats" class="block-heading" data-toggle="collapse">Latest Stats</a>
                 <div id="page-stats" class="block-body collapse in">
-
+                    <?php echo $this->Html->script('dailyIncomeChart')?>
+                    <div id="daily-income-chart" style="min-height: 200px; min-width: 800px;"></div>
+                    <?php $this->requestAction('/OwnerDashboardController/incomeChart');?>
 
                 </div>
             </div>

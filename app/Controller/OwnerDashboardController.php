@@ -19,6 +19,18 @@ class OwnerDashboardController extends AppController{
         }
         return false;
     }
+
+    private function incomeChart(){
+        $this->loadModel('Trip');
+
+        $ownerId = $this->Session->read('userid');
+        $income =  $this->Trip->find('all',array(
+                                    'fields'=>array('Trip.time','SUM(Trip.fare)'),
+                                    'conditions'=>array('Vehicle.ownerID'=>$ownerId),
+                                    'group'=>array('DATE(Trip.time)'))
+                                   );
+        echo(json_encode($income));
+    }
 }
 
 ?>
