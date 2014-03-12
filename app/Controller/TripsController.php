@@ -25,7 +25,7 @@ class TripsController extends AppController {
  */
 	public function index() {
             
-            $conditions=array();
+        $conditions=array();
 		$title='Localities';
 		
 		if ($this->request->is('get')&&$this->request->query!=null) {
@@ -37,7 +37,7 @@ class TripsController extends AppController {
                 
 		$this->Trip->recursive = 1;
 		$this->set('trips', $this->Paginator->paginate());
-                $this->set('title', $title);
+        $this->set('title', $title);
 	}
 
 
@@ -70,7 +70,21 @@ class TripsController extends AppController {
 			throw new NotFoundException(__('Invalid trip'));
 		}
 		$options = array('conditions' => array('Trip.' . $this->Trip->primaryKey => $id));
-		$this->set('trip', $this->Trip->find('first', $options));
+		$trip = $this->Trip->find('first', $options);
+		
+		if($trip['Trip']['status']== -1){
+			$trip['Trip']['status']= 'Unassigned';
+		}
+		else if($trip['Trip']['status']== 0){
+			$trip['Trip']['status']= 'Assigned';
+		}
+		else if($trip['Trip']['status']== 1){
+			$trip['Trip']['status']= 'Started';
+		}
+		else if($trip['Trip']['status']== 2){
+			$trip['Trip']['status']= 'Finished';
+		}
+		$this->set('trip', $trip);
 	}
 
 /**
