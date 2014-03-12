@@ -113,6 +113,11 @@ class OwnerDashboardController extends AppController{
 		}
 		return $this->redirect(array('action' => 'listVehicles'));
 	}
+    public function logout() {
+        $this->Session->delete('userid');
+        $this->Session->setFlash('You have been successfully logged out');
+        $this->redirect('/');
+    }
 	
 }
 

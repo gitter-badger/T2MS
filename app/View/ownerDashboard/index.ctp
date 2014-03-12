@@ -19,37 +19,49 @@
 
     <link rel="shortcut icon" href="app/webroot/img/cake.icon.png">
 </head>
+<div class="vehicles form">
 
-<div class="content">
+	<div class="content">
 
-<div class="nameheader">
-    <h1 class="page-title">Dashboard</h1>
+		<div class="nameheader">
+			<h1 class="page-title">Dashboard</h1>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+			
+				<div class="row-fluid">
+
+					<div class="block">
+						<a href="#page-stats" class="block-heading" data-toggle="collapse">Latest Stats</a>
+						<div id="page-stats" class="block-body collapse in">
+
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row-fluid">
+
+
+				</div>
+
+				<div class="row-fluid">
+
+				</div>
+
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="row-fluid">
-
-            <div class="block">
-                <a href="#page-stats" class="block-heading" data-toggle="collapse">Latest Stats</a>
-                <div id="page-stats" class="block-body collapse in">
-
-
-                </div>
-            </div>
-        </div>
-
-        <div class="row-fluid">
-
-
-        </div>
-
-        <div class="row-fluid">
-
-        </div>
-
-    </div>
-</div>
+<div class="actions">
+	<h3><?php echo __('Actions'); ?></h3>
+	<ul>
+		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'listVehicles')); ?></li>
+		<li><?php echo $this->Html->link(__('Add vehicle'), array('action' => 'add')); ?></li>
+		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
+	</ul>
 </div>
 
 <?php echo $this->Html->script('bootstrap'); ?>

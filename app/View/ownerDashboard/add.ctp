@@ -14,8 +14,8 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-
-		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('Search Vehicles'), array('action' => 'search')); ?></li>
+		<li><?php echo $this->Html->link(__('Dashboard'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'listVehicles')); ?></li>
+		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
 	</ul>
 </div>
