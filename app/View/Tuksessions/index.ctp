@@ -15,9 +15,8 @@
 		<td><?php echo h($tuksession['Tuksession']['startTime']); ?>&nbsp;</td>
 		<td><?php echo h($tuksession['Tuksession']['endTime']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $tuksession['Tuksession']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $tuksession['Tuksession']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $tuksession['Tuksession']['id']), null, __('Are you sure you want to delete # %s?', $tuksession['Tuksession']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit',$tuksession['Tuksession']['vehicleID'],str_replace(':','-',h($tuksession['Tuksession']['startTime'])))); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete',$tuksession['Tuksession']['vehicleID'],str_replace(':','-',h($tuksession['Tuksession']['startTime']))), null, __('Are you sure you want to delete the trip of vehicle %s?', $tuksession['Tuksession']['vehicleID'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

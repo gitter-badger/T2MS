@@ -43,6 +43,7 @@ class SmsController extends AppController{
      * Driver Location      : SET LOCATION <location>
      * Driver Fare per Km   : SET FARE <fare_per_km>
      * Driver Session Update: ON DUTY or OFF DUTY
+     * Trip data update     : DATA <amount>
      *
      * combined messages can be send
      * e.g. REG <name> TRIP <start_location> TO <end_location> FARE <max_fare>
@@ -90,6 +91,12 @@ class SmsController extends AppController{
             $this->updateSession('OFF',null,$phone);
         }elseif(strpos($message,'ON DUTY') !== false){
             $this->updateSession('ON',null,$phone);
+        }
+
+        //trip data message decode
+        if(strpos($message,'DATA')!== false){
+            $message = substr($message,5);
+            $this->updateTrip($message,$phone);
         }
     }
 
@@ -239,6 +246,20 @@ class SmsController extends AppController{
             $this->Tuksession->save($newSession);
         }
 
+    }
+
+    private function updateTrip($fare, $phone){
+        $this->loadModel('Trip');
+        $resultSet = $this->Trip->find('first',array(
+                                       'fields'=>array('Trip.id','Trip.time','Trip.status'),
+                                       'conditions'=>array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing'))
+                                      );
+
+        if($resultSet !== null){
+            $this->Trip->updateAll(array('status'=>'\'FINISHED\'','fare'=>$fare),
+                                   array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
+                                  );
+        }
     }
 }
 
