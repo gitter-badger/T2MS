@@ -52,7 +52,7 @@ class SmsController extends AppController{
      * @param $phone
      */
     private function decodeSms($message, $phone){
-        $maxFair = null;
+        $maxFare = null;
         $tripMessage = null;
         $regMessage = null;
         $driverMessage[0] = $message;
@@ -62,7 +62,7 @@ class SmsController extends AppController{
         //customer message decode
         if(strpos($message,'FARE') !== false && strpos($message,'SET') === false){
             $tokenized = explode('FARE',$message,2);
-            $maxFair = $tokenized[1];
+            $maxFare = $tokenized[1];
         }
         if(strpos($message,'TRIP') !== false){
             $tokenized = explode('TRIP',$tokenized[0],2);
@@ -74,8 +74,11 @@ class SmsController extends AppController{
 
         if($regMessage != null)
             $this->createCustomer($regMessage,$phone);
-        if($tripMessage != null)
-            $this->processTrip($tripMessage,$maxFair,$phone);
+        if($tripMessage != null){
+            if($maxFare==null)
+                $maxFare=100;
+            $this->processTrip($tripMessage,$maxFare,$phone);
+        }
 
         //driver message decode
         if(strpos($message,'SET') !== false){
@@ -130,7 +133,7 @@ class SmsController extends AppController{
      * @param $maxFair
      * @param $phone
      */
-    private function processTrip($tripMessage, $maxFair, $phone){
+    private function processTrip($tripMessage, $maxFare, $phone){
         $this->loadModel('Customer');
         $resultSet = $this->Customer->find('first',array(
                                            'fields'=>array('Customer.id','Customer.blacklisted'),
@@ -145,7 +148,35 @@ class SmsController extends AppController{
         $tripMessage = explode('TO',$tripMessage,2);
         $startLocation = trim($tripMessage[0]);
         $endLocation = trim($tripMessage[1]);
+        $own=$this->Customer->query(
+            'SELECT * FROM
+            (
+                SELECT vehicleID
+                FROM tuksessions
+                INNER JOIN tags ON tags.locality_id = tuksessions.localityID
+               	INNER JOIN vehicles ON tuksessions.vehicleID=vehicles.id
+                WHERE tag LIKE ?
+                    AND endTime IS NULL
+                    AND vehicles.fare <=?
+                    AND vehicleID NOT
+                    IN (
+                        SELECT vehicleID
+                        FROM trips
+                        WHERE STATUS =1 OR STATUS =0
+                    )
 
+            ) AS t1
+            LEFT OUTER JOIN (
+                SELECT vehicleID, max( time ) as lastTrip
+                FROM trips
+                GROUP BY vehicleID
+                )
+            AS t2 ON t1.vehicleID = t2.vehicleID
+            ORDER BY lastTrip ASC LIMIT 1',
+            array($startLocation,$maxFare)
+            );
+        if($own!=null)
+        echo($own[0]['t1']['vehicleID']);
         //send data to process trip
     }
 
