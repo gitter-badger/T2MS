@@ -8,7 +8,7 @@ class OwnerDashboardController extends AppController{
         if($this->getOwnerId()==null){
             return $this->redirect('/users/login');
         }
-        $this->set('incomeChartData',incomeChart());
+        $this->set('incomeChartData',$this->incomeChart());
     }
 
     private function getOwnerId(){
@@ -24,7 +24,7 @@ class OwnerDashboardController extends AppController{
      * Income Chart
      * @return array
      */
-    public function incomeChart(){
+    private function incomeChart(){
         $this->loadModel('Trip');
 
         $ownerId = $this->Session->read('userid');
@@ -33,12 +33,28 @@ class OwnerDashboardController extends AppController{
                                       'conditions'=>array('Vehicle.ownerID'=>1),
                                       'group'=>array('DATE(Trip.time)'))
                                      );
-        
-        foreach($results AS $result){
+
+        /*foreach($results AS $result){
             $row = array($result[0]['date'],$result[0]['income']);
             $incomeChartData[] = json_encode($row);
+        }*/
+
+        $incomeChartData['cols'] = array(
+            array('id' => 'date', 'label' => 'Date', 'type' => 'date'),
+            array('id' => 'income', 'label' => 'Income', 'type' => 'number')
+        );
+        foreach($results AS $result) {
+            $time = strtotime($result[0]['date']);
+            $dateJs = 'Date('.date("Y", $time).', '.(date('n', $time) - 1).', '.date('j', $time).')';
+            $row = array(
+                'c' => array(
+                    array('v' => $dateJs),
+                    array('v' => $result[0]['income']),
+                )
+            );
+            $incomeChartData['rows'][] = $row;
         }
-        return $incomeChartData;
+        return json_encode($incomeChartData);
     }
 
 	

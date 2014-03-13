@@ -38,20 +38,16 @@
                         google.load("visualization", "1", {packages:["corechart"]});
                         google.setOnLoadCallback(drawChart);
                         function drawChart() {
-                            var data = google.visualization.arrayToDataTable([
-                                ['Date','Income'],
-                                ['Correct',7056],
-                                ['Not Correct',897]
-                            ]);
+                            var data = new google.visualization.DataTable(<?php echo ($incomeChartData);?>);
 
-                            var options = {'width':350};
 
-                            var chart = new google.visualization.PieChart(document.getElementById('daily-income-chart'));
+                            var options = {'width':1200};
+
+                            var chart = new google.visualization.AreaChart(document.getElementById('daily-income-chart'));
                             chart.draw(data, options);
                         }
                     </script>
                     <div id="daily-income-chart" style="min-height: 200px; min-width: 800px;"></div>
-                    <?php $this->requestAction('/OwnerDashboard/incomeChart');?>
 
                 </div>
             </div>
