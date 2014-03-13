@@ -19,6 +19,7 @@
 
     <link rel="shortcut icon" href="app/webroot/img/cake.icon.png">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">google.load('visualization', '1.1', {packages: ['corechart', 'controls']});</script>
 </head>
 <div class="vehicles form">
 
@@ -33,27 +34,14 @@
             <div class="block">
                 <a href="#page-stats" class="block-heading" data-toggle="collapse">Latest Stats</a>
                 <div id="page-stats" class="block-body collapse in">
-                    <script type="text/javascript">
-                        google.load("visualization", "1.1", {packages:["corechart"]});
-                        google.setOnLoadCallback(drawChart);
-                        function drawChart() {
-                            var data = new google.visualization.DataTable(<?php echo ($incomeChartData);?>);
 
-
-                            var options = {'width': '100%'};
-
-                            var chart = new google.visualization.AreaChart(document.getElementById('daily-income-chart'));
-                            chart.draw(data, options);
-                        }
-                    </script>
-                    <div id="daily-income-chart" style="min-height: 200px; min-width: 800px;"></div>
 
                 </div>
             </div>
 
             <div id="newchart">
+
                 <script type="text/javascript">
-                    google.load('visualization', '1.1', {packages: ['corechart', 'controls']});
                     function drawVisualization() {
                         var dashboard = new google.visualization.Dashboard(
                             document.getElementById('dashboard'));
@@ -73,18 +61,18 @@
                                     // Display a single series that shows the closing value of the stock.
                                     // Thus, this view has two columns: the date (axis) and the stock value (line series).
                                     'chartView': {
-                                        'columns': [0, 3]
+                                        'columns': [0, 1]
                                     },
                                     // 1 day in milliseconds = 24 * 60 * 60 * 1000 = 86,400,000
                                     'minRangeSize': 86400000
                                 }
                             },
                             // Initial range: 2012-02-09 to 2012-03-20.
-                            'state': {'range': {'start': new Date(2012, 1, 9), 'end': new Date(2012, 2, 20)}}
+                            'state': {'range': {'start': new Date(2014, 6, 9), 'end': new Date(2014, 7, 20)}}
                         });
 
                         var chart = new google.visualization.ChartWrapper({
-                            'chartType': 'CandlestickChart',
+                            'chartType': 'AreaChart',
                             'containerId': 'chart',
                             'options': {
                                 // Use the same chart area width as the control for axis alignment.
@@ -94,19 +82,19 @@
                                 'legend': {'position': 'none'}
                             },
                             // Convert the first column from 'date' to 'string'.
-                            'view': {
+                            /*'view': {
                                 'columns': [
                                     {
                                         'calc': function(dataTable, rowIndex) {
                                             return dataTable.getFormattedValue(rowIndex, 0);
                                         },
                                         'type': 'string'
-                                    }, 1, 2, 3, 4]
-                            }
+                                    }, 1]
+                            }*/
                         });
 
-                        var data = new google.visualization.DataTable();
-                        data.addColumn('date', 'Date');
+                        var data = new google.visualization.DataTable(<?php echo($incomeChartData); ?>);
+                        /*data.addColumn('date', 'Date');
                         data.addColumn('number', 'Stock low');
                         data.addColumn('number', 'Stock open');
                         data.addColumn('number', 'Stock close');
@@ -125,7 +113,7 @@
                             high = Math.max(open, close) + (Math.cos(day * 1.3) + 1) * 15;
                             var date = new Date(2012, 0 ,day);
                             data.addRow([date, Math.round(low), Math.round(open), Math.round(close), Math.round(high)]);
-                        }
+                        }*/
 
                         dashboard.bind(control, chart);
                         dashboard.draw(data);
