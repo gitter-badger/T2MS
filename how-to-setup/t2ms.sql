@@ -136,7 +136,7 @@ INSERT INTO `tags` (`locality_id`, `tag`) VALUES
 CREATE TABLE IF NOT EXISTS `trips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fare` int(11) NOT NULL,
+  `fare` int(11) NULL,
   `status` int(11) NOT NULL,
   `startLocation` int(11) NOT NULL,
   `endLocation` int(11) NOT NULL,

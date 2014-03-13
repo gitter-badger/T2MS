@@ -14,7 +14,6 @@ class SmsController extends AppController{
             /*$data = array("Customer"=>array("phone" => $this->request->data['Sms']['phone'], "name" => $this->request->data['Sms']['text'],
             "blacklisted"=>0,"maxFare" => 60));*/
 
-
             /*if ($this->Customer->save($data)) {
 
                 $this->Session->setFlash(__('The SMS has been processed.'));
@@ -135,8 +134,10 @@ class SmsController extends AppController{
      */
     private function processTrip($tripMessage, $maxFare, $phone){
         $this->loadModel('Customer');
+        $this->loadModel('Tag');
+        $this->loadModel('Trip');
+
         $resultSet = $this->Customer->find('first',array(
-                                           'fields'=>array('Customer.id','Customer.blacklisted'),
                                            'conditions'=>array('Customer.phone'=>$phone),
                                            'recursive'=> -1)
                                           );
@@ -146,12 +147,14 @@ class SmsController extends AppController{
             return;
         }
         $tripMessage = explode('TO',$tripMessage,2);
+
         $startLocation = trim($tripMessage[0]);
         $endLocation = trim($tripMessage[1]);
-        $own=$this->Customer->query(
+
+        $vehicle=$this->Customer->query(
             'SELECT * FROM
             (
-                SELECT vehicleID
+                SELECT vehicleID,driverName,driverContact
                 FROM tuksessions
                 INNER JOIN tags ON tags.locality_id = tuksessions.localityID
                	INNER JOIN vehicles ON tuksessions.vehicleID=vehicles.id
@@ -175,8 +178,58 @@ class SmsController extends AppController{
             ORDER BY lastTrip ASC LIMIT 1',
             array($startLocation,$maxFare)
             );
-        if($own!=null)
-        echo($own[0]['t1']['vehicleID']);
+
+        echo(json_encode($vehicle));
+
+        $vehicleID=null;
+        $startLocationId=null;
+        $endLocationId=null;
+        if($vehicle!=null)
+            $vehicleID=$vehicle[0]['t1']['vehicleID'];
+        $this->Tag->recursive = 1;
+        $start=$this->Tag->find('first',array('conditions'=>array('Tag.tag LIKE '=>$startLocation)));
+        $end=$this->Tag->find('first',array('conditions'=>array('Tag.tag LIKE '=>$endLocation)));
+        if($start!=null)
+            $startLocationId=$start['Locality']['id'];
+        if($end!=null)
+            $endLocationId=$end['Locality']['id'];
+        $customerID=$resultSet['Customer']['id'];
+
+        echo($startLocationId);
+        echo($endLocationId);
+        echo($vehicleID);
+        echo($customerID);
+
+        if($startLocationId!=null){
+           // $this->Trip->create();
+            if($vehicleID==null){
+                $this->Trip->save(array('Trip'=>array('startLocation'=>$startLocationId,
+                    'endLocation'=>$endLocationId,'vehicleID'=>$vehicleID,
+                    'customerID'=>$customerID,'status'=>-1)));
+
+            }
+            if($vehicleID!=null){
+                $this->Trip->save(array('Trip'=>array('startLocation'=>$startLocationId,
+                    'endLocation'=>$endLocationId,'vehicleID'=>$vehicleID,
+                    'customerID'=>$customerID,'status'=>0)));
+
+
+                $customerMsg='T2MS Driver Name = '.$vehicle[0]['t1']['driverName'].'\n Driver Contact = '.$vehicle[0]['t1']['driverContact'];
+                $driverMsg='T2MS Customer Name = '.$resultSet['Customer']['name'].'\n Customer Contact = '.$resultSet['Customer']['phone'];
+
+                //Send a message to the customer
+            //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$resultSet['Customer']['phone'].'&text='.$customerMsg);
+
+                //Send a message to the driver
+            //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$vehicle[0]['t1']['driverContact'].'&text='.$driverMsg);
+
+
+            }
+
+        }
+
+
+
         //send data to process trip
     }
 
