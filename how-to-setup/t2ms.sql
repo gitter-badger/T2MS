@@ -16,9 +16,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-DROP DATABASE IF EXISTS `t2ms`;
 CREATE DATABASE IF NOT EXISTS `t2ms` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `t2ms`;
+DROP TABLE IF EXISTS `trips`, `tuksessions`,`tags`, `sessions`, `vehicles`,`customer`, `locality`, `owners`;
+
 --
 -- Database: `t2ms`
 --
@@ -136,10 +137,10 @@ CREATE TABLE IF NOT EXISTS `trips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fare` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `status` int(11) NOT NULL,
   `startLocation` int(11) NOT NULL,
   `endLocation` int(11) NOT NULL,
-  `vehicleID` int(11) NOT NULL,
+  `vehicleID` int(11),
   `customerID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `localityID` (`startLocation`),
@@ -153,11 +154,11 @@ CREATE TABLE IF NOT EXISTS `trips` (
 --
 
 INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocation`, `vehicleID`, `customerID`) VALUES
-(3, '2014-03-05 01:38:00', 45, 'ongoing', 1, 1, 1, 1),
-(5, '2014-03-10 05:42:00', 452, 'Finished', 2, 4, 2, 1),
-(6, '2014-03-10 05:44:00', 45, 'Finished', 5, 1, 4, 9),
-(7, '2014-03-09 23:55:00', 45, 'ongoing', 5, 1, 2, 11),
-(8, '2014-03-09 23:55:00', 45, 'ongoing', 5, 1, 4, 11);
+(3, '2014-03-05 01:38:00', 45, 2, 1, 1, 1, 1),
+(5, '2014-03-10 05:42:00', 452, 1, 2, 4, 2, 1),
+(6, '2014-03-10 05:44:00', 45, 1, 5, 1, 4, 9),
+(7, '2014-03-09 23:55:00', 45, 2, 5, 1, 2, 11),
+(8, '2014-03-09 23:55:00', 45, 2, 5, 1, 4, 11);
 
 -- --------------------------------------------------------
 
