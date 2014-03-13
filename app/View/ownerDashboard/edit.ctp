@@ -17,6 +17,8 @@
 	<ul>
 
 		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Vehicle.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Vehicle.id'))); ?></li>
+		<li><?php echo $this->Html->link(__('Dashboard'), array('action' => 'index')); ?></li>
 		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'listVehicles')); ?></li>
+		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
 	</ul>
 </div>

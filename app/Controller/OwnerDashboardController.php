@@ -6,9 +6,9 @@ class OwnerDashboardController extends AppController{
     }
     public function index() {
         if($this->getOwnerId()==null){
-           
             return $this->redirect('/users/login');
         }
+        $this->set('incomeChartData',$this->incomeChart());
     }
 
     private function getOwnerId(){
@@ -19,6 +19,44 @@ class OwnerDashboardController extends AppController{
         }
         return null;
     }
+
+    /**
+     * Income Chart
+     * @return array
+     */
+    private function incomeChart(){
+        $this->loadModel('Trip');
+
+        $ownerId = $this->Session->read('userid');
+        $results =  $this->Trip->find('all',array(
+                                      'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
+                                      'conditions'=>array('Vehicle.ownerID'=>1),
+                                      'group'=>array('DATE(Trip.time)'))
+                                     );
+
+        /*foreach($results AS $result){
+            $row = array($result[0]['date'],$result[0]['income']);
+            $incomeChartData[] = json_encode($row);
+        }*/
+
+        $incomeChartData['cols'] = array(
+            array('id' => 'date', 'label' => 'Date', 'type' => 'date'),
+            array('id' => 'income', 'label' => 'Income', 'type' => 'number')
+        );
+        foreach($results AS $result) {
+            $time = strtotime($result[0]['date']);
+            $dateJs = 'Date('.date("Y", $time).', '.(date('n', $time) - 1).', '.date('j', $time).')';
+            $row = array(
+                'c' => array(
+                    array('v' => $dateJs),
+                    array('v' => $result[0]['income']),
+                )
+            );
+            $incomeChartData['rows'][] = $row;
+        }
+        return json_encode($incomeChartData);
+    }
+
 	
 	public function listVehicles(){
 		$id=$this->getOwnerId();
@@ -75,25 +113,51 @@ class OwnerDashboardController extends AppController{
 	
 	public function edit($id = null) {
 		$this->loadModel('Vehicle');
-
+		$vehicle;
 		//$this->loadModel('Owner');
 		//$this->set('owners',$this->Owner->getOwnerList());
-		if (!$this->Vehicle->exists($id)) {
-			throw new NotFoundException(__('Invalid vehicle'));
-		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Vehicle->save($this->request->data)) {
 				$this->Session->setFlash(__('The vehicle has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'listVehicles'));
 			} else {
 				$this->Session->setFlash(__('The vehicle could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Vehicle.' . $this->Vehicle->primaryKey => $id, 'Vehicle.ownerID' => $this->getOwnerId()));
-			$this->request->data = $this->Vehicle->find('first', $options);
+			$vehicle= $this->request->data = $this->Vehicle->find('first', $options);
+		}
+		if ($vehicle == null) {
+			$this->Session->setFlash(__('You are not authorized to edit DAT vehicle.'));
+			return $this->redirect(array('action' => 'listVehicles'));
 		}
 	}
 	
+	public function delete($id = null) {
+		$this->loadModel('Vehicle');
+		//$this->loadModel('Owner');
+		$options = array('conditions' => array('Vehicle.' . $this->Vehicle->primaryKey => $id, 'Vehicle.ownerID' => $this->getOwnerId()));
+		$vehicle = $this->request->data = $this->Vehicle->find('first', $options);
+		//$this->set('owners',$this->Owner->getOwnerList());
+		if ($vehicle == null) {
+			$this->Session->setFlash(__('You are not authorized to delete DAT vehicle.'));
+			return $this->redirect(array('action' => 'listVehicles'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->$vehicle->delete()) {
+			$this->Session->setFlash(__('The vehicle has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('The vehicle could not be deleted. Please, try again.'));
+		}
+		return $this->redirect(array('action' => 'listVehicles'));
+	}
+    public function logout() {
+        $this->Session->delete('userid');
+        $this->Session->setFlash('You have been successfully logged out');
+        $this->redirect('/');
+    }
+	
+
 }
 
 ?>
