@@ -47,6 +47,13 @@ class TuksessionsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+            $tuksession=$this->Tuksession->find('first', array(
+                'conditions' => array('Tuksession.vehicleID' => $this->request->data['Tuksession']['vehicleID'],
+                    'Tuksession.startTime' =>  $this->request->data['Tuksession']['startTime'])));
+            if($tuksession!=null){
+                $this->Session->setFlash(__('The tukSession exists.'));
+                return $this->redirect(array('action' => 'index'));
+            }
 			$this->Tuksession->create();
 			if ($this->Tuksession->save($this->request->data)) {
 				$this->Session->setFlash(__('The tuksession has been saved.'));
@@ -64,10 +71,14 @@ class TuksessionsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
-		if (!$this->Tuksession->exists($id)) {
-			throw new NotFoundException(__('Invalid tuksession'));
-		}
+	public function edit($vehicleID=null,$startTime=null) {
+        $tuk=$this->Tuksession->find('first', array(
+            'conditions' => array('Tuksession.vehicleID' => $vehicleID,
+                'Tuksession.startTime' =>  $startTime)));
+        if($tuk==null){
+            throw new NotFoundException(__('Invalid Tuksession'));
+        }
+
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Tuksession->save($this->request->data)) {
 				$this->Session->setFlash(__('The tuksession has been saved.'));
@@ -76,8 +87,7 @@ class TuksessionsController extends AppController {
 				$this->Session->setFlash(__('The tuksession could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Tuksession.' . $this->Tuksession->primaryKey => $id));
-			$this->request->data = $this->Tuksession->find('first', $options);
+			$this->request->data =$tuk;
 		}
 	}
 
@@ -88,16 +98,16 @@ class TuksessionsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
-		$this->Tuksession->id = $id;
-		if (!$this->Tuksession->exists()) {
-			throw new NotFoundException(__('Invalid tuksession'));
-		}
-		$this->request->onlyAllow('post', 'delete');
-		if ($this->Tuksession->delete()) {
-			$this->Session->setFlash(__('The tuksession has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The tuksession could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
-	}}
+	public function delete($vehicleID=null,$startTime=null) {
+        $this->request->onlyAllow('post', 'delete');
+
+        $tuk=$this->Tuksession->find('first', array(
+            'conditions' => array('Tuksession.vehicleID' =>$vehicleID,'Tuksession.startTime' => $startTime)));
+        if($tuk==null){
+            throw new NotFoundException(__('Invalid Tuksession'));
+        }
+        $this->Tuksession->deleteAll(array('Tuksession.vehicleID' => $vehicleID,'Tuksession.startTime' => $startTime), false);
+        $this->Session->setFlash(__('The Tuksession has been deleted.'));
+        return $this->redirect(array('action' => 'index'));
+	}
+}

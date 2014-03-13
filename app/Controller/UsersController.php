@@ -2,131 +2,58 @@
 App::uses('AppController', 'Controller');
 /**
  * Users Controller
- *
- * @property User $User
- * @property PaginatorComponent $Paginator
  */
 class UsersController extends AppController {
 
-/**
- * Components
- *
- * @var array
- */
-	public $components = array('Paginator');
-
+    public function beforeFilter() {
+    }
 /**
  * index method
  *
  * @return void
  */
-	public function index() {
-        echo (json_encode($this->Auth->user));
-		$this->User->recursive = 0;
-		$this->set('users', $this->Paginator->paginate());
-	}
-    public function beforeFilter() {
-        parent::beforeFilter();
-        // Allow users to register and logout.
-        $this->Auth->allow('add', 'logout');
-    }
+
 
     public function login() {
         if ($this->request->is('post')) {
-            $password = $this->request->data['User']['password'];
-            $contact = $this->request->data['User']['contact'];
+            $password = $this->request->data['login']['password'];
+            $contact = $this->request->data['login']['contact'];
 
-            if($contact==123&&$password==465){
+            if($contact==123&&$password==456){
                 $this->Session->write('userid','admin');
                 $this->Session->write('userrole','admin');
-
+                return $this->redirect('/dashboard');
             }
-            $user=$this->Owner->find('first', array(
-                'conditions' => array('Owner.contact' => $this->request->data['Owner']['contact'],'Owner.password'=>$this->request->data['Owner']['password'])));
+            $this->loadModel('Owner');
+            $owner=$this->Owner->find('first', array(
+                'conditions' => array('Owner.contact' => $contact,'Owner.password'=>$password)));
 
-            if ($user!=null) {
-                $this->Session->write('userid',$user['User']['id']);
+            if ($owner!=null) {
+                $this->Session->write('userid',$owner['Owner']['id']);
                 $this->Session->write('userrole','owner');
+                $this->Session->setFlash($owner['Owner']['id']);
+                return $this->redirect('/OwnerDashboard');
             }
+            $this->Session->setFlash('Invalid Username or Password');
         }
     }
     public function logout() {
-        $this->Session->delete('username');
+        $this->Session->delete('userid');
+        $this->Session->setFlash('You have been successfully logged out');
         $this->redirect('/');
     }
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-	}
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		}
-	}
+    private function isAdmin(){
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-		}
-	}
+        $password = $this->Session->read('userid');
+        $contact = $this->Session->read('userrole');
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->onlyAllow('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('The user has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
-	}}
+        if($contact!=null&&$password!=null&&$contact==123&&$password==465){
+            return true;
+        }
+        $this->Session->setFlash('You are not logged in as an admin');
+        return $this->redirect('/login');
+
+    }
+
+}

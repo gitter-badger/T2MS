@@ -3,9 +3,9 @@
 	<fieldset>
 		<legend><?php echo __('Edit Tuksession'); ?></legend>
 	<?php
-		echo $this->Form->input('vehicleID');
-		echo $this->Form->input('localityID');
-		echo $this->Form->input('startTime');
+		echo $this->Form->input('vehicleID',array('disabled' => 'disabled'));
+		echo $this->Form->input('startTime',array('disabled' => 'disabled'));
+        echo $this->Form->input('localityID');
 		echo $this->Form->input('endTime');
 	?>
 	</fieldset>
