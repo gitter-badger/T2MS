@@ -148,8 +148,7 @@ class VehiclesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->loadModel('Owner');
-		$this->set('owners',$this->Owner->getOwnerList());
+		$this->Vehicle->id = $id;
 		if (!$this->Vehicle->exists()) {
 			throw new NotFoundException(__('Invalid vehicle'));
 		}

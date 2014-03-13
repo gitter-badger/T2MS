@@ -36,7 +36,7 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('Dashboard'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'view')); ?></li>
 		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?></li>
+		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
 	</ul>
 </div>

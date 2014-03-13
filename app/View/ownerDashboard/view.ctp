@@ -47,7 +47,7 @@
 		<li><?php echo $this->Html->link(__('Edit Vehicle'), array('action' => 'edit', $vehicle['Vehicle']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Vehicle'), array('action' => 'delete', $vehicle['Vehicle']['id']), null, __('Are you sure you want to delete # %s?', $vehicle['Vehicle']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?> </li>		
-		<li><?php echo $this->Html->link(__('Search Vehicles'), array('action' => 'search')); ?></li>
+		<li><?php echo $this->Html->link(__('New Vehicle'), array('action' => 'add')); ?> </li>
+		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
 	</ul>
 </div>
