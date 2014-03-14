@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="app/webroot/img/cake.icon.png">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        google.load('visualization', '1.1', {packages: ['corechart', 'controls', 'annotatedtimeline']});
+        google.load('visualization', '1.1', {packages: ['corechart', 'controls']});
     </script>
 </head>
 <div class="vehicles form">
@@ -102,8 +102,8 @@
                     'minRangeSize': 86400000
                 }
             },
-            // Initial range: 2012-02-09 to 2012-03-20.
-            'state': {'range': {'start': new Date(2014, 2, 7), 'end': new Date(2014, 2, 14)}}
+            // Initial range: current week
+            'state': {'range': {'start': new Date(new Date().getTime() - 7 * 86400000), 'end': new Date()}}
         });
 
         var chart = new google.visualization.ChartWrapper({
