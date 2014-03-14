@@ -30,14 +30,9 @@ class OwnerDashboardController extends AppController{
         $ownerId = $this->Session->read('userid');
         $results =  $this->Trip->find('all',array(
                                       'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
-                                      'conditions'=>array('Vehicle.ownerID'=>1),
+                                      'conditions'=>array('Vehicle.ownerID'=>$ownerId),
                                       'group'=>array('DATE(Trip.time)'))
                                      );
-
-        /*foreach($results AS $result){
-            $row = array($result[0]['date'],$result[0]['income']);
-            $incomeChartData[] = json_encode($row);
-        }*/
 
         $incomeChartData['cols'] = array(
             array('id' => 'date', 'label' => 'Date', 'type' => 'date'),
