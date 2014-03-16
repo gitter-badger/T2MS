@@ -5,10 +5,11 @@ class OwnerDashboardController extends AppController{
 
     }
     public function index() {
-        if($this->getOwnerId()==null){
+        $ownerId = $this->getOwnerId();
+        if($ownerId == null){
             return $this->redirect('/users/login');
         }
-        $this->set('incomeChartData',$this->incomeChart());
+        $this->set('incomeChartData',$this->getIncomeChartData($ownerId));
     }
 
     private function getOwnerId(){
@@ -20,39 +21,6 @@ class OwnerDashboardController extends AppController{
         return null;
     }
 
-    /**
-     * Income Chart
-     * @return array
-     */
-    private function incomeChart(){
-        $this->loadModel('Trip');
-
-        $ownerId = $this->Session->read('userid');
-        $results =  $this->Trip->find('all',array(
-                                      'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
-                                      'conditions'=>array('Vehicle.ownerID'=>$ownerId),
-                                      'group'=>array('DATE(Trip.time)'))
-                                     );
-
-        $incomeChartData['cols'] = array(
-            array('id' => 'date', 'label' => 'Date', 'type' => 'date'),
-            array('id' => 'income', 'label' => 'Income', 'type' => 'number')
-        );
-        foreach($results AS $result) {
-            $time = strtotime($result[0]['date']);
-            $dateJs = 'Date('.date("Y", $time).', '.(date('n', $time) - 1).', '.date('j', $time).')';
-            $row = array(
-                'c' => array(
-                    array('v' => $dateJs),
-                    array('v' => $result[0]['income']),
-                )
-            );
-            $incomeChartData['rows'][] = $row;
-        }
-        return json_encode($incomeChartData);
-    }
-
-	
 	public function listVehicles(){
 		$id=$this->getOwnerId();
 		if($id==null){
@@ -108,7 +76,7 @@ class OwnerDashboardController extends AppController{
 	
 	public function edit($id = null) {
 		$this->loadModel('Vehicle');
-		$vehicle;
+		//$vehicle;
 		//$this->loadModel('Owner');
 		//$this->set('owners',$this->Owner->getOwnerList());
 		if ($this->request->is(array('post', 'put'))) {
@@ -151,7 +119,58 @@ class OwnerDashboardController extends AppController{
         $this->Session->setFlash('You have been successfully logged out');
         $this->redirect('/');
     }
-	
+
+    /**
+     * Returns javascript array of income data
+     * @param $ownerId
+     * @return array
+     */
+    private function getIncomeChartData($ownerId){
+        $this->loadModel('Trip');
+
+        $results =  $this->Trip->find('all',array(
+                'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
+                'conditions'=>array('Vehicle.ownerID'=>$ownerId),
+                'group'=>array('DATE(Trip.time)')
+        ));
+
+        $incomeChartData['cols'] = array(
+            array('id' => 'date', 'label' => 'Date', 'type' => 'date'),
+            array('id' => 'income', 'label' => 'Income', 'type' => 'number')
+        );
+        foreach($results AS $result) {
+            $time = strtotime($result[0]['date']);
+            $dateJs = 'Date('.date("Y", $time).', '.(date('n', $time) - 1).', '.date('j', $time).')';
+            $row = array(
+                'c' => array(
+                    array('v' => $dateJs),
+                    array('v' => $result[0]['income']),
+                )
+            );
+            $incomeChartData['rows'][] = $row;
+        }
+        $this->driverData($ownerId);
+        return json_encode($incomeChartData);
+    }
+
+    public function driverData($ownerId){
+        $this->loadModel('Vehicle');
+        $this->loadModel('Trip');
+
+        $drivers = $this->Vehicle->find('all',array(
+            'fields'=>array('Vehicle.driverName As name'),
+            'conditions'=>array('Vehicle.ownerID'=>$ownerId),
+            'order'=>array('name ASC')
+        ));
+
+        $driverEarnings = $this->Trip->query(
+            'select DATE(trips.time) as date,vehicles.driverName as dname,SUM(trips.fare) as income
+             from trips,vehicles
+             where vehicles.ownerID = '.$ownerId.' and vehicles.id = trips.vehicleID group by dname,date;'
+        );
+
+        pr($driverEarnings);
+    }
 
 }
 
