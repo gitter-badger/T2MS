@@ -15,11 +15,16 @@
 
         echo $this->Html->css('bootstrap.min');
         echo $this->Html->script('bootstrap.min');
-        echo $this->Html->script('html5shiv');
         echo $this->Html->script('jquery-1.10.2.min');
-        echo $this->Html->script('respond.min');
 	?>
 
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+      <?php
+      echo $this->Html->script('html5shiv');
+      echo $this->Html->script('respond.min');
+      ?>
+      <![endif]-->
     <style type="text/css">
     	body{ padding: 70px 0px; }
     </style>
