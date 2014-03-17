@@ -6,6 +6,7 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 
     public function beforeFilter() {
+        $this->layout = 'bootstrap';
     }
 /**
  * index method

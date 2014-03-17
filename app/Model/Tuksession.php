@@ -12,6 +12,10 @@ class Tuksession extends AppModel {
         'Vehicle' => array(
             'className' => 'Vehicle',
             'foreignKey' => 'vehicleID'
+        ),
+		'Locality' => array(
+            'className' => 'Locality',
+            'foreignKey' => 'localityID'
         )
     );
 /**

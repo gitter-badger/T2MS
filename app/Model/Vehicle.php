@@ -72,7 +72,8 @@ class Vehicle extends AppModel {
 			),
 		),
 	);
-        public function getVehicleList(){
+
+    public function getVehicleList(){
 		$vehicles=$this->find('all');
 		$vehi=array();
 		foreach($vehicles as $vehicle){
