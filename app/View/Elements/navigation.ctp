@@ -1,11 +1,18 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
+            <div class="navbar-brand">
+                <?php
+                echo $this->Html->image('cake.icon.png', array('alt' => 'T2MS'));
+                ?>
+
+            </div>
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+
             <?php
             echo $this->Html->link('Tuk Tuk Management System','/',array(
                 'class' => 'navbar-brand'

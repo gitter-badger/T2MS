@@ -178,7 +178,7 @@ class HtmlToolbarHelper extends ToolbarHelper {
 			$head .= $this->Html->css($view->viewVars['debugToolbarCss']);
 		}
 
-		$js = sprintf('window.DEBUGKIT_JQUERY_URL = "%s";', $this->webroot('/debug_kit/js/jquery.js'));
+		$js = sprintf('window.DEBUGKIT_JQUERY_URL = "%s";', $this->webroot('/debug_kit/js/jquery.min.js'));
 		$head .= $this->Html->scriptBlock($js);
 
 		if (isset($view->viewVars['debugToolbarJavascript'])) {
