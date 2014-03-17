@@ -33,6 +33,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
     public function beforeFilter() {
+	$this->layout = 'bootstrap';
         if(!$this->Session->check('userid'))
         {
             $this->redirect('/users/login');

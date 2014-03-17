@@ -1,71 +1,100 @@
 <div class="trips view">
-<h2><?php echo __('Trip'); ?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="page-header">
+				<h1><?php echo __('Trip'); ?></h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div class="col-md-3">
+			<div class="actions">
+				<div class="panel panel-default">
+					<div class="panel-heading">Actions</div>
+						<div class="panel-body">
+							<ul class="nav nav-pills nav-stacked">
+									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>&nbsp&nbsp;Edit Trip'), array('action' => 'edit', $trip['Trip']['id']), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Delete Trip'), array('action' => 'delete', $trip['Trip']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $trip['Trip']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;List Trips'), array('action' => 'index'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;New Trip'), array('action' => 'add'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;List Customers'), array('controller' => 'customers', 'action' => 'index'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;New Customer'), array('controller' => 'customers', 'action' => 'add'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;List Vehicles'), array('controller' => 'vehicles', 'action' => 'index'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;New Vehicle'), array('controller' => 'vehicles', 'action' => 'add'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp&nbsp;List Localities'), array('controller' => 'localities', 'action' => 'index'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp&nbsp;New Start Locality'), array('controller' => 'localities', 'action' => 'add'), array('escape' => false)); ?> </li>
+							</ul>
+						</div><!-- end body -->
+				</div><!-- end panel -->
+			</div><!-- end actions -->
+		</div><!-- end col md 3 -->
+
+		<div class="col-md-9">			
+			<table cellpadding="0" cellspacing="0" class="table table-striped">
+				<tbody>
+				<tr>
+		<th><?php echo __('Id'); ?></th>
+		<td>
 			<?php echo h($trip['Trip']['id']); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('Time'); ?></dt>
-		<dd>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('Time'); ?></th>
+		<td>
 			<?php echo h($trip['Trip']['time']); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('Fare'); ?></dt>
-		<dd>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('Fare'); ?></th>
+		<td>
 			<?php echo h($trip['Trip']['fare']); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('Status'); ?></dt>
-		<dd>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('Status'); ?></th>
+		<td>
 			<?php echo h($trip['Trip']['status']); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('StartLocation'); ?></dt>
-		<dd>
-			<?php echo h($trip['Trip']['startLocation']); ?>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('Start Locality'); ?></th>
+		<td>
+			<?php echo $this->Html->link($trip['StartLocality']['name'], array('controller' => 'localities', 'action' => 'view', $trip['StartLocality']['id'])); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('EndLocation'); ?></dt>
-		<dd>
-			<?php echo h($trip['Trip']['endLocation']); ?>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('End Locality'); ?></th>
+		<td>
+			<?php echo $this->Html->link($trip['EndLocality']['name'], array('controller' => 'localities', 'action' => 'view', $trip['EndLocality']['id'])); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('VehicleID'); ?></dt>
-		<dd>
-			<?php echo h($trip['Trip']['vehicleID']); ?>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('Vehicle'); ?></th>
+		<td>
+			<?php echo $this->Html->link($trip['Vehicle']['id'], array('controller' => 'vehicles', 'action' => 'view', $trip['Vehicle']['id'])); ?>
 			&nbsp;
-		</dd>
-		<dt>&nbsp;</dt><dd>&nbsp;</dd>
-		<dt><?php echo $this->Html->link('Customer Data','/customers/view/'.$trip['Trip']['customerID']); ?></dt>
-		<dd>
+		</td>
+</tr>
+<tr>
+		<th><?php echo __('Customer'); ?></th>
+		<td>
+			<?php echo $this->Html->link($trip['Customer']['name'], array('controller' => 'customers', 'action' => 'view', $trip['Customer']['id'])); ?>
 			&nbsp;
-		</dd>
-		<dt><?php echo __('ID: '); ?></dt><dd>
-			<?php echo h($trip['Trip']['customerID']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Name: '); ?></dt><dd>
-			<?php echo h($trip['Customer']['name']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Phone: '); ?></dt><dd>
-			<?php echo h($trip['Customer']['phone']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Max Fare: '); ?></dt><dd>
-			<?php echo h($trip['Customer']['maxFare']); ?>
-			&nbsp;
-		</dd>
-		
-	</dl>
+		</td>
+</tr>
+				</tbody>
+			</table>
+
+		</div><!-- end col md 9 -->
+
+	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Trip'), array('action' => 'edit', $trip['Trip']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Trip'), array('action' => 'delete', $trip['Trip']['id']), null, __('Are you sure you want to delete # %s?', $trip['Trip']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Trips'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Trip'), array('action' => 'add')); ?> </li>
-	</ul>
-</div>
+

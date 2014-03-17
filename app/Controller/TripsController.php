@@ -26,11 +26,11 @@ class TripsController extends AppController {
 	public function index() {
             
         $conditions=array();
-		$title='Localities';
+		$title='Trips';
 		
 		if ($this->request->is('get')&&$this->request->query!=null) {
 			$conditions=$this->searchConditions($this->request->query);
-			$title='Locality Search Results';
+			$title='Trip Search Results';
 		}
                 
         $this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
@@ -41,21 +41,21 @@ class TripsController extends AppController {
 	}
 
 
-        private function searchConditions($locality){
+        private function searchConditions($trip){
 		$conditions=array();
                 //time hasn't included for searching
-		if($locality['fare']!=NULL)
-			$conditions['Locality.fare LIKE '] = '%'.$locality['fare'].'%';
-		if($locality['status']!=NULL)
-			$conditions['Locality.status = '] = $locality['status'];
-		if($locality['startLocation']!=NULL)
-			$conditions['Locality.startLocation LIKE '] = '%'.$locality['startLocation'].'%';
-                if($locality['endLocation']!=NULL)
-			$conditions['Locality.endLocation LIKE '] = '%'.$locality['endLocation'].'%';
-		if($locality['vehicleID']!=NULL)
-			$conditions['Locality.vehicleID LIKE '] = '%'.$locality['vehicleID'].'%';
-                if($locality['customerID']!=NULL)
-			$conditions['Locality.customerID LIKE '] = '%'.$locality['customerID'].'%';
+		if($trip['fare']!=NULL)
+			$conditions['Trip.fare LIKE '] = '%'.$trip['fare'].'%';
+		if($trip['status']!=NULL)
+			$conditions['Trip.status = '] = $trip['status'];
+		if($trip['startLocation']!=NULL)
+			$conditions['Trip.startLocation LIKE '] = '%'.$trip['startLocation'].'%';
+                if($trip['endLocation']!=NULL)
+			$conditions['Trip.endLocation LIKE '] = '%'.$trip['endLocation'].'%';
+		if($trip['vehicleID']!=NULL)
+			$conditions['Trip.vehicleID LIKE '] = '%'.$trip['vehicleID'].'%';
+                if($trip['customerID']!=NULL)
+			$conditions['Trip.customerID LIKE '] = '%'.$trip['customerID'].'%';
 		return $conditions;
 	}
 
@@ -85,6 +85,7 @@ class TripsController extends AppController {
 			$trip['Trip']['status']= 'Finished';
 		}
 		$this->set('trip', $trip);
+
 	}
 
 /**
@@ -108,6 +109,7 @@ class TripsController extends AppController {
 				$this->Session->setFlash(__('The trip could not be saved. Please, try again.'));
 			}
 		}
+		
 	}
 
 /**

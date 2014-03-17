@@ -13,6 +13,8 @@ class TuksessionsController extends AppController {
  *
  * @var array
  */
+	var $name='Tuksessions';
+	 var $scaffold;
 	public $components = array('Paginator');
 
 /**
@@ -25,20 +27,6 @@ class TuksessionsController extends AppController {
 		$this->set('tuksessions', $this->Paginator->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->Tuksession->exists($id)) {
-			throw new NotFoundException(__('Invalid tuksession'));
-		}
-		$options = array('conditions' => array('Tuksession.' . $this->Tuksession->primaryKey => $id));
-		$this->set('tuksession', $this->Tuksession->find('first', $options));
-	}
 
 /**
  * add method
@@ -46,6 +34,12 @@ class TuksessionsController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->loadModel('Locality');
+		$this->set('localities',$this->Locality->getLocalityList());
+        $this->loadModel('Vehicle');
+        $this->set('vehicles',$this->Vehicle->getVehicleList());
+
+
 		if ($this->request->is('post')) {
             $tuksession=$this->Tuksession->find('first', array(
                 'conditions' => array('Tuksession.vehicleID' => $this->request->data['Tuksession']['vehicleID'],
@@ -72,6 +66,8 @@ class TuksessionsController extends AppController {
  * @return void
  */
 	public function edit($vehicleID=null,$startTime=null) {
+
+
         $tuk=$this->Tuksession->find('first', array(
             'conditions' => array('Tuksession.vehicleID' => $vehicleID,
                 'Tuksession.startTime' =>  $startTime)));
@@ -88,8 +84,32 @@ class TuksessionsController extends AppController {
 			}
 		} else {
 			$this->request->data =$tuk;
+            $this->loadModel('Locality');
+            $this->set('localities',$this->Locality->getLocalityList());
+            $this->loadModel('Vehicle');
+            $this->set('vehicles',$this->Vehicle->getVehicleList());
 		}
 	}
+    /**
+     * view method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
+    public function view($vehicleID=null,$startTime=null) {
+
+
+        $tuk=$this->Tuksession->find('first', array(
+            'conditions' => array('Tuksession.vehicleID' => $vehicleID,
+                'Tuksession.startTime' =>  $startTime)));
+        if($tuk==null){
+            throw new NotFoundException(__('Invalid Tuksession'));
+        }
+        $this->set('tuksession',$tuk);
+          //  $this->request->data =$tuk;
+
+    }
 
 /**
  * delete method

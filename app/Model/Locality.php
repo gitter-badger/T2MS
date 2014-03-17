@@ -13,7 +13,7 @@ class Locality extends AppModel {
  * @var mixed False or table name
  */
         var $name = array('StartLocality','EndLocality');
-        public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
+        public $has = array( 'Trip' => array( 'className' => 'Trip' ),'Locality' => array( 'className' => 'Locality' ) );
         
 	public $useTable = 'locality';
 

@@ -37,9 +37,9 @@ class PagesController extends AppController {
  */
 	public $uses = array();
 
-	function first(){
-	
-	}
+    public function beforeFilter() {
+        $this->layout = 'bootstrap';
+    }
 /**
  * Displays a view
  *
@@ -77,4 +77,7 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
+    public function index(){
+
+    }
 }
