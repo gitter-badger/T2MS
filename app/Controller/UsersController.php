@@ -32,7 +32,6 @@ class UsersController extends AppController {
             if ($owner!=null) {
                 $this->Session->write('userid',$owner['Owner']['id']);
                 $this->Session->write('userrole','owner');
-                $this->Session->setFlash($owner['Owner']['id']);
                 return $this->redirect('/OwnerDashboard');
             }
             $this->Session->setFlash('Invalid Username or Password');

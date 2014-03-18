@@ -2,9 +2,10 @@
 
 class OwnerDashboardController extends AppController{
     public function beforeFilter(){
-
+        $this->layout = 'bootstrap';
     }
     public function index() {
+
         $ownerId = $this->getOwnerId();
         if($ownerId == null){
             return $this->redirect('/users/login');
@@ -76,9 +77,6 @@ class OwnerDashboardController extends AppController{
 	
 	public function edit($id = null) {
 		$this->loadModel('Vehicle');
-		//$vehicle;
-		//$this->loadModel('Owner');
-		//$this->set('owners',$this->Owner->getOwnerList());
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Vehicle->save($this->request->data)) {
 				$this->Session->setFlash(__('The vehicle has been saved.'));
@@ -140,6 +138,8 @@ class OwnerDashboardController extends AppController{
             'conditions'=>array('Vehicle.ownerID'=>$ownerId),
             'order'=>array('id ASC')
         ));
+
+        $this->set('drivers',$drivers);
 
         foreach($drivers as $driver){
             $driverEarnings[] = $this->Trip->query(
@@ -211,7 +211,6 @@ class OwnerDashboardController extends AppController{
                 }
             }
         }
-        pr($incomeChartData);
         return json_encode($incomeChartData);
     }
 

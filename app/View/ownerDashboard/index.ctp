@@ -1,86 +1,78 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <?php
-        echo $this->Html->css('theme');
-        echo $this->Html->css('elements');
-        echo $this->Html->css('bootstrap');
-        echo $this->Html->css('bootstrap.min');
-        echo $this->Html->css('cake.generic');
 
-        echo $this->Html->script('jquery-1.7.2.min');
-    ?>
-    <meta charset="utf-8">
-    <title>Owner Dashboard</title>
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <link rel="shortcut icon" href="app/webroot/img/cake.icon.png">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load('visualization', '1.1', {packages: ['corechart', 'controls']});
     </script>
-</head>
-<div class="vehicles form">
+    <div class="customers index">
 
-	<div class="content">
-		<h2 class="page-title">Dashboard</h2>
-        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h1><?php echo __('Dashboard'); ?></h1>
+                </div>
+            </div><!-- end col md 12 -->
+        </div><!-- end row -->
 
-		<div class="container-fluid">
-			<div class="row-fluid">
-			
-				<div class="row-fluid">
 
-                    <div id="income-chart">
-                        </br>
-                        <h2 style="font-size: 130%">Income Statistics</h2>
-                        <div id="dashboard">
-                            <div id="chart" style='width: 915px; height: 300px;'></div>
-                            <div id="control" style='width: 915px; height: 50px;'></div>
-                        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="actions">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Actions</div>
+                        <div class="panel-body">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Vehicles'), array('action' => 'listVehicles'), array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Add Vehicle'), array('action' => 'add'), array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Logout'), '/users/logout', array('escape' => false)); ?></li>
+
+
+                            </ul>
+                        </div><!-- end body -->
+                    </div><!-- end panel -->
+                </div><!-- end actions -->
+            </div><!-- end col md 3 -->
+
+            <div class="col-md-9">
+                <div id="income-chart">
+                    <br/>
+                    <h2 style="font-size: 130%">Income Statistics</h2>
+                    <div id="dashboard">
+                        <div id="select">
+
+                            <?php
+                            $i=2;
+                            foreach($drivers AS $driver){
+                                $name = $driver['Vehicle']['name'];
+                            ?>
+                            <input type='checkbox' id = '<?php echo $i; ?>' onchange="checkbox(<?php echo $i; ?>)"/>
+                            <span><?php echo $name; ?></span><br/>
+                            <?php
+                                $i++;
+                            }
+                            ?>
+                        </div></br></br>
+                        <div id="chart" style='width: 915px; height: 300px;'></div>
+                        <div id="control" style='width: 915px; height: 50px;'></div>
                     </div>
                 </div>
 
+            </div> <!-- end col md 9 -->
+        </div><!-- end row -->
 
-				<div class="row-fluid">
 
+    </div><!-- end containing of content -->
 
-				</div>
-
-				<div class="row-fluid">
-
-				</div>
-
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'listVehicles')); ?></li>
-		<li><?php echo $this->Html->link(__('Add vehicle'), array('action' => 'add')); ?></li>
-		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
-	</ul>
-</div>
-
-<?php echo $this->Html->script('bootstrap'); ?>
-<script type="text/javascript">
-    $("[rel=tooltip]").tooltip();
-    $(function() {
-        $('.demo-cancel-click').click(function(){return false;});
-    });
-</script>
 
 <!-- JavaScripts -->
 <!-- Income Statistics Chart -->
 <script type="text/javascript">
+    var viewArray=[0,1];
+    var view;
+    var dashboard;
     function drawVisualization() {
-        var dashboard = new google.visualization.Dashboard(
+        dashboard = new google.visualization.Dashboard(
             document.getElementById('dashboard'));
 
         var control = new google.visualization.ControlWrapper({
@@ -99,7 +91,7 @@
                         'columns': [0, 1]
                     },
                     // 1 day in milliseconds = 24 * 60 * 60 * 1000 = 86,400,000
-                    'minRangeSize': 86400000
+                    'minRangeSize': 3*86400000
                 }
             },
             // Initial range: current week
@@ -110,22 +102,31 @@
             'chartType': 'AreaChart',
             'containerId': 'chart',
             'options': {
-                // Use the same chart area width as the control for axis alignment.
                 'chartArea': {'height': '80%', 'width': '90%'},
                 'hAxis': {'slantedText': false},
-                'legend': {'position': 'none'}
+                'legend': {'position': 'in'}
             }
         });
-
         var data = new google.visualization.DataTable(<?php echo($incomeChartData); ?>);
+        view = new google.visualization.DataView(data);
+        view.setColumns(viewArray);
 
         dashboard.bind(control, chart);
-        dashboard.draw(data);
+        dashboard.draw(view);
+    }
+    function checkbox(i){
+        var checked = document.getElementById(i).checked;
+        if(!checked){
+            var index = viewArray.indexOf(i);
+            if (index > -1) {
+                viewArray.splice(index, 1);
+            }
+        }
+        else{
+            viewArray.push(i);
+        }
+        view.setColumns(viewArray);
+        dashboard.draw(view);
     }
     google.setOnLoadCallback(drawVisualization);
 </script>
-
-</body>
-</html>
-
-
