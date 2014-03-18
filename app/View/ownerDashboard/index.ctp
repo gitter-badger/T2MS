@@ -47,7 +47,7 @@
                                 $name = $driver['Vehicle']['name'];
                             ?>
                             <input type='checkbox' id = '<?php echo $i; ?>' onchange="checkbox(<?php echo $i; ?>)"/>
-                            <span><?php echo $name; ?></span><br/>
+                            <span><?php echo $name; ?></span>
                             <?php
                                 $i++;
                             }
@@ -71,6 +71,7 @@
     var viewArray=[0,1];
     var view;
     var dashboard;
+
     function drawVisualization() {
         dashboard = new google.visualization.Dashboard(
             document.getElementById('dashboard'));
@@ -104,7 +105,7 @@
             'options': {
                 'chartArea': {'height': '80%', 'width': '90%'},
                 'hAxis': {'slantedText': false},
-                'legend': {'position': 'in'}
+                'legend': {'position': 'top'}
             }
         });
         var data = new google.visualization.DataTable(<?php echo($incomeChartData); ?>);
