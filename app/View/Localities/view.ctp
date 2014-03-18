@@ -46,20 +46,12 @@
 </tr>
 				</tbody>
 			</table>
-
-		</div><!-- end col md 9 -->
-
-	</div>
-</div>
-
-<div class="related row">
-	<div class="col-md-12">
-	<h3><?php echo __('Related Tags'); ?></h3>
+<div class="col-md-12">
+	<h3><?php echo __('<br><br>Related Tags'); ?></h3>
 	<?php if (!empty($locality['Tag'])): ?>
 	<table cellpadding = "0" cellspacing = "0" class="table table-striped">
 	<thead>
 	<tr>
-		<th><?php echo __('Locality Id'); ?></th>
 		<th><?php echo __('Tag'); ?></th>
 		<th class="actions"></th>
 	</tr>
@@ -67,12 +59,10 @@
 	<tbody>
 	<?php foreach ($locality['Tag'] as $tag): ?>
 		<tr>
-			<td><?php echo $tag['locality_id']; ?></td>
 			<td><?php echo $tag['tag']; ?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-search"></span>'), array('controller' => 'tags', 'action' => 'view', $tag['id']), array('escape' => false)); ?>
-				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>'), array('controller' => 'tags', 'action' => 'edit', $tag['id']), array('escape' => false)); ?>
-				<?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>'), array('controller' => 'tags', 'action' => 'delete', $tag['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $tag['id'])); ?>
+				<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-search"></span>'), array('controller' => 'tags', 'action' => 'view', $tag['tag'], $tag['locality_id']), array('escape' => false)); ?>
+				<?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>'), array('controller' => 'tags', 'action' => 'delete', $tag['tag'], $tag['locality_id']), array('escape' => false), __('Are you sure you want to delete tag %s?', $tag['tag'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -84,4 +74,11 @@
 		<?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Tag'), array('controller' => 'tags', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?> 
 	</div>
 	</div><!-- end col md 12 -->
+		</div><!-- end col md 9 -->
+
+	</div>
+</div>
+
+<div class="related row">
+	
 </div>
