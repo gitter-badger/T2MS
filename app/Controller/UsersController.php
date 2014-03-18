@@ -17,8 +17,8 @@ class UsersController extends AppController {
 
     public function login() {
         if ($this->request->is('post')) {
-            $password = $this->request->data['login']['password'];
-            $contact = $this->request->data['login']['contact'];
+            $password = $this->request->data['user']['password'];
+            $contact = $this->request->data['user']['contact'];
 
             if($contact==123&&$password==456){
                 $this->Session->write('userid','admin');

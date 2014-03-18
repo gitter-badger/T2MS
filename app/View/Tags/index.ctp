@@ -44,9 +44,8 @@
 		</td>
 						<td><?php echo h($tag['Tag']['tag']); ?>&nbsp;</td>
 						<td class="actions">
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $tag['Tag']['id']), array('escape' => false)); ?>
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $tag['Tag']['id']), array('escape' => false)); ?>
-							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $tag['Tag']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $tag['Tag']['id'])); ?>
+							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $tag['Tag']['tag'],$tag['Tag']['locality_id']), array('escape' => false)); ?>
+							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $tag['Tag']['tag'],$tag['Tag']['locality_id']), array('escape' => false), __('Are you sure you want to delete tag %s?', $tag['Tag']['tag'])); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
