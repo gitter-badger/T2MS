@@ -35,28 +35,36 @@
             </div><!-- end col md 3 -->
 
             <div class="col-md-9">
-                <div id="income-chart">
-                    <br/>
-                    <h2 style="font-size: 130%">Income Statistics</h2>
-                    <div id="dashboard">
-                        <div id="select">
+                <div class="panel panel-default" style="min-width: 950px" id="income-chart">
+                    <div class="panel-heading">Income Statistics</div>
+                    <div class="panel-body" id="dashboard">
+                        <div style="background-color: #F5F5F5;
+                        padding: 3px 3px 3px 3px;
+                        -moz-border-radius: 5px;
+                        -webkit-border-radius: 5px;
+                        border-radius: 5px;">
+                            <span style="font-weight: bold">Select Driver :&nbsp;&nbsp;</span>
 
                             <?php
                             $i=2;
                             foreach($drivers AS $driver){
                                 $name = $driver['Vehicle']['name'];
                             ?>
-                            <input type='checkbox' id = '<?php echo $i; ?>' onchange="checkbox(<?php echo $i; ?>)"/>
-                            <span><?php echo $name; ?></span>
+
+                            <input  type='checkbox' id = '<?php echo $i; ?>' onchange="checkbox(<?php echo $i; ?>)" />
+                                <label for="<?php echo $i; ?>"><span></span><?php echo $name; ?></label>&nbsp;&nbsp;
+
                             <?php
                                 $i++;
                             }
                             ?>
+
                         </div></br></br>
                         <div id="chart" style='width: 915px; height: 300px;'></div>
                         <div id="control" style='width: 915px; height: 50px;'></div>
                     </div>
                 </div>
+
 
             </div> <!-- end col md 9 -->
         </div><!-- end row -->
@@ -111,7 +119,9 @@
         var data = new google.visualization.DataTable(<?php echo($incomeChartData); ?>);
         view = new google.visualization.DataView(data);
         view.setColumns(viewArray);
-
+        var count =<?php echo count($drivers)+2; ?>;
+        for(var i=2;i<count;i++)
+            checkbox(i);
         dashboard.bind(control, chart);
         dashboard.draw(view);
     }

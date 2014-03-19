@@ -60,7 +60,7 @@
 			<?php echo $this->Html->link($trip['EndLocality']['name'], array('controller' => 'localities', 'action' => 'view', $trip['EndLocality']['id'])); ?>
 		</td>
 								<td>
-			<?php echo $this->Html->link($trip['Vehicle']['id'], array('controller' => 'vehicles', 'action' => 'view', $trip['Vehicle']['id'])); ?>
+			<?php echo $this->Html->link($trip['Vehicle']['vehicleNum'], array('controller' => 'vehicles', 'action' => 'view', $trip['Vehicle']['id'])); ?>
 		</td>
 								<td>
 			<?php echo $this->Html->link($trip['Customer']['name'], array('controller' => 'customers', 'action' => 'view', $trip['Customer']['id'])); ?>
