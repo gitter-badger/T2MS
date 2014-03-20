@@ -35,7 +35,7 @@ class TripsController extends AppController {
                 
         $this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
                 
-		$this->Trip->recursive = 1;
+		$this->Trip->recursive = 0;
 		$this->set('trips', $this->Paginator->paginate());
         $this->set('title', $title);
 	}

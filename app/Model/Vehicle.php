@@ -12,7 +12,34 @@ class Vehicle extends AppModel {
  * @var array
  */
         var $name = 'Vehicle';
-        public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
+        public $hasMany = array(
+        'Trip' => array(
+            'className' => 'Trip',
+            'foreignKey' => 'vehicleID',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''),
+
+            'Tuksession' => array(
+                'className' => 'Tuksession',
+                'foreignKey' => 'vehicleID',
+                'dependent' => false,
+                'conditions' => '',
+                'fields' => '',
+                'order' => '',
+                'limit' => '',
+                'offset' => '',
+                'exclusive' => '',
+                'finderQuery' => '',
+                'counterQuery' => '')
+
+        );
         public $belongsTo = array(
         'Owner' => array(
             'className' => 'Owner',

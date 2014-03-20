@@ -71,7 +71,7 @@ class VehiclesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-	
+        $this->Vehicle->recursive = 2;
 		//search for vehicle
 		if (!$this->Vehicle->exists($id)) {
 			throw new NotFoundException(__('Invalid vehicle'));
