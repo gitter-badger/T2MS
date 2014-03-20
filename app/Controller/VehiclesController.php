@@ -23,7 +23,7 @@ class VehiclesController extends AppController {
  * @return void
  */
 	public function index() {
-		$conditions=array();
+		$conditions=array('Vehicle.deleted' => null);
 		$title='Vehicles';
 		
 		if ($this->request->is('get')&&$this->request->query!=null) {
@@ -148,12 +148,13 @@ class VehiclesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+        $this->Vehicle->recursive = -1;
 		$this->Vehicle->id = $id;
 		if (!$this->Vehicle->exists()) {
 			throw new NotFoundException(__('Invalid vehicle'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Vehicle->delete()) {
+		if ($this->Vehicle->softdelete()) {
 			$this->Session->setFlash(__('The vehicle has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The vehicle could not be deleted. Please, try again.'));

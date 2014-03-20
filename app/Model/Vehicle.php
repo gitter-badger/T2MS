@@ -12,6 +12,7 @@ class Vehicle extends AppModel {
  * @var array
  */
         var $name = 'Vehicle';
+    public $actsAs = array('DeletedAt.DeletedAt');
         public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
         public $belongsTo = array(
         'Owner' => array(
