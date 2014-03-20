@@ -37,7 +37,7 @@
 			<?php echo $this->Form->create('Trip', array('role' => 'form')); ?>
 
 				<div class="form-group">
-					<?php echo $this->Form->input('time', array('class' => 'form-control', 'placeholder' => 'Time'));?>
+					<?php echo $this->Form->input('time', array('class' => 'form-control2', 'placeholder' => 'Time'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->input('fare', array('class' => 'form-control', 'placeholder' => 'Fare'));?>

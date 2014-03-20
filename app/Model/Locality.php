@@ -13,8 +13,7 @@ class Locality extends AppModel {
  * @var mixed False or table name
  */
         var $name = array('StartLocality','EndLocality');
-        public $has = array( 'Trip' => array( 'className' => 'Trip' ),'Locality' => array( 'className' => 'Locality' ) );
-        
+
 	public $useTable = 'locality';
 
 /**
@@ -55,7 +54,46 @@ class Locality extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+        'Trip' =>array(
+            'className'=>'Trip',
+            'foreignKey'=>'startLocation',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'Trip' =>array(
+            'className'=>'Trip',
+            'foreignKey'=>'endLocation',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'Tuksession' =>array(
+            'className'=>'Tuksession',
+            'foreignKey'=>'localityID',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
         
 public function getLocalityList(){

@@ -35,6 +35,7 @@ class LocalitiesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+        $this->Locality->recursive = 2;
 		if (!$this->Locality->exists($id)) {
 			throw new NotFoundException(__('Invalid locality'));
 		}

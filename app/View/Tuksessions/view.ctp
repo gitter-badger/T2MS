@@ -33,14 +33,14 @@
 				<tr>
 		<th><?php echo __('Vehicle'); ?></th>
 		<td>
-			<?php echo $this->Html->link($tuksession['Vehicle']['id'], array('controller' => 'vehicles', 'action' => 'view', $tuksession['Vehicle']['id'])); ?>
+			<?php echo $this->Html->link($tuksession['Vehicle']['vehicleNum'], array('controller' => 'vehicles', 'action' => 'view', $tuksession['Vehicle']['id'])); ?>
 			&nbsp;
 		</td>
 </tr>
 <tr>
 		<th><?php echo __('LocalityID'); ?></th>
 		<td>
-			<?php echo h($tuksession['Tuksession']['localityID']); ?>
+            <?php echo $this->Html->link($tuksession['Locality']['name'], array('controller' => 'localities', 'action' => 'view', $tuksession['Locality']['id'])); ?>
 			&nbsp;
 		</td>
 </tr>

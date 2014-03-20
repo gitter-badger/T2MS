@@ -50,7 +50,7 @@ class TuksessionsController extends AppController {
             }
 			$this->Tuksession->create();
 			if ($this->Tuksession->save($this->request->data)) {
-				$this->Session->setFlash(__('The tuksession has been saved.'));
+				$this->Session->setFlash(__(json_encode($this->request->data)));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The tuksession could not be saved. Please, try again.'));
