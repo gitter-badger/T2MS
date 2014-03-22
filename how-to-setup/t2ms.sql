@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `phone` int(11) NOT NULL,
   `blacklisted` tinyint(1) NOT NULL DEFAULT '0',
   `maxFare` int(11) NOT NULL DEFAULT '100',
+  `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
@@ -88,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `owners` (
   `address` text NOT NULL,
   `contact` int(11) NOT NULL,
   `password` text NOT NULL,
+  `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `contact` (`contact`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
@@ -189,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `vehicleNum` text NOT NULL,
   `fare` int(11) NOT NULL DEFAULT '100',
   `ownerID` int(11) NOT NULL,
+  `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ownerID` (`ownerID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
