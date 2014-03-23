@@ -98,6 +98,7 @@ class SmssesController extends AppController {
      *      SET LOCATION <location> FARE <fare_per_km>
      * @param $message
      * @param $phone
+     * @return bool
      */
     private function decodeSms($message, $phone){
         $maxFare = null;
@@ -156,6 +157,7 @@ class SmssesController extends AppController {
      * Creates a new customer from the sms message and saves in the database
      * @param $regMessage
      * @param $phone
+     * @return bool
      */
     private function createCustomer($regMessage, $phone){
         $this->loadModel('Customer');
@@ -164,7 +166,6 @@ class SmssesController extends AppController {
         if($this->Customer->hasAny(array("phone" => $phone))){
             return false;
         }else{
-            echo('adsasd');
             $name = trim(substr($regMessage,strpos($regMessage,'REG')+3));
             $this->Customer->create();
             $customerData = array("Customer"=>array("phone" => $phone, "name" => $name));
@@ -183,8 +184,10 @@ class SmssesController extends AppController {
     /**
      * Decode trip details from the message and create a new record for the database
      * @param $tripMessage
-     * @param $maxFair
+     * @param $maxFare
      * @param $phone
+     * @return bool
+     * @internal param $maxFair
      */
     private function processTrip($tripMessage, $maxFare, $phone){
         $this->loadModel('Customer');
@@ -196,8 +199,6 @@ class SmssesController extends AppController {
                 'recursive'=> -1)
         );
         if($resultSet['Customer']['blacklisted'] == 1){
-            //customer is blacklisted. need to handle
-            echo('BLACKLISTED');
             return true;
         }
         $tripMessage = explode('TO',$tripMessage,2);
@@ -233,8 +234,6 @@ class SmssesController extends AppController {
             array($startLocation,$maxFare)
         );
 
-        echo(json_encode($vehicle));
-
         $vehicleID=null;
         $startLocationId=null;
         $endLocationId=null;
@@ -248,11 +247,6 @@ class SmssesController extends AppController {
         if($end!=null)
             $endLocationId=$end['Locality']['id'];
         $customerID=$resultSet['Customer']['id'];
-
-        echo($startLocationId);
-        echo($endLocationId);
-        echo($vehicleID);
-        echo($customerID);
 
 
         if($startLocationId!=null){
@@ -305,6 +299,7 @@ class SmssesController extends AppController {
      * Updates driver details
      * @param $fare
      * @param $phone
+     * @return bool
      */
     private function updateDriver($fare, $phone){
         $this->loadModel('Vehicle');
@@ -339,6 +334,7 @@ class SmssesController extends AppController {
      * @param $status
      * @param $location
      * @param $phone
+     * @return bool
      */
     private function updateSession($status, $location, $phone){
         $this->loadModel('Tuksession');
@@ -414,8 +410,8 @@ class SmssesController extends AppController {
         );
 
         if($resultSet !== null){
-            $this->Trip->updateAll(array('status'=>'\'FINISHED\'','fare'=>$fare),
-                array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
+            $this->Trip->updateAll(array('status'=>2,'fare'=>$fare),
+                array('Vehicle.driverContact'=>$phone,'Trip.status'=>1)
             );
             return true;
         }
