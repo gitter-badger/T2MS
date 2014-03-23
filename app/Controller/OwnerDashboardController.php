@@ -63,7 +63,7 @@ class OwnerDashboardController extends AppController
     public function view($id = null)
     {
         $this->loadModel('Vehicle');
-
+        $this->Vehicle->recursive=2;
 
         //get vehicle
         $options = array('conditions' => array('Vehicle.' . $this->Vehicle->primaryKey => $id, 'Vehicle.ownerID' => $this->getOwnerId()));
