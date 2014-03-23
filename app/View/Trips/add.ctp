@@ -9,7 +9,10 @@
 	</div>
     <?php
         $localities=array(''=>'Select')+$localities;
+        $vehicles=array(''=>'Select')+$vehicles;
+        $customers=array(''=>'Select')+$customers;
         $status = array('-1'=>'Unassigned', '0'=>'Assigned', '1'=>'Started', '2'=>'Finished');
+
     ?>
 
 
@@ -52,10 +55,10 @@
 					<?php echo $this->Form->input('endLocation', array('options'=>$localities,'class' => 'form-control', 'placeholder' => 'EndLocation'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('vehicleID', array('class' => 'form-control', 'placeholder' => 'VehicleID'));?>
+					<?php echo $this->Form->input('vehicleID', array('options'=>$vehicles,'class' => 'form-control', 'placeholder' => 'VehicleID'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('customerID', array('class' => 'form-control', 'placeholder' => 'CustomerID'));?>
+					<?php echo $this->Form->input('customerID', array('options'=>$customers,'class' => 'form-control', 'placeholder' => 'CustomerID'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
