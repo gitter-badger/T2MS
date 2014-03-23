@@ -11,6 +11,7 @@ class OwnerDashboardController extends AppController{
             return $this->redirect('/users/login');
         }
         $this->set('incomeChartData',$this->getIncomeChartData($ownerId));
+        $this->getData($ownerId);
     }
 
     private function getOwnerId(){
@@ -214,6 +215,37 @@ class OwnerDashboardController extends AppController{
         return json_encode($incomeChartData);
     }
 
+    private function getData($ownerId){
+
+        $results =  $this->Trip->find('all',array(
+            'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
+            'conditions'=>array('Vehicle.ownerID'=>$ownerId),
+            'group'=>array('DATE(Trip.time)'),
+            'order'=>array('DATE(Trip.time) DESC')
+        ));
+        $incomeToday = $results[0][0]['income'];
+
+        $totalIncome = 0;
+        foreach($results AS $result){
+            $totalIncome += (int)$result[0]['income'];
+        }
+
+        $averageIncome = $totalIncome/count($results);
+
+        $incomePercentage = abs($incomeToday-$averageIncome)/100;
+
+        $now = new DateTime();
+        $currentMonth = $this->Trip->find('first',array(
+            'fields'=>array('SUM(Trip.fare) As income'),
+            'conditions'=>array('Month(Trip.time)'=>(int)$now->format('m'))
+        ));
+
+        $this->set('incomeToday',$incomeToday);
+        $this->set('dailyAverage',$averageIncome);
+        $this->set('incomeCurrentMonth',$currentMonth[0]['income']);
+        $this->set('incomePercentage',$incomePercentage);
+
+    }
 }
 
 ?>

@@ -5,7 +5,7 @@
     </script>
     <div class="customers index">
 
-        <div class="row">
+        <div class="row-fluid" style="margin-left: -50px; margin-right: -50px">
             <div class="col-md-12">
                 <div class="page-header">
                     <h1><?php echo __('Dashboard'); ?></h1>
@@ -13,29 +13,65 @@
             </div><!-- end col md 12 -->
         </div><!-- end row -->
 
+        <div class="col-md-3" style="margin-left: -50px">
+            <div class="actions">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Actions</div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Vehicles'), array('action' => 'listVehicles'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Add Vehicle'), array('action' => 'add'), array('escape' => false)); ?></li>
+                            <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Logout'), '/users/logout', array('escape' => false)); ?></li>
+                        </ul>
+                    </div><!-- end panel body -->
+                </div><!-- end panel -->
+            </div><!-- end actions -->
+        </div><!-- end col md 3 actions-->
 
+        <div class="row-fluid" name="top panel" style="margin-right: -50px">
 
-        <div class="row">
+            <div class="col-md-3" style="margin-left: 25px">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2><small>Today's Income</small></h2>
+                        <div class="span4">
+                            <?php
+                            if($incomeToday >= $dailyAverage){
+                                echo('<p style="color: green; float:right; font-size: 13px">'.'&nbsp'.$incomePercentage.' %</p>');
+                                echo($this->Html->image('price-up.icon.png',array('style'=>'float: right')));
+                            }else if($incomeToday < $dailyAverage){
+                                echo('<p style="color: red; float:right; font-size: 13px">'.'&nbsp'.$incomePercentage.' %</p>');
+                                echo($this->Html->image('price-down.icon.png',array('style'=>'float: right')));
+                            }
+                            ?>
+                            <h3>LKR <?php echo number_format($incomeToday,2,'.',',');?></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-3">
-                <div class="actions">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Actions</div>
-                        <div class="panel-body">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Vehicles'), array('action' => 'listVehicles'), array('escape' => false)); ?></li>
-                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Add Vehicle'), array('action' => 'add'), array('escape' => false)); ?></li>
-                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Logout'), '/users/logout', array('escape' => false)); ?></li>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2><small>Daily Average</small></h2>
+                        <h3>LKR <?php echo number_format($dailyAverage,2,'.',',');?></h3>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2><small>Monthly Income</small></h2>
+                        <h3>LKR <?php echo number_format($incomeCurrentMonth,2,'.',',');?></h3>
+                    </div>
+                </div>
+            </div>
+        </div><!--end of row top panel-->
 
-                            </ul>
-                        </div><!-- end body -->
-                    </div><!-- end panel -->
-                </div><!-- end actions -->
-            </div><!-- end col md 3 -->
-
-            <div class="col-md-9">
-                <div class="panel panel-default" style="min-width: 950px" id="income-chart">
+        <div class="row-fluid" name="area chart" style="margin-left: -50px; margin-right: -50px">
+            <div class="col-md-9 col-md-offset-3" style="margin-left: -20px">
+                <div class="panel panel-default" id="income-chart" style="min-width: 950px">
                     <div class="panel-heading">Income Statistics</div>
                     <div class="panel-body" id="dashboard">
                         <div style="background-color: #F5F5F5;
@@ -52,7 +88,7 @@
                             ?>
 
                             <input  type='checkbox' id = '<?php echo $i; ?>' onchange="checkbox(<?php echo $i; ?>)" />
-                                <label for="<?php echo $i; ?>"><span></span><?php echo $name; ?></label>&nbsp;&nbsp;
+                            <label for="<?php echo $i; ?>"><span></span><?php echo $name; ?></label>&nbsp;&nbsp;
 
                             <?php
                                 $i++;
@@ -67,7 +103,7 @@
 
 
             </div> <!-- end col md 9 -->
-        </div><!-- end row -->
+        </div><!-- end row area chart-->
 
 
     </div><!-- end containing of content -->
