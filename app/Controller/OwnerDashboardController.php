@@ -12,7 +12,7 @@ class OwnerDashboardController extends AppController{
         }
         $this->set('incomeChartData',$this->getIncomeChartData($ownerId));
         $this->getIncomeData($ownerId);
-        $this->getSessionData($ownerId);
+        $this->set('sessions',$this->getSessionData($ownerId));
     }
 
     private function getOwnerId(){
@@ -216,6 +216,11 @@ class OwnerDashboardController extends AppController{
         return json_encode($incomeChartData);
     }
 
+    /**
+     * Returns daily income, daily income average and monthly income
+     * and the income increase/decrease percentage
+     * @param $ownerId
+     */
     private function getIncomeData($ownerId){
         $this->loadModel('Trip');
         $results =  $this->Trip->find('all',array(
@@ -248,6 +253,10 @@ class OwnerDashboardController extends AppController{
 
     }
 
+    /**
+     * Returns ession information of current day of the drivers belongs to the owner
+     * @param $ownerId
+     */
     private function getSessionData($ownerId){
         $now = new DateTime();
         $this->loadModel('Tuksession');
@@ -257,7 +266,7 @@ class OwnerDashboardController extends AppController{
             'order'=>array('Tuksession.startTime ASC')
         ));
 
-        $this->set('sessions',$sessions);
+        return $sessions;
     }
 }
 
