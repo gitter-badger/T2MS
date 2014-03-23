@@ -19,7 +19,7 @@
             <?php echo $this->Form->input('contact', array('class' => 'form-control', 'placeholder' => 'Phone'));?>
         </div>
         <div class="form-group">
-            <?php echo $this->Form->input('password', array('rows'=>5,'class' => 'form-control', 'placeholder' => 'Password'));?>
+            <?php echo $this->Form->input('password', array('class' => 'form-control', 'placeholder' => 'Password', 'type' =>'password'));?>
         </div>
         <div class="form-group">
             <?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
