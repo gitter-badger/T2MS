@@ -66,4 +66,11 @@ class Owner extends AppModel {
 		}
 		return $own;
 	}
+    public function beforeSave($options = array()) {
+        App::uses('Utitlity','Security');
+        if(!empty($this->data['Owner']['password'])) {
+            $this->data['Owner']['password'] = Security::hash($this->data['Owner']['password']);
+        }
+        return true;
+    }
 }

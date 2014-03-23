@@ -50,17 +50,18 @@ INSERT INTO `locality` VALUES
 -- Dumping data for table `owners`
 --
 
-INSERT INTO `owners` VALUES 
-(1,'Madhawi De Mel','234, Kaduwela Road, Kotte',775233179,'madhawid',NULL),
-(2,'Isuru Fernando','87, Jubilee Road, Katubedda, Moratuwa',715465178,'isuruf',NULL),
-(3,'Sabra Ossen','Near Ananda College, Maradana',775837356,'sabrao',NULL),
-(4,'Rajith Vidanarachchi','134/1, ABC Road, Pelawatta',712345678,'rajithv',NULL),
-(5,'Ridwan Sheriffdeen','71, Galle Road, Mount Lavinia',754987654,'ridwans',NULL),
-(6,'Supun Amarasinghe','67, BCC Road, Kottawa',775837357,'supuna',NULL),
-(7,'Dilhasha Nazeer','123, Kotta Road, Borella',778449321,'dilhashan',NULL),
-(8,'Sarith Samarajeewa','12, Raja Mawatha, Ratmalana',71555444,'sariths',NULL),
-(9,'Vipula Dissanayake','56, Samanpaya, Maho',716320074,'vipulad',NULL),
-(10,'Shenal Senarath','67, Puttalam Road, Negombo',715779682,'shenals',NULL);
+INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`, `deleted`) VALUES
+(1, 'Madhawi De Mel', '234, Kaduwela Road, Kotte', 775233179, '30fee0336b46e6c455580f94f721e740e6e5d0f0', NULL),
+(2, 'Isuru Fernando', '87, Jubilee Road, Katubedda, Moratuwa', 715465178, '329a7c5d7dff5a6a13e90dd0c79a37cce2f273fe', NULL),
+(3, 'Sabra Ossen', 'Near Ananda College, Maradana', 775837356, 'e95022c9bc2ca18482488aa28e2300abfc8ea2a5', NULL),
+(4, 'Rajith Vidanaarachchi', '134/1, ABC Road, Pelawatta', 712345678, 'ffcd6b21bf9bc11a1252f6b016bf51ee234c1f0e', NULL),
+(5, 'Ridwan Shariffdeen', '71, Galle Road, Mount Lavinia', 754987654, 'e32e2099877722f84738d94a747033f9952cd58f', NULL),
+(6, 'Supun Amarasinghe', '67, BCC Road, Kottawa', 775837357, '171f9694e577db1ac9b7aad0ad0c10c063c84d9b', NULL),
+(7, 'Dilhasha Nazeer', '123, Kotta Road, Borella', 778449321, 'bdfc0d42842341261943f83c36b357a690b86a44', NULL),
+(8, 'Sarith Samarajeewa', '12, Raja Mawatha, Ratmalana', 71555444, '7f5e9d0c310461119404a2054b8fc23d9a81a678', NULL),
+(9, 'Vipula Dissanayake', '56, Samanpaya, Maho', 716320074, '65613febafc58d12f31cf2484397474e3144be93', NULL),
+(10, 'Shenal Senarath', '67, Puttalam Road, Negombo', 715779682, '468c0d492ef1b832140988796444d6bd2926b13e', NULL)
+);
 
 --
 -- Dumping data for table `vehicles`

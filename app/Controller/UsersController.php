@@ -1,5 +1,7 @@
 <?php
+App::uses('Security','Utility');
 App::uses('AppController', 'Controller');
+
 /**
  * Users Controller
  */
@@ -26,6 +28,9 @@ class UsersController extends AppController {
                 return $this->redirect('/dashboard');
             }
             $this->loadModel('Owner');
+            $password=Security::hash($password, null, true);
+            echo $password;
+
             $owner=$this->Owner->find('first', array(
                 'conditions' => array('Owner.contact' => $contact,'Owner.password'=>$password)));
 
