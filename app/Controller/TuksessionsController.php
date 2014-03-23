@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
  * @property PaginatorComponent $Paginator
  */
 class TuksessionsController extends AppController {
-
+    const TIMEZONE_OFFSET = 19800; //GMT+5.30
 /**
  * Components
  *

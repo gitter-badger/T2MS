@@ -1,13 +1,94 @@
 <?php
 App::uses('AppController', 'Controller');
+/**
+ * Smsses Controller
+ *
+ * @property Smss $Smss
+ * @property PaginatorComponent $Paginator
+ */
+class SmssesController extends AppController {
 
-
-
-class SmsController extends AppController{
-
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array('Paginator');
     const TIMEZONE_OFFSET = 19800; //GMT+5.30
 
-    public function index() {
+/**
+ * index method
+ *
+ * @return void
+ */
+	public function index() {
+		$this->Smss->recursive = 0;
+		$this->set('smsses', $this->Paginator->paginate());
+	}
+
+/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function view($id = null) {
+		if (!$this->Smss->exists($id)) {
+			throw new NotFoundException(__('Invalid smss'));
+		}
+		$options = array('conditions' => array('Smss.' . $this->Smss->primaryKey => $id));
+		$this->set('smss', $this->Smss->find('first', $options));
+	}
+
+
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function edit($id = null) {
+		if (!$this->Smss->exists($id)) {
+			throw new NotFoundException(__('Invalid smss'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Smss->save($this->request->data)) {
+				$this->Session->setFlash(__('The smss has been saved.'), 'default', array('class' => 'alert alert-success'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The smss could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+			}
+		} else {
+			$options = array('conditions' => array('Smss.' . $this->Smss->primaryKey => $id));
+			$this->request->data = $this->Smss->find('first', $options);
+		}
+	}
+
+/**
+ * delete method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function delete($id = null) {
+		$this->Smss->id = $id;
+		if (!$this->Smss->exists()) {
+			throw new NotFoundException(__('Invalid smss'));
+		}
+		$this->request->onlyAllow('post', 'delete');
+		if ($this->Smss->delete()) {
+			$this->Session->setFlash(__('The smss has been deleted.'), 'default', array('class' => 'alert alert-success'));
+		} else {
+			$this->Session->setFlash(__('The smss could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+		}
+		return $this->redirect(array('action' => 'index'));
+	}
+
+
+    public function add() {
         $this->loadModel('Customer');
         if($this->request->is('get')&&$this->request->query!=null){
             //$this->Customer->create();
@@ -138,9 +219,9 @@ class SmsController extends AppController{
         $this->loadModel('Trip');
 
         $resultSet = $this->Customer->find('first',array(
-                                           'conditions'=>array('Customer.phone'=>$phone),
-                                           'recursive'=> -1)
-                                          );
+                'conditions'=>array('Customer.phone'=>$phone),
+                'recursive'=> -1)
+        );
         if($resultSet['Customer']['blacklisted'] == 1){
             //customer is blacklisted. need to handle
             echo('BLACKLISTED');
@@ -177,7 +258,7 @@ class SmsController extends AppController{
             AS t2 ON t1.vehicleID = t2.vehicleID
             ORDER BY lastTrip ASC LIMIT 1',
             array($startLocation,$maxFare)
-            );
+        );
 
         echo(json_encode($vehicle));
 
@@ -201,7 +282,7 @@ class SmsController extends AppController{
         echo($customerID);
 
         if($startLocationId!=null){
-           // $this->Trip->create();
+            // $this->Trip->create();
             if($vehicleID==null){
                 $this->Trip->save(array('Trip'=>array('startLocation'=>$startLocationId,
                     'endLocation'=>$endLocationId,'vehicleID'=>$vehicleID,
@@ -218,10 +299,10 @@ class SmsController extends AppController{
                 $driverMsg='T2MS Customer Name = '.$resultSet['Customer']['name'].'\n Customer Contact = '.$resultSet['Customer']['phone'];
 
                 //Send a message to the customer
-            //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$resultSet['Customer']['phone'].'&text='.$customerMsg);
+                //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$resultSet['Customer']['phone'].'&text='.$customerMsg);
 
                 //Send a message to the driver
-            //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$vehicle[0]['t1']['driverContact'].'&text='.$driverMsg);
+                //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$vehicle[0]['t1']['driverContact'].'&text='.$driverMsg);
 
 
             }
@@ -242,10 +323,10 @@ class SmsController extends AppController{
         $this->loadModel('Vehicle');
         //getting result set without join
         $resultSet = $this->Vehicle->find('first',array(
-                                          'fields'=>array('Vehicle.id','Vehicle.fare'),
-                                          'conditions'=>array('Vehicle.driverContact'=>$phone),
-                                          'recursive'=> -1)
-                                         );
+                'fields'=>array('Vehicle.id','Vehicle.fare'),
+                'conditions'=>array('Vehicle.driverContact'=>$phone),
+                'recursive'=> -1)
+        );
 
         if($resultSet != null){
             if($fare != null){
@@ -275,34 +356,34 @@ class SmsController extends AppController{
         $currentTime = date('Y-m-d H:i:s',time()+self::TIMEZONE_OFFSET);
 
         $resultSet  = $this->Tuksession->find('first',array(
-                                              'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.endTime'),
-                                              'conditions'=>array('Vehicle.driverContact'=>$phone, 'TukSession.endTime'=>null))
+                'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.endTime'),
+                'conditions'=>array('Vehicle.driverContact'=>$phone, 'TukSession.endTime'=>null))
         );
         if($location == null){
             //if not a location update
             if($status == 'OFF'){
-               if($resultSet != null){
+                if($resultSet != null){
                     $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
-                                                 array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
-                                                );
-               }else{
+                        array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                    );
+                }else{
                     //no active sessions
-               }
+                }
 
             }elseif($status == 'ON'){
                 if($resultSet != null){
                     //if last session is not ended, end it
                     $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
-                                                 array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
-                                                );
+                        array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                    );
                 }else{
                     //create a new session
                     $resultSet = $this->Tuksession->find('first',array(
-                                                         'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
-                                                         'conditions'=>array('Vehicle.driverContact'=>$phone),
-                                                         'order'=>array('lastSession DESC'),
-                                                         'limit'=>1)
-                                                        );
+                            'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
+                            'conditions'=>array('Vehicle.driverContact'=>$phone),
+                            'order'=>array('lastSession DESC'),
+                            'limit'=>1)
+                    );
                     $resultSet['Tuksession']['startTime'] = $currentTime;
                     $resultSet['Tuksession']['endTime'] = null;
 
@@ -317,16 +398,16 @@ class SmsController extends AppController{
             if($resultSet != null){
                 //if last session is not ended, end it
                 $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
-                                             array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
-                                            );
+                    array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
+                );
             }
 
             $resultSet = $this->Tuksession->find('first',array('fields'=>array('Tuksession.vehicleID'),'conditions'=>array('Vehicle.driverContact'=>$phone)));
             $newSession = array('Tuksession'=>array('vehicleID'=>$resultSet['Tuksession']['vehicleID'],
-                                                    'localityID'=>$localityID['Tag']['locality_id'],
-                                                    'startTime'=>$currentTime,
-                                                    'endTime'=>null)
-                                                   );
+                'localityID'=>$localityID['Tag']['locality_id'],
+                'startTime'=>$currentTime,
+                'endTime'=>null)
+            );
             $this->Tuksession->save($newSession);
         }
 
@@ -335,14 +416,14 @@ class SmsController extends AppController{
     private function updateTrip($fare, $phone){
         $this->loadModel('Trip');
         $resultSet = $this->Trip->find('first',array(
-                                       'fields'=>array('Trip.id','Trip.time','Trip.status'),
-                                       'conditions'=>array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing'))
-                                      );
+                'fields'=>array('Trip.id','Trip.time','Trip.status'),
+                'conditions'=>array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing'))
+        );
 
         if($resultSet !== null){
             $this->Trip->updateAll(array('status'=>'\'FINISHED\'','fare'=>$fare),
-                                   array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
-                                  );
+                array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
+            );
         }
     }
 }

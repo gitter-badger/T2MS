@@ -12,6 +12,7 @@ class Owner extends AppModel {
  * @var array
  */
         var $name = 'Owner';
+    public $actsAs = array('DeletedAt.DeletedAt');
         public $has = array( 'Vehicle' => array( 'className' => 'Vehicle' ) );
         
 	public $validate = array(

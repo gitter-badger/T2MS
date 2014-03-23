@@ -26,6 +26,7 @@ class OwnersController extends AppController {
  */
     public function index() {
 		$this->Owner->recursive = 0;
+        $this->Paginator->settings=array('limit' => 40,'conditions'=>array('deleted' => null));
 		$this->set('owners', $this->Paginator->paginate());
 	}
 
@@ -98,7 +99,7 @@ class OwnersController extends AppController {
 			throw new NotFoundException(__('Invalid owner'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Owner->delete()) {
+		if ($this->Owner->softdelete()) {
 			$this->Session->setFlash(__('The owner has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The owner could not be deleted. Please, try again.'));

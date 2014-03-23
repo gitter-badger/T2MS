@@ -1,9 +1,9 @@
-<div class="customers index">
+<div class="smsses index">
 
 	<div class="row">
 		<div class="col-md-12">
 			<div class="page-header">
-				<h1><?php echo $title; ?></h1>
+				<h1><?php echo __('Unprocessed SMSs'); ?></h1>
 			</div>
 		</div><!-- end col md 12 -->
 	</div><!-- end row -->
@@ -11,17 +11,14 @@
 
 
 	<div class="row">
-
 		<div class="col-md-3">
 			<div class="actions">
 				<div class="panel panel-default">
 					<div class="panel-heading">Actions</div>
 						<div class="panel-body">
 							<ul class="nav nav-pills nav-stacked">
-								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Customer'), array('action' => 'add'), array('escape' => false)); ?></li>
-                                <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Search Customer'), array('action' => 'search'), array('escape' => false)); ?></li>
-
-                            </ul>
+								<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New SMS'), array('action' => 'add'), array('escape' => false)); ?></li>
+													</ul>
 						</div><!-- end body -->
 				</div><!-- end panel -->
 			</div><!-- end actions -->
@@ -31,26 +28,20 @@
 			<table cellpadding="0" cellspacing="0" class="table table-striped">
 				<thead>
 					<tr>
-						<th><?php echo $this->Paginator->sort('id'); ?></th>
-						<th><?php echo $this->Paginator->sort('name'); ?></th>
 						<th><?php echo $this->Paginator->sort('phone'); ?></th>
-						<th><?php echo $this->Paginator->sort('blacklisted'); ?></th>
-						<th><?php echo $this->Paginator->sort('maxFare'); ?></th>
+						<th><?php echo $this->Paginator->sort('message'); ?></th>
 						<th class="actions"></th>
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach ($customers as $customer): ?>
+				<?php foreach ($smsses as $smss): ?>
 					<tr>
-						<td><?php echo h($customer['Customer']['id']); ?>&nbsp;</td>
-						<td><?php echo h($customer['Customer']['name']); ?>&nbsp;</td>
-						<td><?php echo h($customer['Customer']['phone']); ?>&nbsp;</td>
-						<td><?php echo h($customer['Customer']['blacklisted']); ?>&nbsp;</td>
-						<td><?php echo h($customer['Customer']['maxFare']); ?>&nbsp;</td>
+						<td><?php echo h($smss['Smss']['phone']); ?>&nbsp;</td>
+						<td><?php echo h($smss['Smss']['message']); ?>&nbsp;</td>
 						<td class="actions">
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $customer['Customer']['id']), array('escape' => false)); ?>
-							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $customer['Customer']['id']), array('escape' => false)); ?>
-							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $customer['Customer']['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $customer['Customer']['id'])); ?>
+							<?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $smss['Smss']['phone']), array('escape' => false)); ?>
+							<?php echo $this->Html->link('<span class="glyphicon glyphicon-edit"></span>', array('action' => 'edit', $smss['Smss']['phone']), array('escape' => false)); ?>
+							<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-remove"></span>', array('action' => 'delete', $smss['Smss']['phone']), array('escape' => false), __('Are you sure you want to delete # %s?', $smss['Smss']['phone'])); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

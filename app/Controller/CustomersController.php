@@ -1,5 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
+
+
 /**
  * Customers Controller
  *
@@ -24,7 +26,7 @@ class CustomersController extends AppController {
  * @return void
  */
 	public function index() {
-		$conditions=array();
+		$conditions=array('deleted' => null);
 		$title='Customers';
 		
 		if ($this->request->is('get')&&$this->request->query!=null) {
@@ -35,7 +37,6 @@ class CustomersController extends AppController {
 		
 		//paginate settings
 		$this->Paginator->settings=array('limit' => 40,'conditions'=>$conditions);
-		
 
 		$this->set('customers', $this->Paginator->paginate());
 		$this->set('title', $title);
@@ -135,7 +136,7 @@ class CustomersController extends AppController {
 			throw new NotFoundException(__('Invalid customer'));
 		}
 		$this->request->onlyAllow('post', 'delete');
-		if ($this->Customer->delete()) {
+		if ($this->Customer->softdelete()) {
 			$this->Session->setFlash(__('The customer has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The customer could not be deleted. Please, try again.'));

@@ -4,6 +4,7 @@ App::uses('AppModel', 'Model');
  * Customer Model
  *
  */
+
 class Customer extends AppModel {
 
 /**
@@ -12,6 +13,7 @@ class Customer extends AppModel {
  * @var mixed False or table name
  */
         var $name = 'Customer';
+    public $actsAs = array('DeletedAt.DeletedAt');
         public $has = array( 'Trip' => array( 'className' => 'Trip' ) );
         
 	public $useTable = 'customer';
