@@ -39,7 +39,7 @@
 					<?php echo $this->Form->input('localityID', array('options'=>$localities,'class' => 'form-control', 'placeholder' => 'LocalityID'));?>
 				</div>
 			    <div class="form-group">
-					<?php echo $this->Form->input('startTime', array('class' => 'form-control2', 'placeholder' => 'StartTime','disabled' => 'disabled'));?>
+					<?php echo $this->Form->input('startTime', array('class' => 'form-control2', 'placeholder' => 'StartTime'));?>
                 </div>
 				<div class="form-group">
 					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>

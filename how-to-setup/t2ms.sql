@@ -41,15 +41,6 @@ CREATE TABLE IF NOT EXISTS `customer` (
   UNIQUE KEY `phone` (`phone`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
---
--- Dumping data for table `customer`
---
-
-INSERT INTO `customer` (`id`, `name`, `phone`, `blacklisted`, `maxFare`) VALUES
-(1, 'Madawa Soysa', 123123123, 0, 40),
-(9, 'Chandana Gamage', 123467890, 0, 500),
-(10, 'Nisansa Silva', 214748647, 1, 100),
-(11, 'Chathura Silva', 789456123, 1, 100000);
 
 -- --------------------------------------------------------
 
@@ -63,19 +54,6 @@ CREATE TABLE IF NOT EXISTS `locality` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
---
--- Dumping data for table `locality`
---
-
-INSERT INTO `locality` (`id`, `name`) VALUES
-(1, 'Moratuwa'),
-(2, 'Ratmalana'),
-(3, 'Udupila'),
-(4, 'Kelaniya'),
-(5, 'Panadura'),
-(6, 'Kandy'),
-(7, 'Kakka Palliya'),
-(8, 'Maradana');
 
 -- --------------------------------------------------------
 
@@ -94,15 +72,6 @@ CREATE TABLE IF NOT EXISTS `owners` (
   UNIQUE KEY `contact` (`contact`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
---
--- Dumping data for table `owners`
---
-
-INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`) VALUES
-(1, 'Isuru Fernando', 'Katubedda,Moratuwa', 715465178, ''),
-(2, 'Menda', 'Address na!', 789452695, '123456'),
-(3, 'Rabaa', 'Halawatha', 486756100, '123456'),
-(4, 'Cooray', 'Anywhere', 745123689, '123456');
 
 -- --------------------------------------------------------
 
@@ -116,18 +85,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   PRIMARY KEY (`locality_id`,`tag`),
   KEY `locality_id` (`locality_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
---
--- Dumping data for table `tags`
---
 
-INSERT INTO `tags` (`locality_id`, `tag`) VALUES
-(1, 'mora'),
-(1, 'moratuwe'),
-(2, 'rathmalana'),
-(3, 'udhupila'),
-(4, 'Kalaniya'),
-(4, 'kelaniye'),
-(5, 'panadure');
 
 -- --------------------------------------------------------
 
@@ -155,12 +113,7 @@ CREATE TABLE IF NOT EXISTS `trips` (
 -- Dumping data for table `trips`
 --
 
-INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocation`, `vehicleID`, `customerID`) VALUES
-(3, '2014-03-05 01:38:00', 45, 2, 1, 1, 1, 1),
-(5, '2014-03-10 05:42:00', 452, 1, 2, 4, 2, 1),
-(6, '2014-03-10 05:44:00', 45, 1, 5, 1, 4, 9),
-(7, '2014-03-09 23:55:00', 45, 2, 5, 1, 2, 11),
-(8, '2014-03-09 23:55:00', 45, 2, 5, 1, 4, 11);
+
 
 -- --------------------------------------------------------
 
@@ -181,6 +134,19 @@ CREATE TABLE IF NOT EXISTS `tuksessions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sms`
+--
+
+CREATE TABLE IF NOT EXISTS `SMSs` (
+  `phone` int(11) NOT NULL,
+  `message` varchar(200) NOT NULL,
+  PRIMARY KEY (phone,message)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vehicles`
 --
 
@@ -196,17 +162,6 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   KEY `ownerID` (`ownerID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
---
--- Dumping data for table `vehicles`
---
-
-INSERT INTO `vehicles` (`id`, `driverName`, `driverContact`, `vehicleNum`, `fare`, `ownerID`) VALUES
-(1, 'Kasun Fernando', 712345678, 'KK1234', 35, 1),
-(2, 'Shenal', 123456889, '1', 45, 1),
-(3, 'Sabra', 245698574, '1', 45879, 2),
-(4, 'Nazeer', 643784678, '2', 5, 4),
-(5, 'Rajith', 789456254, '2', 40, 3),
-(6, 'Malaka', 456987123, '45', 65, 3);
 
 --
 -- Constraints for dumped tables

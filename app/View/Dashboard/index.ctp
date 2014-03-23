@@ -25,8 +25,10 @@
                             <li><?php echo  $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Sessions'),'/tuksessions', array('escape' => false)); ?> </li>
                             <li><?php echo  $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Tags'),'/tags', array('escape' => false)); ?> </li>
                             <li><?php echo  $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Trips'),'/trips', array('escape' => false)); ?> </li>
-                            <li><?php echo  $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;SMS'),'/Sms', array('escape' => false)); ?> </li>
+                            <li><?php echo  $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;SMS'),'/Smsses/add', array('escape' => false)); ?> </li>
+                            <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Unprocessed SMS'),'/Smsses' , array('escape' => false)); ?></li>
                             <li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Logout'),'/users/logout' , array('escape' => false)); ?></li>
+
                         </ul>
                     </div><!-- end body -->
                 </div><!-- end panel -->
