@@ -156,3 +156,43 @@ INSERT INTO `trips` (`id`, `time`, `fare`, `status`, `startLocation`, `endLocati
 (6, '2014-03-10 05:44:00', 45, 1, 5, 1, 4, 9),
 (7, '2014-03-09 23:55:00', 45, 2, 5, 1, 2, 11),
 (8, '2014-03-09 23:55:00', 45, 2, 5, 1, 4, 11);
+
+/*
+-- Query: SELECT * FROM t2ms.trips
+LIMIT 0, 1000
+
+-- Date: 2014-03-23 16:54
+*/
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (1,'2014-03-22 19:52:00',233,2,1,12,1,1);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (2,'2014-03-22 19:52:00',112,2,2,1,2,6);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (18,'2014-03-22 19:53:00',1200,2,2,3,3,12);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (4,'2014-03-21 19:53:00',70,2,1,1,1,3);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (19,'2014-03-21 19:54:00',350,2,3,11,22,7);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (20,'2014-03-23 19:55:00',400,2,5,5,2,8);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (21,'2014-03-23 19:55:00',120,2,1,10,1,7);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (22,'2014-03-23 19:56:00',600,2,6,8,3,13);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (9,'2014-03-23 19:56:00',134,2,6,10,3,12);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (10,'2014-03-20 19:57:00',78,2,9,10,3,17);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (11,'2014-03-19 19:57:00',1431,2,9,12,22,20);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (12,'2014-03-18 19:58:00',233,2,3,4,3,15);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (13,'2014-03-17 19:59:00',567,2,2,7,2,19);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (14,'2014-03-13 19:59:00',455,2,4,12,1,5);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (16,'2014-03-06 20:00:00',712,2,9,11,1,16);
+INSERT INTO `trips` (`id`,`time`,`fare`,`status`,`startLocation`,`endLocation`,`vehicleID`,`customerID`) VALUES (17,'2014-02-22 20:28:00',1000,2,12,3,1,10);
+
+
+/*
+-- Query: SELECT * FROM t2ms.tuksessions
+LIMIT 0, 1000
+
+-- Date: 2014-03-23 16:52
+*/
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (1,1,'2014-03-23 04:00:00','2014-03-23 08:36:00');
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (1,1,'2014-03-23 09:37:00','2014-03-23 12:37:00');
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (1,10,'2014-03-23 14:08:00',NULL);
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (2,5,'2014-03-23 06:39:00','2014-03-23 13:29:00');
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (2,5,'2014-03-23 15:32:00',NULL);
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (3,7,'2014-03-23 05:50:00','2014-03-23 09:50:00');
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (3,7,'2014-03-23 10:33:00','2014-03-23 14:17:00');
+INSERT INTO `tuksessions` (`vehicleID`,`localityID`,`startTime`,`endTime`) VALUES (3,1,'2014-03-23 14:12:00',NULL);
+
