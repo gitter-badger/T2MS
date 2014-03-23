@@ -51,18 +51,16 @@ INSERT INTO `locality` VALUES
 --
 
 INSERT INTO `owners` (`id`, `name`, `address`, `contact`, `password`, `deleted`) VALUES
-(1, 'Madhawi De Mel', '234, Kaduwela Road, Kotte', 775233179, '30fee0336b46e6c455580f94f721e740e6e5d0f0', NULL),
-(2, 'Isuru Fernando', '87, Jubilee Road, Katubedda, Moratuwa', 715465178, '329a7c5d7dff5a6a13e90dd0c79a37cce2f273fe', NULL),
-(3, 'Sabra Ossen', 'Near Ananda College, Maradana', 775837356, 'e95022c9bc2ca18482488aa28e2300abfc8ea2a5', NULL),
-(4, 'Rajith Vidanaarachchi', '134/1, ABC Road, Pelawatta', 712345678, 'ffcd6b21bf9bc11a1252f6b016bf51ee234c1f0e', NULL),
-(5, 'Ridwan Shariffdeen', '71, Galle Road, Mount Lavinia', 754987654, 'e32e2099877722f84738d94a747033f9952cd58f', NULL),
-(6, 'Supun Amarasinghe', '67, BCC Road, Kottawa', 775837357, '171f9694e577db1ac9b7aad0ad0c10c063c84d9b', NULL),
-(7, 'Dilhasha Nazeer', '123, Kotta Road, Borella', 778449321, 'bdfc0d42842341261943f83c36b357a690b86a44', NULL),
-(8, 'Sarith Samarajeewa', '12, Raja Mawatha, Ratmalana', 71555444, '7f5e9d0c310461119404a2054b8fc23d9a81a678', NULL),
-(9, 'Vipula Dissanayake', '56, Samanpaya, Maho', 716320074, '65613febafc58d12f31cf2484397474e3144be93', NULL),
-(10, 'Shenal Senarath', '67, Puttalam Road, Negombo', 715779682, '468c0d492ef1b832140988796444d6bd2926b13e', NULL)
-);
-
+(1, 'Madhawi De Mel', '234, Kaduwela Road, Kotte', 775233179, 'a5618a6e4db7f6aee5ac0d4728c3a17e45d8fe47', NULL),
+(2, 'Isuru Fernando', '87, Jubilee Road, Katubedda, Moratuwa', 715465178, '47df6cafd3b4bed4c7bba9d00d0cf0fc680a9921', NULL),
+(3, 'Sabra Ossen', 'Near Ananda College, Maradana', 775837356, 'de2e0e7e68532d937cf480a76d1e0e5df0d200f5', NULL),
+(4, 'Rajith Vidanaarachchi', '134/1, ABC Road, Pelawatta', 712345678, '4f9ce5af3646c34913399d8412be366854108c8c', NULL),
+(5, 'Ridwan Shariffdeen', '71, Galle Road, Mount Lavinia', 754987654, 'fa19b49f8732d1d9b232984d1951e04e81435e2d', NULL),
+(6, 'Supun Amarasinghe', '67, BCC Road, Kottawa', 775837357, 'a36a12601734b2182164b7f84fdd1b8fca7fc1ae', NULL),
+(7, 'Dilhasha Nazeer', '123, Kotta Road, Borella', 778449321, 'f6e223153f056bf944856e90620cf2e3a5d449a5', NULL),
+(8, 'Sarith Samarajeewa', '12, Raja Mawatha, Ratmalana', 71555444, 'eef60a0950eee6e19d0a40997d8c66f878f72c7a', NULL),
+(9, 'Vipula Dissanayake', '56, Samanpaya, Maho', 716320074, '8494060283424dd5f83b140dd2f66056a4e10890', NULL),
+(10, 'Shenal Senarath', '67, Puttalam Road, Negombo', 715779682, '5d9b06fd85dea257281b7510cf63a1ee2b601fbf', NULL);
 --
 -- Dumping data for table `vehicles`
 --

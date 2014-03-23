@@ -76,10 +76,10 @@ class OwnersController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
             if($this->request->data['Owner']['pwd']!=null){
-                $this->request->data['Owner']['password']=Security::hash($this->request->data['Owner']['pwd']);
+                $this->request->data['Owner']['password']=$this->request->data['Owner']['pwd'];
             }
 			if ($this->Owner->save($this->request->data)) {
-				$this->Session->setFlash(__('The owner has been saved.'));
+				$this->Session->setFlash(__('The owner has been saved.'.$this->request->data['Owner']['password']));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The owner could not be saved. Please, try again.'));

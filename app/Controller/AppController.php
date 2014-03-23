@@ -36,8 +36,8 @@ class AppController extends Controller {
 	$this->layout = 'bootstrap';
         if(!$this->Session->check('userid'))
         {
-            $this->redirect('/');
             $this->Session->setFlash('You are not logged in');
+            $this->redirect('/');
         }
         else if($this->Session->read('userid')!='admin'){
             $this->Session->setFlash('You are not logged in as an admin');
