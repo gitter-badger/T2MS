@@ -11,7 +11,8 @@ class OwnerDashboardController extends AppController{
             return $this->redirect('/users/login');
         }
         $this->set('incomeChartData',$this->getIncomeChartData($ownerId));
-        $this->getData($ownerId);
+        $this->getIncomeData($ownerId);
+        $this->getSessionData($ownerId);
     }
 
     private function getOwnerId(){
@@ -215,8 +216,8 @@ class OwnerDashboardController extends AppController{
         return json_encode($incomeChartData);
     }
 
-    private function getData($ownerId){
-
+    private function getIncomeData($ownerId){
+        $this->loadModel('Trip');
         $results =  $this->Trip->find('all',array(
             'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
             'conditions'=>array('Vehicle.ownerID'=>$ownerId),
@@ -245,6 +246,18 @@ class OwnerDashboardController extends AppController{
         $this->set('incomeCurrentMonth',$currentMonth[0]['income']);
         $this->set('incomePercentage',$incomePercentage);
 
+    }
+
+    private function getSessionData($ownerId){
+        $now = new DateTime();
+        $this->loadModel('Tuksession');
+        $sessions = $this->Tuksession->find('all',array(
+            'fields'=>array('Vehicle.driverName','Locality.name','TIME(Tuksession.startTime) As startTime','TIME(Tuksession.endTime) as endTime'),
+            'conditions'=>array('Vehicle.ownerID'=>$ownerId,'DATE(Tuksession.startTime)'=>$now->format('Y-m-d')),
+            'order'=>array('Tuksession.startTime ASC')
+        ));
+
+        $this->set('sessions',$sessions);
     }
 }
 
