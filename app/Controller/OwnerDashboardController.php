@@ -11,6 +11,8 @@ class OwnerDashboardController extends AppController{
             return $this->redirect('/users/login');
         }
         $this->set('incomeChartData',$this->getIncomeChartData($ownerId));
+        $this->getIncomeData($ownerId);
+        $this->getSessionData($ownerId);
     }
 
     private function getOwnerId(){
@@ -214,6 +216,49 @@ class OwnerDashboardController extends AppController{
         return json_encode($incomeChartData);
     }
 
+    private function getIncomeData($ownerId){
+        $this->loadModel('Trip');
+        $results =  $this->Trip->find('all',array(
+            'fields'=>array('DATE(Trip.time) AS date','SUM(Trip.fare) AS income'),
+            'conditions'=>array('Vehicle.ownerID'=>$ownerId),
+            'group'=>array('DATE(Trip.time)'),
+            'order'=>array('DATE(Trip.time) DESC')
+        ));
+        $incomeToday = $results[0][0]['income'];
+
+        $totalIncome = 0;
+        foreach($results AS $result){
+            $totalIncome += (int)$result[0]['income'];
+        }
+
+        $averageIncome = $totalIncome/count($results);
+
+        $incomePercentage = abs($incomeToday-$averageIncome)/100;
+
+        $now = new DateTime();
+        $currentMonth = $this->Trip->find('first',array(
+            'fields'=>array('SUM(Trip.fare) As income'),
+            'conditions'=>array('Month(Trip.time)'=>(int)$now->format('m'))
+        ));
+
+        $this->set('incomeToday',$incomeToday);
+        $this->set('dailyAverage',$averageIncome);
+        $this->set('incomeCurrentMonth',$currentMonth[0]['income']);
+        $this->set('incomePercentage',$incomePercentage);
+
+    }
+
+    private function getSessionData($ownerId){
+        $now = new DateTime();
+        $this->loadModel('Tuksession');
+        $sessions = $this->Tuksession->find('all',array(
+            'fields'=>array('Vehicle.driverName','Locality.name','TIME(Tuksession.startTime) As startTime','TIME(Tuksession.endTime) as endTime'),
+            'conditions'=>array('Vehicle.ownerID'=>$ownerId,'DATE(Tuksession.startTime)'=>$now->format('Y-m-d')),
+            'order'=>array('Tuksession.startTime ASC')
+        ));
+
+        $this->set('sessions',$sessions);
+    }
 }
 
 ?>
