@@ -91,26 +91,19 @@ class SmssesController extends AppController {
     public function add() {
         $this->loadModel('Customer');
         if($this->request->is('get')&&$this->request->query!=null){
-            //$this->Customer->create();
-            /*$data = array("Customer"=>array("phone" => $this->request->data['Sms']['phone'], "name" => $this->request->data['Sms']['text'],
-            "blacklisted"=>0,"maxFare" => 60));*/
-
-            /*if ($this->Customer->save($data)) {
-
-                $this->Session->setFlash(__('The SMS has been processed.'));
-                $this->request->query=null;
-                //return $this->redirect(array('action' => 'index','query'=>array()));
-            } else {
-                $this->Session->setFlash(__( 'The SMS could not be processed. Please, try again.'));
-            }*/
-            //echo(json_encode($this->request->query));
 
             $phone = $this->request->query['phone'];
             $message = trim($this->request->query['text']);
 
             if(strchr($phone,'+') !== false)
-                $phone = substr($phone,1);
-            $this->decodeSms($message,$phone);
+                $phone = substr($phone,3);
+
+
+            if(!$this->decodeSms($message,$phone)){
+                //If there were errors, store in unprocessed SMSs.
+                $this->Smss->create();
+                $this->Smss->save(array('Smss'=>array('phone'=>$phone,'message'=>$message)));
+            }
         }
 
 
@@ -153,27 +146,27 @@ class SmssesController extends AppController {
         }
 
         if($regMessage != null)
-            $this->createCustomer($regMessage,$phone);
+            return $this->createCustomer($regMessage,$phone);
         if($tripMessage != null){
             if($maxFare==null)
                 $maxFare=100;
-            $this->processTrip($tripMessage,$maxFare,$phone);
+            return $this->processTrip($tripMessage,$maxFare,$phone);
         }
 
         //driver message decode
         if(strpos($message,'SET') !== false){
             if(strpos($message,'FARE') !== false){
                 $driverMessage = explode('FARE',$message,2);
-                $this->updateDriver($driverMessage[1],$phone);
+                return $this->updateDriver($driverMessage[1],$phone);
             }
             if(strpos($message,'LOCATION') !== false){
                 $driverMessage = explode('LOCATION',$driverMessage[0],2);
-                $this->updateSession(null,trim($driverMessage[1]),$phone);
+                return $this->updateSession(null,trim($driverMessage[1]),$phone);
             }
         }elseif(strpos($message,'OFF DUTY') !== false){
-            $this->updateSession('OFF',null,$phone);
+            return $this->updateSession('OFF',null,$phone);
         }elseif(strpos($message,'ON DUTY') !== false){
-            $this->updateSession('ON',null,$phone);
+            return $this->updateSession('ON',null,$phone);
         }
 
         //trip data message decode
@@ -181,6 +174,7 @@ class SmssesController extends AppController {
             $message = substr($message,5);
             $this->updateTrip($message,$phone);
         }
+
     }
 
     /**
@@ -191,20 +185,24 @@ class SmssesController extends AppController {
     private function createCustomer($regMessage, $phone){
         $this->loadModel('Customer');
 
+
         if($this->Customer->hasAny(array("phone" => $phone))){
-            return;
+            return false;
         }else{
+            echo('adsasd');
             $name = trim(substr($regMessage,strpos($regMessage,'REG')+3));
             $this->Customer->create();
             $customerData = array("Customer"=>array("phone" => $phone, "name" => $name));
 
-            if($this->Customer->save($customerData))
+            if($this->Customer->save($customerData)){
                 $this->Session->setFlash(__('The SMS has been processed.'));
+            return true;
+            }
             else
-                $this->Session->setFlash(__( 'The SMS could not be processed. Please, try again.'));
+                return false;
         }
 
-        return;
+        return true;
     }
 
     /**
@@ -225,7 +223,7 @@ class SmssesController extends AppController {
         if($resultSet['Customer']['blacklisted'] == 1){
             //customer is blacklisted. need to handle
             echo('BLACKLISTED');
-            return;
+            return true;
         }
         $tripMessage = explode('TO',$tripMessage,2);
 
@@ -281,37 +279,51 @@ class SmssesController extends AppController {
         echo($vehicleID);
         echo($customerID);
 
-        if($startLocationId!=null){
-            // $this->Trip->create();
-            if($vehicleID==null){
-                $this->Trip->save(array('Trip'=>array('startLocation'=>$startLocationId,
-                    'endLocation'=>$endLocationId,'vehicleID'=>$vehicleID,
-                    'customerID'=>$customerID,'status'=>-1)));
 
-            }
+        if($startLocationId!=null){
+             $this->Trip->create();
+
+
+
             if($vehicleID!=null){
                 $this->Trip->save(array('Trip'=>array('startLocation'=>$startLocationId,
                     'endLocation'=>$endLocationId,'vehicleID'=>$vehicleID,
                     'customerID'=>$customerID,'status'=>0)));
+                $id=$this->Trip->id;
 
 
-                $customerMsg='T2MS Driver Name = '.$vehicle[0]['t1']['driverName'].'\n Driver Contact = '.$vehicle[0]['t1']['driverContact'];
-                $driverMsg='T2MS Customer Name = '.$resultSet['Customer']['name'].'\n Customer Contact = '.$resultSet['Customer']['phone'];
+                $customerMsg='T2MS Driver Name = '.$vehicle[0]['t1']['driverName'].'\n Driver Contact = '.$vehicle[0]['t1']['driverContact'].'  T2MS Reference Number: '.$id;
+                $driverMsg='T2MS Trip to '.$endLocation.' \nCustomer Name = '.$resultSet['Customer']['name'].'\n Customer Contact = '.$resultSet['Customer']['phone'].'  T2MS Reference Number: '.$id;
 
-                //Send a message to the customer
-                //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$resultSet['Customer']['phone'].'&text='.$customerMsg);
 
                 //Send a message to the driver
                 //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$vehicle[0]['t1']['driverContact'].'&text='.$driverMsg);
 
 
             }
+            else{
+                $this->Trip->save(array('Trip'=>array('startLocation'=>$startLocationId,
+                    'endLocation'=>$endLocationId,'vehicleID'=>$vehicleID,
+                    'customerID'=>$customerID,'status'=>-1)));
+                $id=$this->Trip->id;
+                $customerMsg='T2MS: There are no drivers available at the moment. T2MS Reference Number: '.$id;;
+
+            }
+            //Send a message to the customer
+            //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$resultSet['Customer']['phone'].'&text='.$customerMsg);
+            return true;
+
+        }
+        else{
+            $customerMsg='T2MS: The location is not identified. Call our hotline at 0715465178 ';
+            //Send a message to the customer
+            //    $response = file_get_contents('http://localhost:9090/sendsms?phone='.$resultSet['Customer']['phone'].'&text='.$customerMsg);
+            return false;
 
         }
 
 
 
-        //send data to process trip
     }
 
     /**
@@ -333,8 +345,10 @@ class SmssesController extends AppController {
                 $resultSet['Vehicle']['fare'] = $fare;
                 $this->Vehicle->id = $resultSet['Vehicle']['id'];
                 $this->Vehicle->saveField('fare',$fare);
+                return true;
             }
         }
+        return false;
 
     }
 
@@ -366,8 +380,9 @@ class SmssesController extends AppController {
                     $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
                         array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
                     );
+                    return true;
                 }else{
-                    //no active sessions
+                    return false;//no active sessions
                 }
 
             }elseif($status == 'ON'){
@@ -376,19 +391,20 @@ class SmssesController extends AppController {
                     $this->Tuksession->updateAll(array('endTime'=>"'".$currentTime."'"),
                         array('Vehicle.driverContact'=>$phone,'Tuksession.endTime'=>null)
                     );
-                }else{
-                    //create a new session
-                    $resultSet = $this->Tuksession->find('first',array(
-                            'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
-                            'conditions'=>array('Vehicle.driverContact'=>$phone),
-                            'order'=>array('lastSession DESC'),
-                            'limit'=>1)
-                    );
-                    $resultSet['Tuksession']['startTime'] = $currentTime;
-                    $resultSet['Tuksession']['endTime'] = null;
-
-                    $this->Tuksession->save($resultSet);
                 }
+                //create a new session
+                $resultSet = $this->Tuksession->find('first',array(
+                        'fields'=>array('Tuksession.vehicleID','Tuksession.localityID','Tuksession.startTime','Tuksession.endTime AS lastSession'),
+                        'conditions'=>array('Vehicle.driverContact'=>$phone),
+                        'order'=>array('lastSession DESC'),
+                        'limit'=>1)
+                );
+                $resultSet['Tuksession']['startTime'] = $currentTime;
+                $resultSet['Tuksession']['endTime'] = null;
+
+                $this->Tuksession->save($resultSet);
+                return true;
+
             }
         }else{
             //if a location update
@@ -409,7 +425,9 @@ class SmssesController extends AppController {
                 'endTime'=>null)
             );
             $this->Tuksession->save($newSession);
+            return true;
         }
+        return true;
 
     }
 
@@ -424,7 +442,9 @@ class SmssesController extends AppController {
             $this->Trip->updateAll(array('status'=>'\'FINISHED\'','fare'=>$fare),
                 array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
             );
+            return true;
         }
+        return false;
     }
 }
 

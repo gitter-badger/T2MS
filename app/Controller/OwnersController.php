@@ -1,4 +1,5 @@
 <?php
+App::uses('Security','Utility');
 App::uses('AppController', 'Controller');
 /**
  * Owners Controller
@@ -74,15 +75,18 @@ class OwnersController extends AppController {
 			throw new NotFoundException(__('Invalid owner'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+            if($this->request->data['Owner']['pwd']!=null){
+                $this->request->data['Owner']['password']=$this->request->data['Owner']['pwd'];
+            }
 			if ($this->Owner->save($this->request->data)) {
-				$this->Session->setFlash(__('The owner has been saved.'));
+				$this->Session->setFlash(__('The owner has been saved.'.$this->request->data['Owner']['password']));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The owner could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Owner.' . $this->Owner->primaryKey => $id));
-			$this->request->data = $this->Owner->find('first', $options);
+			$this->request->data =$this->Owner->find('first', $options);;
 		}
 	}
 

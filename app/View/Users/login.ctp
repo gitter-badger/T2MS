@@ -1,13 +1,32 @@
 <div class="users form">
-    <?php echo $this->Session->flash('auth'); ?>
-    <?php echo $this->Form->create('user'); ?>
-    <fieldset>
-        <legend>
-            <?php echo __('Please enter your username and password'); ?>
-        </legend>
-        <?php echo $this->Form->input('contact');
-            echo $this->Form->input('password');
-?>
-    </fieldset>
-    <?php echo $this->Form->end(__('Login')); ?>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1><?php echo __('Log in'); ?></h1>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+        <?php echo $this->Form->create('user',array('role' => 'form')); ?>
+
+        <div class="form-group">
+
+            <?php echo $this->Form->input('contact', array('class' => 'form-control', 'placeholder' => 'Phone'));?>
+        </div>
+        <div class="form-group">
+            <?php echo $this->Form->input('password', array('rows'=>5,'class' => 'form-control', 'placeholder' => 'Password'));?>
+        </div>
+        <div class="form-group">
+            <?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+        </div>
+
+        <?php echo $this->Form->end() ?>
+
+
+    </div><!-- end row -->
 </div>

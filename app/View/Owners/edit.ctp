@@ -41,7 +41,7 @@
 					<?php echo $this->Form->input('contact', array('class' => 'form-control', 'placeholder' => 'Contact'));?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->Form->input('password', array('class' => 'form-control', 'placeholder' => 'Password'));?>
+					<?php echo $this->Form->input('pwd', array('type'=>'password','class' => 'form-control', 'placeholder' => 'Password','required'=>'false'));?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
