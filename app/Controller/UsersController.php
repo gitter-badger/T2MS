@@ -39,12 +39,12 @@ class UsersController extends AppController {
                 $this->Session->write('userrole','owner');
                 return $this->redirect('/OwnerDashboard');
             }
-            $this->Session->setFlash('Invalid Username or Password');
+            $this->Session->setFlash('Invalid Username or Password', 'default', array('class' => 'alert alert-danger'));
         }
     }
     public function logout() {
         $this->Session->delete('userid');
-        $this->Session->setFlash('You have been successfully logged out');
+        $this->Session->setFlash('You have been successfully logged out', 'default', array('class' => 'alert alert-success'));
         $this->redirect('/');
     }
 
@@ -56,7 +56,7 @@ class UsersController extends AppController {
         if($contact!=null&&$password!=null&&$contact==123&&$password==465){
             return true;
         }
-        $this->Session->setFlash('You are not logged in as an admin');
+        $this->Session->setFlash('You are not logged in as an admin', 'default', array('class' => 'alert alert-danger'));
         return $this->redirect('/login');
 
     }
