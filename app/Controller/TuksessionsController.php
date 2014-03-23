@@ -70,7 +70,9 @@ class TuksessionsController extends AppController {
 
         $tuk=$this->Tuksession->find('first', array(
             'conditions' => array('Tuksession.vehicleID' => $vehicleID,
-                'Tuksession.startTime' =>  $startTime)));
+                'Tuksession.startTime' =>  $startTime),
+            'fields'=>array('vehicleID','localityID','startTime','endTime')
+        ));
         if($tuk==null){
             throw new NotFoundException(__('Invalid Tuksession'));
         }
@@ -121,9 +123,10 @@ class TuksessionsController extends AppController {
 	public function delete($vehicleID=null,$startTime=null) {
         $this->request->onlyAllow('post', 'delete');
 
-        $tuk=$this->Tuksession->find('first', array(
-            'conditions' => array('Tuksession.vehicleID' =>$vehicleID,'Tuksession.startTime' => $startTime)));
-        if($tuk==null){
+        $tuk=$this->Tuksession->find('count', array(
+            'conditions' => array('Tuksession.vehicleID' =>$vehicleID,'Tuksession.startTime' => $startTime)
+        ));
+        if($tuk==0){
             throw new NotFoundException(__('Invalid Tuksession'));
         }
         $this->Tuksession->deleteAll(array('Tuksession.vehicleID' => $vehicleID,'Tuksession.startTime' => $startTime), false);

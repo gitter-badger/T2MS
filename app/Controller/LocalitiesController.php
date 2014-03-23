@@ -23,7 +23,7 @@ class LocalitiesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Locality->recursive = 0;
+		$this->Locality->recursive = -1;
 		$this->set('localities', $this->Paginator->paginate());
 	}
 
@@ -104,6 +104,7 @@ class LocalitiesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+        $this->Locality->recursive = -1;
 		$this->Locality->id = $id;
 		if (!$this->Locality->exists()) {
 			throw new NotFoundException(__('Invalid locality'));

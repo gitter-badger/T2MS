@@ -97,8 +97,11 @@ class TripsController extends AppController {
                 $this->loadModel('Locality');
 		$this->set('localities',$this->Locality->getLocalityList());
                 
-               // $this->loadModel('Customer');
-		//$this->set('customers',$this->Locality->getCustomerList());
+                $this->loadModel('Customer');
+		$this->set('customers',$this->Customer->getCustomerList());
+
+        $this->loadModel('Vehicle');
+        $this->set('vehicles',$this->Vehicle->getVehicleList());
                 
 		if ($this->request->is('post')) {
 			$this->Trip->create();
