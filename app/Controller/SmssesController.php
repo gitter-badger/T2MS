@@ -41,31 +41,6 @@ class SmssesController extends AppController {
 		$this->set('smss', $this->Smss->find('first', $options));
 	}
 
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->Smss->exists($id)) {
-			throw new NotFoundException(__('Invalid smss'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Smss->save($this->request->data)) {
-				$this->Session->setFlash(__('The smss has been saved.'), 'default', array('class' => 'alert alert-success'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The smss could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
-			}
-		} else {
-			$options = array('conditions' => array('Smss.' . $this->Smss->primaryKey => $id));
-			$this->request->data = $this->Smss->find('first', $options);
-		}
-	}
-
 /**
  * delete method
  *
