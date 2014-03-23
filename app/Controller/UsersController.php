@@ -22,11 +22,6 @@ class UsersController extends AppController {
             $password = $this->request->data['user']['password'];
             $contact = $this->request->data['user']['contact'];
 
-            if($contact==123&&$password==456){
-                $this->Session->write('userid','admin');
-                $this->Session->write('userrole','admin');
-                return $this->redirect('/dashboard');
-            }
             $this->loadModel('Owner');
             $password=Security::hash($password, null, true);
             echo $password;
@@ -35,6 +30,11 @@ class UsersController extends AppController {
                 'conditions' => array('Owner.contact' => $contact,'Owner.password'=>$password)));
 
             if ($owner!=null) {
+				if ($owner['Owner']['id'] == 1) {
+					$this->Session->write('userid','admin');
+					$this->Session->write('userrole','admin');
+					return $this->redirect('/dashboard');
+				}
                 $this->Session->write('userid',$owner['Owner']['id']);
                 $this->Session->write('userrole','owner');
                 return $this->redirect('/OwnerDashboard');
