@@ -18,6 +18,10 @@ class Tuksession extends AppModel {
             'foreignKey' => 'localityID'
         )
     );
+
+    public $virtualFields = array(
+        'status' => 'Select status from trips where (trips.status=0 OR trips.status=1) and trips.vehicleID=Tuksession.vehicleID AND trips.time>=Tuksession.startTime and (trips.time<=Tuksession.endTime or Tuksession.endTime is null) ORDER BY time DESC LIMIT 1'
+    );
 /**
  * Validation rules
  *

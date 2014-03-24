@@ -1,6 +1,6 @@
 <div class="localities view">
     <?php
-    echo json_encode($locality);
+//    echo json_encode($locality);
     ?>
 	<div class="row">
 		<div class="col-md-12">
@@ -128,23 +128,56 @@
             </div><!-- end col md 12 -->
 
             <div class="col-md-12">
-                <h3><?php echo __('Related Tuksessions'); ?></h3>
+                <h3><?php echo __('Related Active Tuksessions'); ?></h3>
                 <?php if (!empty($locality['Tuksession'])): ?>
                     <table cellpadding = "0" cellspacing = "0" class="table table-striped">
                         <thead>
                         <tr>
                             <th><?php echo __('VehicleID'); ?></th>
-                            <th><?php echo __('LocalityID'); ?></th>
+                            <th><?php echo __('StartTime'); ?></th>
+                            <th><?php echo __('EndTime'); ?></th>
+                            <th><?php echo __('Status'); ?></th>
+                            <th class="actions"></th>
+                        </tr>
+                        <thead>
+                        <tbody>
+                        <?php foreach ($locality['Tuksession'] as $tuksession): if($tuksession['endTime']==null){ ?>
+                            <tr>
+                                <td><?php echo $tuksession['Vehicle']['vehicleNum']; ?></td>
+                                <td><?php echo $tuksession['startTime']; ?></td>
+                                <td><?php echo $tuksession['endTime']; ?></td>
+                                <td><?php if($tuksession['status']==null) echo 'Not on a trip'; else{echo 'On a trip';} ?></td>
+                                <td class="actions">
+                                    <?php echo $this->Html->link(__('<span class="glyphicon glyphicon-search"></span>'), array('action' => 'view', $tuksession['vehicleID'],str_replace(':','-',h($tuksession['startTime']))), array('escape' => false)); ?>
+                                    <?php echo $this->Html->link(__('<span class="glyphicon glyphicon-edit"></span>'), array('action' => 'edit', $tuksession['vehicleID'],str_replace(':','-',h($tuksession['startTime']))), array('escape' => false)); ?>
+                                    <?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>'), array('action' => 'delete', $tuksession['vehicleID'],str_replace(':','-',h($tuksession['startTime']))), array('escape' => false), __('Are you sure you want to delete tuksession of %s?', $tuksession['Vehicle']['vehicleNum'])); ?>
+
+                                </td>
+                            </tr>
+                        <?php } endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+                <div class="actions">
+                    <?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Tuksession'), array('controller' => 'tuksessions', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?>
+                </div>
+            </div><!-- end col md 9 -->
+            <div class="col-md-12">
+                <h3><?php echo __('Related Non-Active Tuksessions'); ?></h3>
+                <?php if (!empty($locality['Tuksession'])): ?>
+                    <table cellpadding = "0" cellspacing = "0" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th><?php echo __('VehicleID'); ?></th>
                             <th><?php echo __('StartTime'); ?></th>
                             <th><?php echo __('EndTime'); ?></th>
                             <th class="actions"></th>
                         </tr>
                         <thead>
                         <tbody>
-                        <?php foreach ($locality['Tuksession'] as $tuksession): ?>
+                        <?php foreach ($locality['Tuksession'] as $tuksession):if($tuksession['endTime']!=null){ ?>
                             <tr>
-                                <td><?php echo $tuksession['vehicleID']; ?></td>
-                                <td><?php echo $tuksession['Locality']['name']; ?></td>
+                                <td><?php echo $tuksession['Vehicle']['vehicleNum']; ?></td>
                                 <td><?php echo $tuksession['startTime']; ?></td>
                                 <td><?php echo $tuksession['endTime']; ?></td>
                                 <td class="actions">
@@ -154,15 +187,16 @@
 
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php } endforeach; ?>
                         </tbody>
                     </table>
                 <?php endif; ?>
                 <div class="actions">
                     <?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Tuksession'), array('controller' => 'tuksessions', 'action' => 'add'), array('escape' => false, 'class' => 'btn btn-default')); ?>
                 </div>
-		</div><!-- end col md 9 -->
+            </div><!-- end col md 9 -->
 
-	</div>
+
+        </div>
 
 

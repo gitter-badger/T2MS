@@ -1,24 +1,59 @@
 <div class="vehicles form">
-<?php echo $this->Form->create('Vehicle');?>
-	<fieldset>
-		<legend><?php echo __('Edit Vehicle'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('driverName',array('rows'=>1));
-		echo $this->Form->input('driverContact');
-		echo $this->Form->input('vehicleNum',array('rows'=>1));
-		echo $this->Form->input('fare');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Vehicle.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Vehicle.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('Dashboard'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'listVehicles')); ?></li>
-		<li><?php echo  $this->Html->link('Logout','/users/logout'); ?> </li>
-	</ul>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="page-header">
+				<h1><?php echo __('Edit Vehicle'); ?></h1>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="row">
+		<div class="col-md-3">
+			<div class="actions">
+				<div class="panel panel-default">
+					<div class="panel-heading">Actions</div>
+						<div class="panel-body">
+							<ul class="nav nav-pills nav-stacked">
+
+																<li><?php echo $this->Form->postLink(__('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Delete'), array('action' => 'delete', $this->Form->value('Vehicle.id')), array('escape' => false), __('Are you sure you want to delete # %s?', $this->Form->value('Vehicle.id'))); ?></li>
+																<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Vehicles'), array('action' => 'index'), array('escape' => false)); ?></li>
+									<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;List Owners'), array('controller' => 'owners', 'action' => 'index'), array('escape' => false)); ?> </li>
+		<li><?php echo $this->Html->link(__('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New Owner'), array('controller' => 'owners', 'action' => 'add'), array('escape' => false)); ?> </li>
+							</ul>
+						</div>
+					</div>
+				</div>			
+		</div><!-- end col md 3 -->
+		<div class="col-md-9">
+			<?php echo $this->Form->create('Vehicle', array('role' => 'form')); ?>
+
+				<div class="form-group">
+					<?php echo $this->Form->input('id', array('class' => 'form-control', 'placeholder' => 'Id'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('driverName', array('class' => 'form-control', 'placeholder' => 'DriverName','rows'=>1));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('driverContact', array('class' => 'form-control', 'placeholder' => 'DriverContact'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('vehicleNum', array('class' => 'form-control', 'placeholder' => 'VehicleNum','rows'=>1));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('fare', array('class' => 'form-control', 'placeholder' => 'Fare'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->input('ownerID', array('class' => 'form-control', 'options'=>$owners,'placeholder' => 'OwnerID'));?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-default')); ?>
+				</div>
+
+			<?php echo $this->Form->end() ?>
+
+		</div><!-- end col md 12 -->
+	</div><!-- end row -->
 </div>

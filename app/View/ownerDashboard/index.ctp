@@ -44,10 +44,10 @@
                     <div class="span4">
                         <?php
                         if ($incomeToday >= $dailyAverage) {
-                            echo('<p style="color: green; float:right; font-size: 13px">' . '&nbsp' . $incomePercentage . ' %</p>');
+                            echo('<p style="color: green; float:right; font-size: 13px">' . '&nbsp' . number_format($incomePercentage,2,'.','') . ' %</p>');
                             echo($this->Html->image('price-up.icon.png', array('style' => 'float: right')));
                         } else if ($incomeToday < $dailyAverage) {
-                            echo('<p style="color: red; float:right; font-size: 13px">' . '&nbsp' . $incomePercentage . ' %</p>');
+                            echo('<p style="color: red; float:right; font-size: 13px">' . '&nbsp' . number_format($incomePercentage,2,'.','') . ' %</p>');
                             echo($this->Html->image('price-down.icon.png', array('style' => 'float: right')));
                         }
                         ?>

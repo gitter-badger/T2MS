@@ -57,10 +57,9 @@ class LocalitiesController extends AppController {
                 //adding a tag with locality name
                 $this->loadModel('Tag');
                 $localityName = $this->request->data['Locality']['name'];
-                $locality = $this->Locality->find('first',array('fields'=>array('Locality.id'),
-                    'conditions'=>array('Locality.name'=>$localityName)));
+                $id=$this->Locality->id;
 
-                $newTag['Tag']['locality_id'] = $locality['Locality']['id'];
+                $newTag['Tag']['locality_id'] = $id;
                 $newTag['Tag']['tag'] = $localityName;
                 $this->Tag->create();
                 $this->Tag->save($newTag);

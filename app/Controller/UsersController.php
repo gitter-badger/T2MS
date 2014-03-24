@@ -22,11 +22,6 @@ class UsersController extends AppController {
             $password = $this->request->data['user']['password'];
             $contact = $this->request->data['user']['contact'];
 
-            if($contact==123&&$password==456){
-                $this->Session->write('userid','admin');
-                $this->Session->write('userrole','admin');
-                return $this->redirect('/dashboard');
-            }
             $this->loadModel('Owner');
             $password=Security::hash($password, null, true);
             echo $password;
@@ -35,6 +30,11 @@ class UsersController extends AppController {
                 'conditions' => array('Owner.contact' => $contact,'Owner.password'=>$password)));
 
             if ($owner!=null) {
+				if ($owner['Owner']['id'] == 1) {
+					$this->Session->write('userid','admin');
+					$this->Session->write('userrole','admin');
+					return $this->redirect('/dashboard');
+				}
                 $this->Session->write('userid',$owner['Owner']['id']);
                 $this->Session->write('userrole','owner');
                 return $this->redirect('/OwnerDashboard');
@@ -60,5 +60,27 @@ class UsersController extends AppController {
         return $this->redirect('/login');
 
     }
+
+    /**
+     * add method
+     *
+     * @return void
+     */
+    public function add() {
+        $this->loadModel('Owner');
+        if ($this->request->is('post')) {
+            $this->Owner->create();
+            try{
+                $this->Owner->save($this->request->data);
+                $this->Session->setFlash(__('The owner has been saved.'));
+                $this->Session->write('userid',$this->Owner->id);
+                $this->Session->write('userrole','owner');
+                return $this->redirect('/OwnerDashboard');
+            } catch(Exception $e) {
+                $this->Session->setFlash('Contact number already exists. Please, try again.','default', array('class' => 'alert alert-danger'));
+            }
+        }
+    }
+
 
 }
