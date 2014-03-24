@@ -25,7 +25,27 @@ INSERT INTO `customer` VALUES
 (17,'Faheem Jalaldeen',773407413,0,36,NULL),
 (18,'Bhanuka Weerasinghe',714655034,0,35,NULL),
 (19,'Madhushika De Silva',784606232,0,39,NULL),
-(20,'Harini Hapuaracchchi',779432484,0,38,NULL);
+(20,'Harini Hapuaracchchi',779432484,0,38,NULL),
+(21, 'Madhawid Mel', 711451282, 1, 250, NULL),
+(22, 'Bhagya Hettige', 785681282, 1, 400, NULL),
+(23, 'Saumi Samarakoon', 725681282, 1, 350, NULL),
+(24, 'Dimithri Abegunawardane', 715661282, 0, 100, NULL),
+(25, 'Nirmala Liyanaarachchi', 715375082, 1, 500, NULL),
+(26, 'Hansika Perera', 715111282, 0, 450, NULL),
+(27, 'Lakshika Perera', 712222282, 1, 250, NULL),
+(28, 'Rashmi Gamage', 715334432, 0, 450, NULL),
+(29, 'Rashmi Audarya', 758461482, 1, 50, NULL),
+(30, 'Sanduni Wickramarachchi', 717889574, 1, 470, NULL),
+(31, 'Nethmi Wickramarachchi', 717587787, 0, 75, NULL),
+(32, 'Ashen Wickramaarachchi', 757585882, 1, 250, NULL),
+(33, 'Amani De Mel', 715841232, 0, 2750, NULL),
+(34, 'Amali Rajapaksha', 717837731, 1, 890, NULL),
+(35, 'Nemasha Dileepani', 711451272, 1, 250, NULL),
+(36, 'Poornima Nirmani', 717555282, 0, 650, NULL),
+(37, 'Pavithra Hansini', 789997772, 1, 500, NULL),
+(38, 'Janaka Sandaruwan', 717821453, 0, 450, NULL),
+(39, 'Akila Liayanage', 777856662, 1, 100, NULL),
+(40, 'Koshila Liyanage', 716655777, 1, 600, NULL);
 
 --
 -- Dumping data for table `locality`
@@ -43,7 +63,20 @@ INSERT INTO `locality` VALUES
 (9,'Ratmalana'),
 (10,'Angulana'),
 (11,'Maradana'),
-(12,'Kottawa');
+(12,'Kottawa'),
+(13,'Nugegoda'),
+('14',  'Borella'),
+('15',  'Baththaramulla'),
+('16',  'Pelawaththa'),
+('17',  'Malabe'),
+('18',  'Kaduwela'),
+('19',  'Kothalawala'),
+('20',  'Biyagama'),
+('21',  'Ragama'),
+('22',  'Weliweriya'),
+('23',  'Gampaha'),
+('24',  'Delgoda'),
+('25',  'Udupila');
 
 
 --
@@ -118,7 +151,38 @@ INSERT INTO `tags` VALUES
 (10,'Agulana'),
 (10,'Angulana'),
 (11,'Maradana'),
-(12,'Kottawa');
+(12,'Kottawa'),
+(13,'Nugegoda'),
+(14,  'Borella'),
+(14,  'Boralla'),
+(14,  'Castle street'),
+(15,  'Baththaramulla'),
+(15,  'Baththaramula'),
+(15,  'Baththaramulle'),
+(16,  'Pelawaththa'),
+(16,  'Palawaththa'),
+(16,  'Pelawatta'),
+(16,  'Pelawattha'),
+(16,  'Palawattha'),
+(17,  'Malabe'),
+(17,  'Malebe'),
+(18,  'Kaduwela'),
+(18,  'Kaduwella'),
+(19,  'Kothalawala'),
+(19,  'Kotalawala'),
+(19,  'Kotalawale'),
+(20,  'Biyagama'),
+(20,  'Beyagama'),
+(21,  'Ragama'),
+(22,  'Weliweriya'),
+(22,  'Welliweriya'),
+(22,  'Welliweria'),
+(23,  'Gampaha'),
+(24,  'Delgoda'),
+(24,  'Dellgoda'),
+(25,  'Uddupila'),
+(25,  'Udupilla'),
+(25,  'Udupila');
 
 --
 -- Dumping data for table `tuksessions`
