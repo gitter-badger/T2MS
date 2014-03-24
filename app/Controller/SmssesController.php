@@ -209,8 +209,10 @@ class SmssesController extends AppController {
     /**
      * Decode trip details from the message and create a new record for the database
      * @param $tripMessage
-     * @param $maxFair
+     * @param $maxFare
      * @param $phone
+     * @return bool
+     * @internal param $maxFair
      */
     private function processTrip($tripMessage, $maxFare, $phone){
         $this->loadModel('Customer');
@@ -222,8 +224,6 @@ class SmssesController extends AppController {
                 'recursive'=> -1)
         );
         if($resultSet['Customer']['blacklisted'] == 1){
-            //customer is blacklisted. need to handle
-            echo('BLACKLISTED');
             return true;
         }
         $tripMessage = explode('TO',$tripMessage,2);
@@ -331,6 +331,7 @@ class SmssesController extends AppController {
      * Updates driver details
      * @param $fare
      * @param $phone
+     * @return bool
      */
     private function updateDriver($fare, $phone){
         $this->loadModel('Vehicle');
@@ -365,6 +366,7 @@ class SmssesController extends AppController {
      * @param $status
      * @param $location
      * @param $phone
+     * @return bool
      */
     private function updateSession($status, $location, $phone){
         $this->loadModel('Tuksession');
