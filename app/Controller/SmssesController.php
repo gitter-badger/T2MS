@@ -182,6 +182,7 @@ class SmssesController extends AppController {
      * Creates a new customer from the sms message and saves in the database
      * @param $regMessage
      * @param $phone
+     * @return bool
      */
     private function createCustomer($regMessage, $phone){
         $this->loadModel('Customer');
@@ -190,7 +191,6 @@ class SmssesController extends AppController {
         if($this->Customer->hasAny(array("phone" => $phone))){
             return false;
         }else{
-            echo('adsasd');
             $name = trim(substr($regMessage,strpos($regMessage,'REG')+3));
             $this->Customer->create();
             $customerData = array("Customer"=>array("phone" => $phone, "name" => $name));
@@ -259,8 +259,6 @@ class SmssesController extends AppController {
             array($startLocation,$maxFare)
         );
 
-        echo(json_encode($vehicle));
-
         $vehicleID=null;
         $startLocationId=null;
         $endLocationId=null;
@@ -274,11 +272,6 @@ class SmssesController extends AppController {
         if($end!=null)
             $endLocationId=$end['Locality']['id'];
         $customerID=$resultSet['Customer']['id'];
-
-        echo($startLocationId);
-        echo($endLocationId);
-        echo($vehicleID);
-        echo($customerID);
 
 
         if($startLocationId!=null){
@@ -442,8 +435,8 @@ class SmssesController extends AppController {
         );
 
         if($resultSet !== null){
-            $this->Trip->updateAll(array('status'=>'\'FINISHED\'','fare'=>$fare),
-                array('Vehicle.driverContact'=>$phone,'Trip.status'=>'ongoing')
+            $this->Trip->updateAll(array('status'=>2,'fare'=>$fare),
+                array('Vehicle.driverContact'=>$phone,'Trip.status'=>1)
             );
             return true;
         }
