@@ -61,4 +61,26 @@ class UsersController extends AppController {
 
     }
 
+    /**
+     * add method
+     *
+     * @return void
+     */
+    public function add() {
+        $this->loadModel('Owner');
+        if ($this->request->is('post')) {
+            $this->Owner->create();
+            try{
+                $this->Owner->save($this->request->data);
+                $this->Session->setFlash(__('The owner has been saved.'));
+                $this->Session->write('userid',$this->Owner->id);
+                $this->Session->write('userrole','owner');
+                return $this->redirect('/OwnerDashboard');
+            } catch(Exception $e) {
+                $this->Session->setFlash('Contact number already exists. Please, try again.','default', array('class' => 'alert alert-danger'));
+            }
+        }
+    }
+
+
 }

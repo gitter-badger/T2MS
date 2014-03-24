@@ -35,7 +35,10 @@
 
 
                                 <?php echo $this->Form->end() ?>
-                            <?php }?>
+                                    <?php echo $this->Html->link(__('&nbsp;&nbsp;Sign up'), array('controller'=>'users','action' => 'add'), array('escape' => false)); ?>
+
+
+                                <?php }?>
                         </ul>
                     </div><!-- end body -->
                 </div><!-- end panel -->

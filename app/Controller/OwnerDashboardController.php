@@ -5,15 +5,15 @@ class OwnerDashboardController extends AppController
     public function beforeFilter()
     {
         $this->layout = 'bootstrap';
+        if($this->getOwnerId() == null){
+            return $this->redirect('/users/login');
+        }
     }
 
     public function index()
     {
 
         $ownerId = $this->getOwnerId();
-        if ($ownerId == null) {
-            return $this->redirect('/users/login');
-        }
         $this->set('incomeChartData', $this->getIncomeChartData($ownerId));
         $this->getIncomeData($ownerId);
         $this->set('sessions', $this->getSessionData($ownerId));
