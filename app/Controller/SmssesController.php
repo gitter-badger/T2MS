@@ -123,6 +123,7 @@ class SmssesController extends AppController {
      *      SET LOCATION <location> FARE <fare_per_km>
      * @param $message
      * @param $phone
+     * @return bool
      */
     private function decodeSms($message, $phone){
         $maxFare = null;
