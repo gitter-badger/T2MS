@@ -1,6 +1,8 @@
 CakePHP
 =======
 
+[![Join the chat at https://gitter.im/danula/T2MS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/danula/T2MS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
 
 CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
